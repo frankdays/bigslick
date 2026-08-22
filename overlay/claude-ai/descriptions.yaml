@@ -1,0 +1,51 @@
+# Hand-written ≤200-char descriptions for Claude.ai custom-skill upload.
+#
+# Claude.ai caps `description` at 200 chars; Claude Code allows ~1024. The description
+# IS the trigger logic, so auto-truncation silently drops the "Use when the user says…"
+# phrases that make a skill fire. Every skill packaged for Claude.ai should get a
+# hand-written entry here — auto-compression is a fallback, not the intent.
+#
+# Rule of thumb: one short clause on what it does, then the 3-5 strongest trigger
+# phrases. Drop the disambiguation tails ("NOT for X — use Y") — with only a handful
+# of skills uploaded there is far less to disambiguate against than in the full library.
+#
+# Used by scripts/package_for_claude_ai.py. Keys are dist/skills/ folder names.
+
+persona-cmo: >-
+  Adopt the CMO charter: owns the tradeoffs no single lane can make. Use for "as my CMO",
+  "CMO perspective", cross-lane budget tradeoffs, final calls between competing lanes, or
+  the board-facing view.
+
+staff-meeting: >-
+  Convene the marketing leadership personas to review a plan, budget, or launch from
+  conflicting angles. Use for "staff meeting", "run this by the team", "red-team then
+  decide", or before a plan ships.
+
+board-reporting: >-
+  Turn marketing performance into the narrative a CEO, CFO, or board needs. Use for
+  "board deck", "QBR", "investor update", "defend the marketing budget", "CFO is asking",
+  or reporting results upward.
+
+pipeline-math: >-
+  Reverse-engineer a revenue target into a pipeline and budget model. Use for "pipeline
+  model", "pipeline coverage", "how many MQLs do we need", "can we hit the number", or
+  defending a plan or budget.
+
+case-study-builder: >-
+  Produce customer case studies end to end: selection, interview, draft, approval,
+  repurposing. Use for "case study", "customer story", "success story", "customer proof",
+  or "logo permission".
+
+competitors: >-
+  Create competitor comparison and alternative pages for SEO and sales. Use for "vs page",
+  "alternative page", "comparison page", "[X] alternative", "how do we compare to X", or
+  "competitor teardown".
+
+# NOTE: on Claude.ai this skill's original job — writing .agents/product-marketing.md —
+# is impossible (no filesystem) and redundant (the pack ships bundled at client/). The
+# description below re-points it at reading the bundled context and doing positioning and
+# packaging work, which is what the Unleash skills-profile actually ranks #1.
+product-marketing: >-
+  Positioning, ICP, and packaging work off the bundled client context. Use for
+  "positioning", "messaging", "who is my target audience", "ICP", "free vs paid boundary",
+  or "what should we charge for".

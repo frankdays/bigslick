@@ -1,0 +1,15 @@
+# Client context packs are CONFIDENTIAL — never commit real clients.
+core/clients/*
+!core/clients/_template/
+# fictional sample client only — keep this comment on its own line: an
+# inline '#' is NOT a comment in .gitignore, so it became part of the pattern
+# and silently excluded the sample it was meant to keep.
+!core/clients/hansel-ai/
+core/clients/_active
+# Activation state (machine-local)
+.agents/
+# Generated build output (rebuild with scripts/compose.py)
+dist/
+# Secrets
+.env
+*.key
