@@ -1,6 +1,6 @@
 ---
 name: company-onboarding
-description: Tailor the entire marketing skill system to a specific business. Use when starting a new fractional client engagement, joining a company as CMO, or when the user says "onboard [company]", "set up a new client", "create a context pack", "configure the system for", or when any skill finds no active client pack. Produces the client context pack, resource wiring checklist, and (v2) skills profile and persona calibration. Run this FIRST for any new company — every other skill reads its output.
+description: Tailor the entire marketing skill system to a specific business. Use when starting a new fractional client engagement, joining a company as CMO, or when the user says "onboard [company]", "set up a new client", "create a context pack", "configure the system for", or when any skill finds no active client pack. Produces the client context pack, resource wiring checklist, skills profile, and persona calibration. Run this FIRST for any new company — every other skill reads its output.
 ---
 
 # Company Onboarding
@@ -32,13 +32,42 @@ From `stack.md`, produce `setup-checklist.md` in the client folder:
 - Required connections/env vars and who provides credentials.
 - MCP connectors to enable (CRM, analytics) and any that are unavailable in the current environment — flag, don't emulate.
 
-## Phase C — Skills profile (v2 — light version now)
+## Phase C — Skills profile
 
-Write `skills-profile.md`: 5–10 priority skills for this business model (e.g., PLG → onboarding/signup/cro; sales-led enterprise → abm/field-marketing-events/sales-enablement), and skills irrelevant to it. Skills read this as context. Never recompose the library per client — relevance is data, not build config.
+Write `skills-profile.md` (scaffold in `_template`). Relevance is data, never build config — the library stays global and is never recomposed per client.
 
-## Phase D — Persona calibration (v2 — light version now)
+**Step 1 — Call the motion,** from `icp.md` and `product-marketing.md`, not from what the client calls themselves. ACV and who signs decide it: under ~$15k with self-serve entry is PLG; six figures with a committee is sales-led enterprise; a public repo as the top of funnel is OSS-led. Say which and cite the evidence — a mislabelled motion mis-selects every skill below it.
 
-Write `team-map.md`: for each persona charter, note whether a real human holds the seat (persona defers/supports) or the seat is empty (persona runs at full authority). The staff-meeting skill reads this.
+**Step 2 — Map motion to a shortlist:**
+
+| Motion | Load first |
+|---|---|
+| Sales-led enterprise | `abm-builder`, `field-marketing-events`, `sales-marketing-alignment`, `win-loss-program`, `case-study-builder` |
+| PLG / self-serve | upstream `signup`, `onboarding`, `cro`, `churn-prevention`, plus `attribution-diagnostics` for the PQL path |
+| OSS-led | `oss-devrel-gtm` first, then `reddit-b2b-tech-strategy`, `wikipedia-b2b-citation-strategy`, `ai-answer-monitoring` |
+| Hybrid | Both lanes, ranked separately — never averaged |
+
+**Step 3 — Rank 5–10 by first-90-days impact,** each with a named first deliverable. A priority skill with no deliverable is a preference, not a priority.
+
+**Step 4 — Record what is deprioritised and what is not applicable,** with the reason and the trigger to revisit. This half matters more than the priority list: it is what stops the system reaching for a skill that does not fit this business.
+
+Cross-check against `stack.md` — a skill whose tooling the client does not own is aspirational; flag it rather than listing it as ready.
+
+## Phase D — Persona calibration
+
+Write `team-map.md` (scaffold in `_template`). `staff-meeting` reads it to decide, per persona, whether to defer to a real human or run the seat outright.
+
+Walk all seven charters — `persona-cmo`, `persona-product-marketing-director`, `persona-vp-growth`, `persona-field-marketing-director`, `persona-comms-manager`, `persona-content-seo-director`, `persona-vp-sales` — and assign each a mode:
+
+- **full authority** — nobody holds the seat; the persona owns the lane and makes the call
+- **support** — a real human holds it; the persona drafts, pressure-tests, and hands over, never overrides
+- **defer** — held by someone senior to marketing (a founder doing positioning, a CEO owning analyst relations); the persona raises questions and stops there
+
+`persona-vp-sales` is the antagonist and always runs regardless of who holds sales — its job is adversarial review, which a real VP of Sales will not do on marketing's behalf.
+
+Then capture **decision rights** explicitly — budget sign-off, messaging sign-off, reporting line, board-facing owner. Most stalled marketing plans are a decision-rights problem wearing a strategy costume, and `staff-meeting` produces sharper output when it knows who actually decides.
+
+Note agency and contractor coverage too: an outsourced lane is a held seat with a slower loop, not an empty one.
 
 ## Completion
 
