@@ -1,6 +1,6 @@
 # Big Slick — Marketing Distribution
 
-132 marketing skills for Claude: pipeline models, board reporting, ABM, field
+133 marketing skills for Claude: pipeline models, board reporting, ABM, field
 marketing, win-loss, case studies, PR/AR, and an AI-visibility (GEO) system —
 plus a marketing leadership persona layer and swappable per-company context packs.
 
@@ -8,7 +8,7 @@ plus a marketing leadership persona layer and swappable per-company context pack
 
 | Layer | Skills | License |
 |---|---|---|
-| Core (proprietary) | 28 | MIT, except the Reserved Components listed below |
+| Core (proprietary) | 29 | MIT, except the Reserved Components listed below |
 | coreyhaines31/marketingskills | 49 | upstream, preserved |
 | OpenClaudia/openclaudia-skills | 52 | upstream, preserved |
 | anthropics/knowledge-work-plugins | 3 | upstream, preserved |

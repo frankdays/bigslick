@@ -1,5 +1,5 @@
 # Core Layer Roadmap
-Updated: 2026-08-22 (counts resynced to the v0.1 build: 132 skills = 28 core + 104 upstream).
+Updated: 2026-08-22 (counts resynced: 133 skills = 29 core + 104 upstream).
 Previously updated: 2026-07-25. Planning doc only — no skills built from this list yet.
 
 ## In core today (4)
@@ -46,5 +46,5 @@ hiring-interview-kit (build if/when full-time CMO scenario is live)
 - All new skills: read active client pack (.agents/product-marketing.md convention); route external calls via resource-hub; never reference providers directly.
 - Watch trigger overlap: reddit-marketing & linkedin-content (openclaudia) vs core skills — patch descriptions in overlay/patches/ if they misfire.
 
-## Identified gap (from Hansel AI sample test, 2026-07-25)
-- oss-devrel-gtm — open-source GTM is a distinct motion (community->cloud->enterprise, DevRel program, stars/installs as funnel, monetization packaging) not covered by any of the 132 skills; community-marketing (upstream) is adjacent but not OSS-specific. Build when an OSS client is real.
+## Identified gap (from Hansel AI sample test, 2026-07-25) — BUILT 2026-08-22
+- oss-devrel-gtm — BUILT. Open-source GTM is a distinct motion (community->cloud->enterprise, DevRel program, stars/installs as funnel, monetization packaging) that no other skill covered; community-marketing (upstream) is adjacent but not OSS-specific. Trigger condition ("build when an OSS client is real") was met by Big Slick itself becoming an open-core distribution. Covers: model/monetization-boundary definition, the install->active->org-signal funnel (stars explicitly demoted), time-to-value as the campaign, community->commercial rules of engagement, licensing as a GTM decision incl. relicensing risk, and a DevRel charter with its own scorecard. Feeds the PLG lane of pipeline-math; hands off to abm-builder on org signal.

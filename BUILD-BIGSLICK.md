@@ -83,7 +83,7 @@ cat > overlay/plugin/plugin.json << 'EOF'
 {
   "name": "bigslick",
   "version": "0.1.0",
-  "description": "Big Slick: the open-source marketing distribution for Claude. 132 skills spanning pipeline models, board reporting, ABM, field marketing, win-loss, case studies, PR/AR, and an AI-visibility (GEO) system — with a marketing leadership persona layer (staff meetings on demand) and swappable per-company context packs.",
+  "description": "Big Slick: the open-source marketing distribution for Claude. 133 skills spanning pipeline models, board reporting, ABM, field marketing, win-loss, case studies, PR/AR, and an AI-visibility (GEO) system — with a marketing leadership persona layer (staff meetings on demand) and swappable per-company context packs.",
   "author": { "name": "Frank Days" }
 }
 EOF
@@ -95,7 +95,7 @@ mkdir -p .claude-plugin && cat > .claude-plugin/marketplace.json << 'EOF'
     { "name": "bigslick",
       "displayName": "Big Slick — Marketing Distribution",
       "source": "./dist",
-      "description": "The open-source marketing distribution for Claude: 132 curated + proprietary skills plus a marketing leadership persona layer and per-company context packs. The best starting hand a marketer can be dealt." }
+      "description": "The open-source marketing distribution for Claude: 133 curated + proprietary skills plus a marketing leadership persona layer and per-company context packs. The best starting hand a marketer can be dealt." }
   ]
 }
 EOF
@@ -358,7 +358,7 @@ bash scripts/test.sh
 ( cd dist && rm -f ../bigslick.plugin && zip -qr ../bigslick.plugin . -x "*.DS_Store" )
 ls -la bigslick.plugin && head -3 dist/PROVENANCE.txt
 ```
-**CHECKPOINT 4:** compose reports ~**132 skills** (exact count depends on SHA pinning warnings from Phase 2); `test.sh` ends with `ALL TESTS PASS`; `bigslick.plugin` exists.
+**CHECKPOINT 4:** compose reports ~**133 skills** (exact count depends on SHA pinning warnings from Phase 2); `test.sh` ends with `ALL TESTS PASS`; `bigslick.plugin` exists.
 
 ## Phase 5 — Install and version control
 ```bash
@@ -376,7 +376,7 @@ git remote get-url origin >/dev/null 2>&1 && git push -u origin main && git tag 
 
 ## Final report (produce this for the user)
 1. Skill count composed + provenance breakdown (core / marketingskills / openclaudia / anthropic-marketing counts)
-2. Any SHA-pinning WARNs from Phase 2 (means upstream drifted; counts may differ from 132)
+2. Any SHA-pinning WARNs from Phase 2 (means upstream drifted; counts may differ from 133)
 3. Test results (all gates)
 4. Install state (plugin enabled? sample client active?)
 5. Git state (committed? pushed?)

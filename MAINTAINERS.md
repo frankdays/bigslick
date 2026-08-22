@@ -25,7 +25,7 @@ Three layers, strictly separated:
 ```bash
 # 1. Build the library
 pip install pyyaml
-python scripts/compose.py                      # -> dist/skills/ (128 skills) + plugin manifest
+python scripts/compose.py                      # -> dist/skills/ (133 skills) + plugin manifest
 
 # 2. Install as a Claude Code plugin (dist/ is a valid plugin after compose)
 claude plugin marketplace add /path/to/bigslick   # or the repo's git URL once pushed
