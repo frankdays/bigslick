@@ -1,5 +1,7 @@
-# Marketing Skill Library
-**An open-core marketing operating system for a fractional CMO — 128 skills: 100 curated from open source, 28 proprietary.**
+# Big Slick
+**The open-source marketing distribution for Claude — 132 skills: 104 curated from open source, 28 proprietary.**
+
+*The best starting hand a marketer can be dealt.*
 
 Built for running marketing across multiple B2B software clients with one library, and designed to convert cleanly into a single-company system if you take a full-time CMO seat.
 
@@ -26,11 +28,11 @@ Three layers, strictly separated:
 ```bash
 # 1. Build the library
 pip install pyyaml
-python scripts/compose.py                      # -> dist/skills/ (128 skills) + plugin manifest
+python scripts/compose.py                      # -> dist/skills/ (132 skills) + plugin manifest
 
 # 2. Install as a Claude Code plugin (dist/ is a valid plugin after compose)
 claude plugin marketplace add /path/to/bigslick   # or the repo's git URL once pushed
-claude plugin install bigslick
+claude plugin install bigslick@bigslick
 #    (Cowork: Settings -> Plugins -> install from the same marketplace path)
 #    Alternative, no plugin system: point Claude Code at dist/skills/ as a skills directory.
 
