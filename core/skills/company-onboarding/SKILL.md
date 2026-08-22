@@ -42,6 +42,6 @@ Write `team-map.md`: for each persona charter, note whether a real human holds t
 
 ## Completion
 
-Activate the client, then run a smoke test: ask one upstream skill (e.g., `positioning` question via `product-marketing`) and verify it picks up the pack. Present the pack summary + open TBDs as the engagement's first deliverable.
+Activate the client yourself by running `bash scripts/activate_client.sh <company>` from the repo root (never ask the user to run scripts — that’s your job), then run a smoke test: ask one upstream skill (e.g., `positioning` question via `product-marketing`) and verify it picks up the pack. Present the pack summary + open TBDs as the engagement's first deliverable.
 
 For external LLM or API capabilities, load the `resource-hub` skill and follow its routing.
