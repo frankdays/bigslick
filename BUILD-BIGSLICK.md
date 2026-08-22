@@ -212,30 +212,106 @@ set -e
 cd "$(dirname "$0")"
 BOLD=$(tput bold 2>/dev/null || true); NORM=$(tput sgr0 2>/dev/null || true)
 echo "${BOLD}Installing Big Slick...${NORM}"
+
 if ! command -v claude >/dev/null 2>&1; then
   echo ""; echo "Claude Code isn't installed yet:"
   echo "  A) With Node.js:  npm install -g @anthropic-ai/claude-code"
   echo "  B) Download:      https://claude.com/claude-code"
   echo "Then run this installer again."; exit 1
 fi
+
+# The downloaded package ships dist/ prebuilt, so there is nothing to build and
+# no Python needed. Only a source checkout ever hits this branch.
 if [ ! -d dist/skills ]; then
-  command -v python3 >/dev/null && pip3 install -q pyyaml && python3 scripts/compose.py \
-    || { echo "dist/skills missing and couldn't rebuild — re-download the package."; exit 1; }
+  if [ -f scripts/compose.py ] && command -v python3 >/dev/null; then
+    pip3 install -q pyyaml && python3 scripts/compose.py
+  else
+    echo "dist/skills is missing and this package can't rebuild it — re-download Big Slick."; exit 1
+  fi
 fi
+
 claude plugin marketplace add "$(pwd)" >/dev/null 2>&1 || claude plugin marketplace update bigslick >/dev/null 2>&1 || true
 claude plugin install bigslick@bigslick >/dev/null 2>&1 || claude plugin update bigslick@bigslick >/dev/null 2>&1 || {
   echo "Plugin install hit a snag — run manually: claude plugin install bigslick@bigslick"; exit 1; }
-[ -d core/clients/hansel-ai ] && bash scripts/activate_client.sh hansel-ai >/dev/null || true
-echo ""; echo "${BOLD}Done. $(find dist/skills -name SKILL.md | wc -l | tr -d ' ') marketing skills installed.${NORM}"
-echo ""; echo "Open Terminal here, type ${BOLD}claude${NORM}, and try:"
-echo "  1. \"Build the pipeline model for Hansel AI's year\"   (sample client pre-loaded)"
-echo "  2. \"Run this plan past the staff meeting\""
-echo "  3. \"Onboard <your company>\"                          (your real setup)"
-echo ""; echo "Uninstall anytime:  claude plugin uninstall bigslick@bigslick"
+[ -d core/clients/hansel-ai ] && bash scripts/activate_client.sh hansel-ai >/dev/null 2>&1 || true
+
+# Verify rather than assume. "Done" printed over a failed install is worse than
+# an error, because the user only finds out when a skill silently never fires.
+SKILLS=$(find dist/skills -name SKILL.md | wc -l | tr -d ' ')
+PROBLEMS=""
+claude plugin list 2>/dev/null | grep -q "bigslick@bigslick" || PROBLEMS="the plugin did not register"
+[ "$SKILLS" -gt 0 ] || PROBLEMS="${PROBLEMS:+$PROBLEMS; }no skills found in dist/skills"
+if [ -n "$PROBLEMS" ]; then
+  echo ""; echo "Installed with problems — $PROBLEMS."
+  echo "Try:  claude plugin install bigslick@bigslick"; exit 1
+fi
+
+ACTIVE=$(basename "$(readlink core/clients/_active 2>/dev/null || echo none)")
+echo ""
+echo "${BOLD}Ready.${NORM} $SKILLS marketing skills installed and enabled."
+[ "$ACTIVE" != "none" ] && echo "Sample company loaded: $ACTIVE"
+echo ""
+echo "To start, open Claude in this folder and paste one of these:"
+echo ""
+echo "    Onboard my company"
+echo "    Build the pipeline model for Hansel AI's year"
+echo "    Run this plan past the staff meeting"
+echo ""
+echo "\"Onboard my company\" is the one to run first — it interviews you and writes"
+echo "your company's context pack, so you never have to edit files by hand."
+echo ""
+echo "Not sure how to open Claude here? Run:  claude"
+echo "Uninstall anytime:  claude plugin uninstall bigslick@bigslick"
 EOF
 chmod +x install.sh
 printf '#!/usr/bin/env bash\ncd "$(dirname "$0")" && bash install.sh\necho ""\nread -p "Press Enter to close..."\n' > INSTALL.command
 chmod +x INSTALL.command
+```
+
+### 3.6b `scripts/package_release.sh`
+```bash
+cat > scripts/package_release.sh << 'EOF'
+#!/usr/bin/env bash
+# Build the end-user download: a single zip that works on its own.
+#
+# The v0.1 asset was just dist/, which cannot actually be installed — it has no
+# installer, no marketplace manifest (the file `claude plugin marketplace add`
+# needs), and no client packs, so the sample client the installer promises did
+# not exist. This ships the whole usable product with dist/ prebuilt, so the
+# user needs no Python, no compose step, and no clone.
+set -e
+cd "$(dirname "$0")/.."
+
+VERSION=$(python3 -c "import json;print(json.load(open('overlay/plugin/plugin.json'))['version'])")
+OUT="bigslick-$VERSION.zip"
+STAGE=$(mktemp -d)/bigslick
+
+# dist/ must be current before anything is copied.
+python3 scripts/compose.py >/dev/null
+
+mkdir -p "$STAGE"
+# What an end user needs, and nothing else. No upstream/, no overlay/, no
+# core/skills/ — those are build inputs, already composed into dist/.
+cp -R dist "$STAGE/dist"
+# Stale per-skill claude.ai zips are regenerated on demand by
+# package_for_claude_ai.py; shipping a months-old copy means shipping skills the
+# manifest now excludes, under the old brand name.
+rm -rf "$STAGE/dist/claude-ai"
+mkdir -p "$STAGE/.claude-plugin" "$STAGE/scripts" "$STAGE/core/clients"
+cp .claude-plugin/marketplace.json "$STAGE/.claude-plugin/"
+cp install.sh INSTALL.command README.md LICENSE LICENSING.md "$STAGE/"
+cp scripts/activate_client.sh "$STAGE/scripts/"
+cp -R core/clients/_template "$STAGE/core/clients/"
+[ -d core/clients/hansel-ai ] && cp -R core/clients/hansel-ai "$STAGE/core/clients/"
+
+rm -f "$OUT"
+( cd "$(dirname "$STAGE")" && zip -qr "$OLDPWD/$OUT" bigslick -x "*.DS_Store" "*/__pycache__/*" )
+rm -rf "$(dirname "$STAGE")"
+
+echo "Built $OUT ($(du -h "$OUT" | cut -f1))"
+echo "Contains: $(unzip -l "$OUT" | grep -c 'SKILL.md') skills, installer, marketplace manifest, client packs."
+EOF
+chmod +x scripts/package_release.sh
 ```
 
 ### 3.7 `.gitignore` and licensing (Option A open-core)
@@ -249,8 +325,9 @@ core/clients/_active
 dist/
 .env
 *.key
-# Build artifact — distributed as a GitHub Release asset, not in git history.
+# Build artifacts — distributed as GitHub Release assets, not in git history.
 bigslick.plugin
+bigslick-*.zip
 __pycache__/
 *.pyc
 EOF
@@ -355,10 +432,10 @@ chmod +x scripts/test.sh
 pip3 install -q pyyaml 2>/dev/null || pip install -q pyyaml --break-system-packages
 python3 scripts/compose.py
 bash scripts/test.sh
-( cd dist && rm -f ../bigslick.plugin && zip -qr ../bigslick.plugin . -x "*.DS_Store" )
-ls -la bigslick.plugin && head -3 dist/PROVENANCE.txt
+bash scripts/package_release.sh
+head -3 dist/PROVENANCE.txt
 ```
-**CHECKPOINT 4:** compose reports ~**133 skills** (exact count depends on SHA pinning warnings from Phase 2); `test.sh` ends with `ALL TESTS PASS`; `bigslick.plugin` exists.
+**CHECKPOINT 4:** compose reports ~**133 skills** (exact count depends on SHA pinning warnings from Phase 2); `test.sh` ends with `ALL TESTS PASS`; `bigslick-<version>.zip` exists and contains the installer, the marketplace manifest, and the client packs — not just `dist/`.
 
 ## Phase 5 — Install and version control
 ```bash
