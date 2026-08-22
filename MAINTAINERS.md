@@ -121,3 +121,19 @@ Use in **Claude Code** (full capability — API keys, MCPs, file access) or uplo
 ## Licensing
 
 Upstream distributions are MIT / source-available — original license files are preserved in each `upstream/` folder and in `licenses/`. Keep them intact. Everything in `core/` is proprietary to you; MIT imposes no copyleft on it. Merge decisions and provenance: `MANIFEST.md` and `dist/PROVENANCE.txt`. Build history and remaining roadmap: `core/ROADMAP.md`.
+
+## Claude.ai packaging — experimental, maintainer-only (decided 2026-08-22)
+
+`scripts/package_for_claude_ai.py` works, but the path is ~5% complete: 7 of 133 skills have
+hand-written short descriptions in `overlay/claude-ai/descriptions.yaml`, and 125 exceed
+Claude.ai's 200-character description cap. Because the description *is* the trigger logic,
+auto-compressed skills install but may never fire — a failure the user cannot see or diagnose.
+
+Decision: keep the tooling, exclude the path from the end-user download, and document it as
+experimental. Generated zips are build output; never commit them and never ship a stale set.
+v0.1's asset shipped 131 zips built three weeks earlier, under the old brand, including skills
+the manifest excludes.
+
+To promote this to supported: write `descriptions.yaml` entries for the skills that matter,
+starting with the leadership set, and re-check with `--all --check` until the fallback list is
+empty for that set.

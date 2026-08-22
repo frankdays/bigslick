@@ -3,70 +3,66 @@
 
 *The best starting hand a marketer can be dealt.*
 
-Built for running marketing across multiple B2B software clients with one library, and designed to convert cleanly into a single-company system if you take a full-time CMO seat.
+Marketing work you'd normally hire for — pipeline models, board decks, ABM programs, win-loss, PR, AI-search visibility — as skills Claude can actually run. Built for running marketing across several B2B software companies at once, and it converts cleanly to a single company if you take a full-time seat.
 
 ---
 
-## What this is (60 seconds)
+## Install
 
-Three layers, strictly separated:
+Download the latest zip from [Releases](https://github.com/frankdays/bigslick/releases), unpack it, and right-click `INSTALL.command` → Open.
 
-| Layer | What lives there | Rule |
-|---|---|---|
-| `upstream/` | 3 vendored open-source skill distributions (Corey Haines, OpenClaudia, Anthropic), versions pinned in `upstream/VERSIONS` | **Never edit.** Refresh with a script. |
-| `overlay/` | `manifest.yaml` — which upstream skills are enabled/excluded — plus `patches/` for modifications to upstream skills | The merge, as config. Edit here, not in upstream. |
-| `core/` | Your proprietary skills, the persona charters, client context packs, and the roadmap | Your IP. Wins every name collision. |
+**[Full install guide →](INSTALL.md)** — five minutes, no technical background needed, including the macOS security prompt that trips most people up.
 
-`scripts/compose.py` builds the deployable library into `dist/skills/` from those three layers. `dist/PROVENANCE.txt` records where every skill came from.
+Then open Claude in the folder and say:
 
-**The other key idea: skills are engines, clients are data.** No skill contains client specifics. Each client gets a context pack in `core/clients/<name>/`; you activate one client at a time and every skill reads that pack. Switching clients is one command.
+```
+Onboard my company
+```
+
+It interviews you about your business and writes everything down. Every other skill reads what it wrote, so you never edit a file by hand.
 
 ---
 
-## Quick start
+## How it works (60 seconds)
+
+**Skills are engines; companies are data.** No skill contains anything about your business. Each company gets its own context pack — positioning, ICP, competitors, voice, tooling, funnel numbers — and every skill reads whichever pack is active. Switching companies is one command, and nothing about the skills changes.
+
+That's what makes it work across a client roster: one library, many companies, no copy-pasted variants drifting apart.
+
+A fictional sample company (`hansel-ai`) ships with it, so you can try everything before entering your own numbers.
+
+*Building on Big Slick or curious how the library is assembled? See [MAINTAINERS.md](MAINTAINERS.md) for the layer model, the compose step, and how upstream skills are vendored and patched.*
+
+---
+
+## Building from source
+
+Most people should use the download above. Build from source only if you're changing skills or the manifest.
 
 ```bash
-# 1. Build the library
 pip install pyyaml
 python scripts/compose.py                      # -> dist/skills/ (133 skills) + plugin manifest
-
-# 2. Install as a Claude Code plugin (dist/ is a valid plugin after compose)
-claude plugin marketplace add /path/to/bigslick   # or the repo's git URL once pushed
-claude plugin install bigslick@bigslick
-#    (Cowork: Settings -> Plugins -> install from the same marketplace path)
-#    Alternative, no plugin system: point Claude Code at dist/skills/ as a skills directory.
-
-# 3. Onboard your first client (creates the context pack)
-#    In Claude (with the plugin installed): "Onboard <company>"
-#    -> runs the company-onboarding skill -> writes core/clients/<company>/
-
-# 4. Activate the client
-./scripts/activate_client.sh <company>
-
-# 5. Work
-#    "Build the pipeline model for Q4"        -> pipeline-math
-#    "Draft my board update"                  -> board-reporting
-#    "Run this plan past the staff meeting"   -> staff-meeting (persona review)
-#    After changing any skill: re-run compose + reinstall so the plugin picks up changes.
+bash install.sh                                # registers the plugin, verifies, loads the sample company
 ```
 
-Use in **Claude Code** (full capability — API keys, MCPs, file access) or upload individual skills to **Claude.ai / Cowork** (built-in tools and connected MCPs substitute for raw APIs; the resource-hub skill handles the difference).
+After changing any skill, re-run `compose.py` and reinstall so the plugin picks up the change. `bash scripts/test.sh` runs the same release gate CI runs. `bash scripts/package_release.sh` builds the end-user zip.
 
-### Packaging for Claude.ai / the desktop app
+Big Slick runs in **Claude Code**, where it has full capability — API keys, MCP connections, file access.
 
-The Claude Code plugin format doesn't transfer: Claude.ai takes **one zip per skill** (skill folder as the zip root), caps `description` at **200 chars**, and has no filesystem — so repo-relative client-pack paths never resolve. `scripts/package_for_claude_ai.py` reconciles all three.
+### Claude.ai / desktop: experimental
+
+Claude.ai takes one zip per skill, caps each description at **200 characters**, and has no filesystem, so repo-relative client-pack paths never resolve. `scripts/package_for_claude_ai.py` reconciles all three, bundling the active client pack into each zip and rewriting paths to match.
+
+**Status: 7 of 133 skills are ready for this path.** The description *is* the trigger logic, and 125 skills run past the cap (median ~450 chars). Auto-compression drops the "Use when the user says…" phrases that make a skill fire, so a compressed skill installs but may never trigger. Hand-written short descriptions live in `overlay/claude-ai/descriptions.yaml`; write an entry before relying on a skill here.
+
+This path is deliberately excluded from the end-user download — shipping skills that install but don't fire is worse than not shipping them. Generate on demand:
 
 ```bash
-python scripts/package_for_claude_ai.py --set leadership   # -> dist/claude-ai/*.zip
-python scripts/package_for_claude_ai.py persona-cmo staff-meeting
 python scripts/package_for_claude_ai.py --all --check      # report, write nothing
+python scripts/package_for_claude_ai.py persona-cmo staff-meeting
 ```
 
-It bundles the active client pack into `client/` inside each zip, rewrites `.agents/…` and `clients/_active/…` references to point there, and strips Claude Code-only frontmatter (`metadata`, `allowed-tools`, `argument-hint`, `user_invocable`).
-
-**The 200-char cap is the part that needs a human.** The description *is* the trigger logic, and every skill here runs long (median ~450, max 1012), so auto-compression drops the `"Use when the user says…"` phrases that make a skill fire. Hand-written short descriptions live in `overlay/claude-ai/descriptions.yaml`; the script reports every skill still falling back to auto-compression. Write an entry before relying on a skill in Claude.ai.
-
-Then in Claude.ai: enable code execution in **Settings → Capabilities**, and upload at **Customize → Skills**. Bundled packs are a snapshot — re-run the script after changing a client pack.
+Then in Claude.ai: enable code execution in **Settings → Capabilities**, upload at **Customize → Skills**. Bundled packs are a snapshot — regenerate after changing a client pack.
 
 ---
 
@@ -100,7 +96,7 @@ Then in Claude.ai: enable code execution in **Settings → Capabilities**, and u
 **Infrastructure**
 - `resource-hub` — all external LLM/API routing. Skills request *capabilities* (`research_synthesis`, `bulk_classification`…); `core/skills/resource-hub/config/registry.yaml` maps capabilities to providers. Swap models by editing that one file. Fill in the `SET_ME` model placeholders and set env vars before first use.
 
-**Plus 100 upstream skills** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `dist/skills/`; provenance per skill in `dist/PROVENANCE.txt`.
+**Plus 104 upstream skills** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `dist/skills/`; provenance per skill in `dist/PROVENANCE.txt`.
 
 ---
 
