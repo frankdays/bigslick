@@ -1,0 +1,31 @@
+name: build
+
+# The release gate that scripts/test.sh already encodes, run on every push.
+# The build is only reproducible if a broken compose is caught here rather than
+# by whoever next runs install.sh.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  compose-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Compose and run the gate
+        # test.sh composes, checks provenance, frontmatter, exclusions, core
+        # precedence, manifests, and the client-activation lifecycle.
+        run: bash scripts/test.sh
+      - name: Report composition
+        if: always()
+        run: |
+          echo "### Composition" >> "$GITHUB_STEP_SUMMARY"
+          cut -f2 dist/PROVENANCE.txt | sort | uniq -c | sort -rn \
+            | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY"
