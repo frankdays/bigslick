@@ -11,5 +11,6 @@ dist/
 # A 6MB zip committed on every release would bloat the clone permanently.
 bigslick.plugin
 bigslick-*.zip
+bigslick-*.dmg
 __pycache__/
 *.pyc

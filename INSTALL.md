@@ -16,9 +16,11 @@ You'll need a Claude account. A paid plan is required for real work — the skil
 
 ## Step 2 — Download Big Slick
 
-From the [Releases page](https://github.com/frankdays/bigslick/releases), download **`bigslick-0.1.0.zip`**.
+From the [Releases page](https://github.com/frankdays/bigslick/releases), download **`bigslick-0.1.0.dmg`**.
 
-Double-click the zip to unpack it. You'll get a folder called `bigslick`. Put it somewhere you'll find again — Documents is fine. Not Downloads, where you'll delete it by accident in six months.
+Double-click it. A window opens showing a folder called `bigslick` and a short note. **Drag the `bigslick` folder into Documents** — don't run it from the disk image, which is read-only and disappears when you eject it.
+
+*(There's a `.zip` on the same page if you prefer it. Same contents.)*
 
 ---
 

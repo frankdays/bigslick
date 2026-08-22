@@ -9,7 +9,7 @@ Marketing work you'd normally hire for — pipeline models, board decks, ABM pro
 
 ## Install
 
-Download the latest zip from [Releases](https://github.com/frankdays/bigslick/releases), unpack it, and right-click `INSTALL.command` → Open.
+Download the latest `.dmg` from [Releases](https://github.com/frankdays/bigslick/releases), drag the `bigslick` folder to Documents, then right-click `INSTALL.command` → Open. (A `.zip` is there too.)
 
 **[Full install guide →](INSTALL.md)** — five minutes, no technical background needed, including the macOS security prompt that trips most people up.
 
