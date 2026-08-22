@@ -1,5 +1,6 @@
 # Core Layer Roadmap
-Updated: 2026-07-25. Planning doc only — no skills built from this list yet.
+Updated: 2026-08-22 (counts resynced to the v0.1 build: 132 skills = 28 core + 104 upstream).
+Previously updated: 2026-07-25. Planning doc only — no skills built from this list yet.
 
 ## In core today (4)
 resource-hub | reddit-b2b-tech-strategy | wikipedia-b2b-citation-strategy | linkedin-connectsafely-search
@@ -46,4 +47,4 @@ hiring-interview-kit (build if/when full-time CMO scenario is live)
 - Watch trigger overlap: reddit-marketing & linkedin-content (openclaudia) vs core skills — patch descriptions in overlay/patches/ if they misfire.
 
 ## Identified gap (from Hansel AI sample test, 2026-07-25)
-- oss-devrel-gtm — open-source GTM is a distinct motion (community->cloud->enterprise, DevRel program, stars/installs as funnel, monetization packaging) not covered by any of the 128 skills; community-marketing (upstream) is adjacent but not OSS-specific. Build when an OSS client is real.
+- oss-devrel-gtm — open-source GTM is a distinct motion (community->cloud->enterprise, DevRel program, stars/installs as funnel, monetization packaging) not covered by any of the 132 skills; community-marketing (upstream) is adjacent but not OSS-specific. Build when an OSS client is real.

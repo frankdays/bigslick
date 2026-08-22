@@ -249,6 +249,10 @@ core/clients/_active
 dist/
 .env
 *.key
+# Build artifact — distributed as a GitHub Release asset, not in git history.
+bigslick.plugin
+__pycache__/
+*.pyc
 EOF
 YEAR=$(date +%Y); OWNER="Frank Days"
 cat > LICENSE << EOF
