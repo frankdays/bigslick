@@ -1,32 +1,22 @@
-# Overlay manifest — which upstream skills the composed library includes.
-# This file IS the merge: edit here, rerun scripts/compose.sh. Never delete upstream files.
-# Precedence on name collisions: core > overlay/patches > upstream order below.
-
+# Overlay manifest — v0.1 (inventory of 2026-08-22). Precedence: core > patches > later upstream > earlier.
 upstreams:
-  - name: marketingskills            # coreyhaines31 — wins collisions (interlinked skill system)
+  - name: marketingskills
     path: upstream/marketingskills/skills
-    mode: all                        # include everything
+    mode: all
     exclude: []
-
-  - name: openclaudia                # execution/channel long tail
+  - name: openclaudia
     path: upstream/openclaudia-skills/skills
     mode: all
-    exclude:                         # collisions with marketingskills (17)
+    exclude:
       [seo-audit, copywriting, copy-editing, product-marketing, programmatic-seo,
        content-strategy, marketing-ideas, launch-strategy, pricing-strategy,
        page-cro, signup-flow-cro, onboarding-cro, schema-markup, lead-magnet,
        referral-program, social-content, competitor-analysis,
-       # non-marketing utilities (5)
-       task-banner, organize-skills, github-stars, stripe-dispute, feishu-lark]
-
-  - name: anthropic-marketing        # only skills with no equivalent elsewhere
+       task-banner, organize-skills, github-stars, stripe-dispute, feishu-lark,
+       wechat-moments]
+  - name: anthropic-marketing
     path: upstream/anthropic-marketing/skills
     mode: include
     include: [brand-review, campaign-plan, performance-report]
-
 core:
-  path: core/skills                  # proprietary layer — always included, wins all collisions
-
-# Near-pairs intentionally kept (watch for trigger conflicts; resolve by patching descriptions in overlay/patches/):
-# emails + email-sequence + email-subject-lines | ab-testing + ab-test-setup
-# customer-research + icp-builder | marketing-plan + growth-strategy + campaign-plan
+  path: core/skills

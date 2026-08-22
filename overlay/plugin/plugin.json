@@ -1,6 +1,6 @@
 {
   "name": "bigslick",
-  "version": "1.0.0",
-  "description": "Fractional-CMO marketing operating system for B2B software: 128 skills spanning pipeline math, board reporting, ABM, events, win-loss, GEO/AI-citation strategy, and a marketing leadership persona layer. Client-agnostic engines that read per-client context packs.",
-  "author": { "name": "Frank" }
+  "version": "0.1.0",
+  "description": "Big Slick: the open-source marketing distribution for Claude. 132 skills spanning pipeline models, board reporting, ABM, field marketing, win-loss, case studies, PR/AR, and an AI-visibility (GEO) system — with a marketing leadership persona layer (staff meetings on demand) and swappable per-company context packs.",
+  "author": { "name": "Frank Days" }
 }

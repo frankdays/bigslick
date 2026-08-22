@@ -1,12 +1,10 @@
 {
   "name": "bigslick",
-  "owner": { "name": "Frank" },
+  "owner": { "name": "Frank Days" },
   "plugins": [
-    {
-      "name": "bigslick",
-      "displayName": "BigSlick (Fractional CMO)",
+    { "name": "bigslick",
+      "displayName": "Big Slick — Marketing Distribution",
       "source": "./dist",
-      "description": "128-skill marketing operating system: quant layer (pipeline math, board reporting, attribution), programs (ABM, events, win-loss, case studies, PR/AR), GEO/AI-citation system with monitoring, leadership personas, and client context-pack architecture."
-    }
+      "description": "The open-source marketing distribution for Claude: 132 curated + proprietary skills plus a marketing leadership persona layer and per-company context packs. The best starting hand a marketer can be dealt." }
   ]
 }

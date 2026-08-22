@@ -2,6 +2,11 @@ MIT License
 
 Copyright (c) 2026 Frank Days
 
+SCOPE NOTE: This MIT license applies to all contents of this repository EXCEPT
+(a) directories containing their own LICENSE.md (see LICENSING.md), and
+(b) vendored third-party content under upstream/, which retains its original
+licenses (preserved in each upstream folder and in licenses/).
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights

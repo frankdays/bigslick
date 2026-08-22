@@ -1,26 +1,20 @@
 #!/usr/bin/env bash
-# Re-vendor upstreams at latest, report diffs vs manifest, then re-run compose manually.
+# Re-vendor upstreams at latest; report skill add/removes vs current; rewrite VERSIONS. Then edit manifest & recompose.
 set -e
 cd "$(dirname "$0")/.."
-declare -A REPOS=(
-  [marketingskills]=coreyhaines31/marketingskills
-  [openclaudia-skills]=OpenClaudia/openclaudia-skills
-)
 > upstream/VERSIONS.new
-for dir in "${!REPOS[@]}"; do
-  tmp=$(mktemp -d); git clone -q --depth 1 "https://github.com/${REPOS[$dir]}.git" "$tmp"
-  sha=$(git -C "$tmp" rev-parse HEAD); rm -rf "$tmp/.git"
-  echo "== $dir -> $sha"
-  diff <(ls upstream/$dir/skills) <(ls $tmp/skills) | grep '^[<>]' || echo "   (no skill add/removes)"
-  rm -rf "upstream/$dir"; mv "$tmp" "upstream/$dir"
-  echo "${REPOS[$dir]} $sha" >> upstream/VERSIONS.new
-done
-# anthropic marketing plugin
-tmp=$(mktemp -d); git clone -q --depth 1 https://github.com/anthropics/knowledge-work-plugins.git "$tmp"
-sha=$(git -C "$tmp" rev-parse HEAD)
-diff <(ls upstream/anthropic-marketing/skills) <(ls $tmp/marketing/skills) | grep '^[<>]' || echo "   anthropic: (no skill add/removes)"
-rm -rf upstream/anthropic-marketing && mkdir -p upstream/anthropic-marketing
-cp -r "$tmp"/marketing/. upstream/anthropic-marketing/ && cp "$tmp"/LICENSE upstream/anthropic-marketing/LICENSE
-rm -rf "$tmp"; echo "anthropics/knowledge-work-plugins(marketing) $sha" >> upstream/VERSIONS.new
+revendor(){ # $1 dir  $2 repo  $3 subpath(optional)
+  tmp=$(mktemp -d); git clone -q --depth 1 "https://github.com/$2.git" "$tmp"
+  sha=$(git -C "$tmp" rev-parse HEAD); src="$tmp/${3:-.}"
+  echo "== $1 -> $sha"
+  diff <(ls "upstream/$1/skills" 2>/dev/null) <(ls "$src/skills") | grep '^[<>]' || echo "   (no skill add/removes)"
+  rm -rf "upstream/$1"; mkdir -p "upstream/$1"; cp -r "$src/." "upstream/$1/"
+  [ -f "$tmp/LICENSE" ] && cp "$tmp/LICENSE" "upstream/$1/LICENSE"
+  rm -rf "$tmp"; rm -rf "upstream/$1/.git"
+  echo "$2${3:+($3)} $sha" >> upstream/VERSIONS.new
+}
+revendor marketingskills coreyhaines31/marketingskills
+revendor openclaudia-skills OpenClaudia/openclaudia-skills
+revendor anthropic-marketing anthropics/knowledge-work-plugins marketing
 mv upstream/VERSIONS.new upstream/VERSIONS
-echo "Done. Review skill add/removes above, update overlay/manifest.yaml if needed, then: python scripts/compose.py"
+echo "Done. Review add/removes above, update overlay/manifest.yaml, then: python3 scripts/compose.py"

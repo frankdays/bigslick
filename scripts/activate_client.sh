@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Usage: ./scripts/activate_client.sh <client-folder-name>
-# Makes <client>'s context pack the one skills read (.agents/product-marketing.md convention).
-# Uses RELATIVE symlinks so the repo can move/clone without breaking activation.
+# Usage: ./scripts/activate_client.sh <client-folder-name>   (relative symlinks — repo can move)
 set -e
 LIB="$(cd "$(dirname "$0")/.." && pwd)"
 CLIENT_DIR="$LIB/core/clients/$1"

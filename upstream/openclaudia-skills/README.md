@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The open-source marketing toolkit for AI coding agents.</strong><br/>
-  69+ modular skills that turn Claude Code into a full marketing department.
+  75 modular skills that turn Claude Code into a full marketing department.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ Most AI marketing tools charge **$50–300/month** for a chat box that gives you
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated.
 
 ```bash
-# Install all 69+ marketing skills
+# Install all 75 marketing skills
 npx openclaudia install --all
 
 # Or install specific skills
@@ -109,6 +109,8 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `content-gap-analysis` | Identify content gaps vs. competitors |
 | `content-repurposing` | Atomize content across platforms and formats |
 
+> Publishing AI-assisted copy? Run it through [DetectAIWatermark](https://detectaiwatermark.com/?ref=openclaudia) first — it strips the invisible Unicode watermarks AI writing tools embed, so your text doesn't carry a machine-generated fingerprint.
+
 ### Email Marketing
 | Skill | Description |
 |-------|-------------|
@@ -143,13 +145,14 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `brand-research` | Fetch brand info, logos, and industry data via Brand.dev | `BRANDDEV_API_KEY` |
 | `google-analytics` | Pull GA4 reports and insights | Google OAuth |
 | `search-console` | Google Search Console data & analysis | Google OAuth |
+| `gsc-portfolio-audit` | Rank ALL GSC properties by clicks with period-over-period deltas + keyword diffs | Google OAuth |
 | `google-ads-report` | Google Ads performance reporting | Google OAuth |
 | `google-reviews` | Google Maps ratings, review counts, and competitor analysis | `DATAFORSEO_LOGIN` |
 | `youtube-analytics` | YouTube channel and video performance analysis | `YOUTUBE_API_KEY` |
 | `github-stars` | Chart a repo's star growth by day and hour, any timezone | `gh` CLI |
 | `similarweb-traffic` | Fetch website traffic estimates, sources, countries, keywords, and ranks | None |
-| `ai-citations-report` | GEO report: which AI-search prompts cite a domain (Google AI Overview + ChatGPT), via Enception's paid API | `ENCEPTION_API_KEY` |
-| `geo-analysis` | Full GEO/SEO client analysis with PDF report (AI visibility, market research, competitors), via Enception's paid API | `ENCEPTION_ANALYSIS_API_KEY` |
+| `ai-citations-report` | GEO report: which AI-search prompts cite a domain (Google AI Overview + ChatGPT), via [Enception](https://www.enception.ai)'s paid API | `ENCEPTION_API_KEY` |
+| `geo-analysis` | Full GEO/SEO client analysis with PDF report (AI visibility, market research, competitors), via [Enception](https://www.enception.ai)'s paid API | `ENCEPTION_ANALYSIS_API_KEY` |
 
 ### Strategy & Planning
 | Skill | Description |
@@ -177,6 +180,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 |-------|-------------|--------------|
 | `stock-images` | Search Unsplash for stock photos with optional text overlay | `UNSPLASH_CLIENT_ID` |
 | `ai-image-gen` | Generate images from text prompts via OpenAI or Stability AI | `OPENAI_API_KEY` |
+| `marketing-slides` | Create marketing slides, pitch decks, and sales decks — outline, per-slide copy, and generation via ChatSlide | [ChatSlide](https://www.chatslide.ai) account |
 | `i18n` | Add full i18n to Next.js — 14+ locales, hreflang sitemaps, bulk translation | None |
 
 ### Growth & Automation
@@ -192,6 +196,7 @@ cp -r skills/seo-audit .claude/skills/         # project-level
 | `podcast-edit` | Edit podcast audio — trim, remove fillers, normalize loudness |
 | `stripe-dispute` | Fight Stripe disputes and chargebacks with evidence + counter-dispute |
 | `organize-skills` | Rename a skill library to a naming convention and fix the symlinks + cross-references it breaks |
+| `wechat-moments` | Rank your own WeChat Moments feed — real news above marketing, weighted by who you actually talk to ([separate repo](https://github.com/OpenClaudia/wechat-moments)) |
 
 ### CRM & Outreach (API-Powered)
 | Skill | Description | API Required |
@@ -224,7 +229,7 @@ DATAFORSEO_PASSWORD=your_password
 # Brand.dev (brand-monitor)
 BRANDDEV_API_KEY=your_key_here
 
-# Google OAuth (google-analytics, search-console, google-ads-report)
+# Google OAuth (google-analytics, search-console, gsc-portfolio-audit, google-ads-report)
 GOOGLE_CLIENT_ID=your_client_id
 GOOGLE_CLIENT_SECRET=your_client_secret
 
@@ -308,6 +313,8 @@ OpenClaudia is part of a growing ecosystem of AI agent tools:
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the AI coding agent by Anthropic
 - [GEO Guide](https://howtowingeo.com) — how to win at Generative Engine Optimization
 - [PageGun](https://pagegun.com) — AI-powered CMS for content publishing
+- [DetectAIWatermark](https://detectaiwatermark.com/?ref=openclaudia) — detect and remove invisible AI watermarks from your text
+- [wechat-moments](https://github.com/OpenClaudia/wechat-moments) — the scripts behind the `wechat-moments` skill, kept separate because they depend on the WeChat desktop client rather than a marketing API
 
 ## Sponsors
 
@@ -326,7 +333,7 @@ MIT — see [LICENSE](LICENSE)
 
 ![Star History Chart](assets/star-history.png)
 
-<sub>Updated 2026-07-17. GitHub [restricted the stargazers API](https://github.blog/changelog/2026-06-30-upcoming-access-restrictions-to-public-api-endpoints-and-ui-views/) in June 2026, so the live star-history.com badge no longer renders; this chart is generated from the repo's own star data.</sub>
+<sub>Updated 2026-08-17. GitHub [restricted the stargazers API](https://github.blog/changelog/2026-06-30-upcoming-access-restrictions-to-public-api-endpoints-and-ui-views/) in June 2026, so the live star-history.com badge no longer renders; this chart is generated from the repo's own star data.</sub>
 
 ---
 
