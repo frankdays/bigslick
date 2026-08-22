@@ -4,7 +4,7 @@
   "plugins": [
     {
       "name": "bigslick",
-      "displayName": "Marketing Core (Fractional CMO)",
+      "displayName": "BigSlick (Fractional CMO)",
       "source": "./dist",
       "description": "128-skill marketing operating system: quant layer (pipeline math, board reporting, attribution), programs (ABM, events, win-loss, case studies, PR/AR), GEO/AI-citation system with monitoring, leadership personas, and client context-pack architecture."
     }
