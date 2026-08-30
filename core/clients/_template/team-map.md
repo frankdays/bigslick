@@ -1,21 +1,21 @@
 # Team Map — {CLIENT NAME}
-Written by `company-onboarding` Phase D. `staff-meeting` reads this to decide, per
-persona, whether to defer to a real human or run the seat at full authority.
+Who actually holds each marketing lane here. Skills read this to know whether to draft
+for a real owner or to reason about an empty seat, and who has to sign off on what.
 
 Mode is one of:
-- **full authority** — seat is empty; the persona owns the lane outright
-- **support** — a real human holds it; the persona drafts and pressure-tests, never overrides
-- **defer** — held by someone senior to marketing; the persona raises questions only
+- **empty** — nobody holds it; treat the lane as unowned and say so in recommendations
+- **support** — a real human holds it; draft and pressure-test, never override
+- **defer** — held by someone senior to marketing; raise questions only
 
-| Persona | Real holder (name, title) | Mode | Notes |
+| Lane | Real holder (name, title) | Mode | Notes |
 |---|---|---|---|
-| persona-cmo | | | |
-| persona-product-marketing-director | | | |
-| persona-vp-growth | | | |
-| persona-field-marketing-director | | | |
-| persona-comms-manager | | | |
-| persona-content-seo-director | | | |
-| persona-vp-sales *(antagonist — always runs)* | | | |
+| Marketing leadership / budget | | | |
+| Product marketing & positioning | | | |
+| Growth / demand gen | | | |
+| Field marketing & events | | | |
+| Communications / PR | | | |
+| Content & SEO | | | |
+| Sales leadership *(the revenue-side check on any plan)* | | | |
 
 ## Decision rights
 - Budget sign-off:

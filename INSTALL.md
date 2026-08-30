@@ -35,7 +35,7 @@ Inside that folder is a file called **`INSTALL.command`**.
 A black window opens and prints what it's doing. When it finishes you'll see:
 
 ```
-Ready. 133 marketing skills installed and enabled.
+Ready. 207 marketing skills installed and enabled.
 Sample company loaded: hansel-ai
 ```
 

@@ -1,5 +1,5 @@
 # Skills Profile — {CLIENT NAME}
-Written by `company-onboarding` Phase C. Relevance is DATA, not build config — the
+Relevance is DATA, not build config — the
 library stays global and is never recomposed per client. Skills read this file to
 know what matters here.
 

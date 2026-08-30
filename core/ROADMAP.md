@@ -1,3 +1,7 @@
+> **Historical — v0.1 core-layer planning doc.** The 29 proprietary skills listed
+> below were removed in v0.2, which made the distribution fully open source. Kept for
+> build history and design rationale. Current library: `INVENTORY.md`.
+
 # Core Layer Roadmap
 Updated: 2026-08-22 (counts resynced: 133 skills = 29 core + 104 upstream).
 Previously updated: 2026-07-25. Planning doc only — no skills built from this list yet.

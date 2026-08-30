@@ -12,7 +12,7 @@ Three layers, strictly separated:
 |---|---|---|
 | `upstream/` | 3 vendored open-source skill distributions (Corey Haines, OpenClaudia, Anthropic), versions pinned in `upstream/VERSIONS` | **Never edit.** Refresh with a script. |
 | `overlay/` | `manifest.yaml` — which upstream skills are enabled/excluded — plus `patches/` for modifications to upstream skills | The merge, as config. Edit here, not in upstream. |
-| `core/` | Your proprietary skills, the persona charters, client context packs, and the roadmap | Your IP. Wins every name collision. |
+| `core/` | Client context packs and the roadmap. The proprietary skills layer was removed in v0.2; `compose.py` treats the `core:` manifest key as optional. | Your data, not distributed skills. |
 
 `scripts/compose.py` builds the deployable library into `dist/skills/` from those three layers. `dist/PROVENANCE.txt` records where every skill came from.
 
@@ -25,7 +25,7 @@ Three layers, strictly separated:
 ```bash
 # 1. Build the library
 pip install pyyaml
-python scripts/compose.py                      # -> dist/skills/ (133 skills) + plugin manifest
+python scripts/compose.py                      # -> dist/skills/ (207 skills) + plugin manifest
 
 # 2. Install as a Claude Code plugin (dist/ is a valid plugin after compose)
 claude plugin marketplace add /path/to/bigslick   # or the repo's git URL once pushed
@@ -120,11 +120,11 @@ Use in **Claude Code** (full capability — API keys, MCPs, file access) or uplo
 
 ## Licensing
 
-Upstream distributions are MIT / source-available — original license files are preserved in each `upstream/` folder and in `licenses/`. Keep them intact. Everything in `core/` is proprietary to you; MIT imposes no copyleft on it. Merge decisions and provenance: `MANIFEST.md` and `dist/PROVENANCE.txt`. Build history and remaining roadmap: `core/ROADMAP.md`.
+Every upstream is MIT or Apache-2.0 and redistributable — original licence files are preserved in each `upstream/` folder and in `licenses/`. Keep them intact. Per-skill source, licence, and external dependencies live in `INVENTORY.md`; regenerate it with `python scripts/gen_inventory.py` after any manifest change. Merge decisions and provenance: `overlay/manifest.yaml` and `dist/PROVENANCE.txt`. Build history and remaining roadmap: `core/ROADMAP.md`.
 
 ## Claude.ai packaging — experimental, maintainer-only (decided 2026-08-22)
 
-`scripts/package_for_claude_ai.py` works, but the path is ~5% complete: 7 of 133 skills have
+`scripts/package_for_claude_ai.py` works, but the path is ~3% complete: 7 of 207 skills have
 hand-written short descriptions in `overlay/claude-ai/descriptions.yaml`, and 125 exceed
 Claude.ai's 200-character description cap. Because the description *is* the trigger logic,
 auto-compressed skills install but may never fire — a failure the user cannot see or diagnose.
