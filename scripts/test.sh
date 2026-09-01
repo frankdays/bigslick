@@ -22,9 +22,24 @@ print("T3 exclusions", "PASS" if not leak else f"FAIL {leak}"); fails+= [] if no
 # per-skill LICENSE.md in core/skills and on any provenance we don't recognise.
 known={"marketingskills","openclaudia","anthropic-marketing","goose-skills","kostja-marketing","rampstack","wondel","core"}
 bad_prov=sorted({n for n,src in prov.items() if src.replace("+patch","") not in known})
-reserved=sorted(d.name for d in Path("core/skills").iterdir() if d.is_dir() and (d/"LICENSE.md").exists()) if Path("core/skills").exists() else []
+# Scan for an actual source-available LICENCE GRANT, not merely the words. Docs like
+# LICENSING.md legitimately describe the removed licence in prose and must not trip this;
+# a file *named* LICENSE that grants source-available terms is the thing that must never
+# ship. The earlier version only checked core/skills/*/LICENSE.md and missed a stray
+# core/clients/LICENSE.md sitting over the sample packs that DO ship in the release.
+reserved=[]
+for base in ["skills","bundles","core","."]:
+    b=Path(base)
+    if not b.exists(): continue
+    for f in ([b] if b.is_file() else b.rglob("*")):
+        if not f.is_file() or f.name.split(".")[0].upper() not in ("LICENSE","LICENCE","COPYING"): continue
+        if any(part in ("upstream","licenses",".git") for part in f.parts): continue
+        try: body=f.read_text(errors="ignore")
+        except Exception: continue
+        if "Reserved Component" in body or "NOT open source" in body: reserved.append(str(f))
+reserved=sorted(set(reserved))
 t4 = not bad_prov and not reserved
-detail = "" if t4 else f"FAIL unknown={bad_prov[:5]} reserved-licensed={reserved[:5]}"
+detail = "" if t4 else f"FAIL unknown={bad_prov[:5]} source-available-licence={reserved[:5]}"
 print(f"T4 redistributable provenance ({len(prov)})", "PASS" if t4 else detail); fails+= [] if t4 else ["T4"]
 # T5 — INVENTORY.md must document every composed skill (source/licence/deps).
 inv=Path("INVENTORY.md")

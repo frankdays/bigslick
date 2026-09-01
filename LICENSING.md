@@ -29,7 +29,15 @@ fails the build if a per-skill `LICENSE.md` reappears under `core/skills/`.
 by the copyright holder, because no vendored upstream covers writing a client context pack or
 holding provider configuration. They are open source on the same terms as the rest of the repo.
 
-`core/clients/` holds per-company context packs. These are your own data, not part of the
-distributed skill library, and are not covered by the licences above.
+`core/clients/` holds per-company context packs. Your own packs are your data — writing one
+does not put it under any licence here. The two sample packs that ship in the distribution,
+`_template` and `hansel-ai`, are MIT under the root `LICENSE` like everything else.
+
+A `core/clients/LICENSE.md` carrying the old Reserved Component terms survived the v0.2
+cleanup as an untracked local file. It never reached GitHub or any release asset (it was
+gitignored), but it nominally covered the two sample packs that do ship, so it has been
+removed. `scripts/test.sh` T4 now fails on any file named LICENSE/LICENCE/COPYING anywhere
+outside `upstream/` and `licenses/` that grants source-available terms — the earlier check
+only looked at `core/skills/`, which is why this one went unnoticed.
 
 PRs welcome on all paths.

@@ -1,19 +1,39 @@
 # Big Slick — Marketing Distribution
 
-133 marketing skills for Claude: pipeline models, board reporting, ABM, field
-marketing, win-loss, case studies, PR/AR, and an AI-visibility (GEO) system —
-plus a marketing leadership persona layer and swappable per-company context packs.
+Marketing skills for Claude, curated from open-source upstreams and shipped as a
+lean core plus opt-in bundles.
+
+Installing `bigslick` gives you **31 broadly-useful skills** — planning, ICP,
+copywriting, landing pages, SEO audits, ads, CRO, pricing, attribution, reporting.
+Add a specialty only when you need it:
+
+```
+claude plugin install bigslick-seo@bigslick
+claude plugin install bigslick-paid@bigslick
+```
+
+Bundles: `seo`, `ai-search`, `paid`, `content`, `social`, `gtm`, `lifecycle`,
+`strategy`, `research`, `ops` — 209 skills in total across all of them.
+
+This split is deliberate. Every skill's description loads into every session, so
+the full library costs ~28k tokens of context before you ask for anything. The
+lean core costs ~5k. An uninstalled bundle costs nothing.
 
 ## Composition
 
-| Layer | Skills | License |
+| Layer | Skills | Licence |
 |---|---|---|
-| Core (proprietary) | 29 | MIT, except the Reserved Components listed below |
-| coreyhaines31/marketingskills | 49 | upstream, preserved |
-| OpenClaudia/openclaudia-skills | 52 | upstream, preserved |
-| anthropics/knowledge-work-plugins | 3 | upstream, preserved |
+| coreyhaines31/marketingskills | 49 | MIT |
+| OpenClaudia/openclaudia-skills | 52 | MIT |
+| anthropics/knowledge-work-plugins | 3 | Apache-2.0 |
+| gooseworks-ai/goose-skills | 34 | MIT |
+| kostja94/marketing-skills | 19 | MIT |
+| rampstackco/claude-skills | 27 | MIT |
+| wondelai/skills | 23 | MIT |
+| first-party infrastructure | 2 | MIT |
 
-Every skill's origin is recorded in `PROVENANCE.txt`.
+Every skill's origin is recorded in `PROVENANCE.txt`; per-skill source, licence and
+external dependencies are in `INVENTORY.md`.
 
 ## The core idea
 
@@ -23,12 +43,14 @@ reads that pack. Switching companies is one command.
 
 ## Try it
 
-- `"Build the pipeline model for Hansel AI's year"` — sample company is pre-loaded
+- `"Build a marketing plan for Hansel AI"` — sample company is pre-loaded
 - `"Run this past the marketing council"` — debates it through named marketing frameworks
-- `"Onboard <your company>"` — generates a real context pack
+- `"Onboard my company"` — interviews you and generates a real context pack
 
 ## Licensing
 
-Fully open source. Every skill is vendored from an MIT- or Apache-2.0-licensed
-upstream and is redistributable; per-skill source and licence are listed in
-`INVENTORY.md`. Upstream licence texts ship in `licenses/`. See `LICENSING.md`.
+Fully open source, with nothing source-available or proprietary. 207 skills are
+vendored from MIT- or Apache-2.0-licensed upstreams; the 2 first-party
+infrastructure skills (`company-onboarding`, `resource-hub`) are MIT under the
+repository's root LICENSE. Upstream licence texts ship in `licenses/`. See
+`LICENSING.md`.
