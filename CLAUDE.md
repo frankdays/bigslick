@@ -12,7 +12,7 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 
 ## Build & release
 - System Python is PEP 668 externally-managed, so `pip3 install pyyaml` fails. Use a venv: `python3 -m venv .venv && .venv/bin/pip install pyyaml`, then run scripts with `.venv/bin` on PATH.
-- `python3 scripts/compose.py` → `dist/skills/` + provenance + plugin manifest. Expect **209** skills (207 upstream + 2 core).
+- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `skills/` + `.claude-plugin/plugin.json` at the repo root (committed — this is the plugin itself). Expect **209** skills (207 upstream + 2 core).
 - `python3 scripts/gen_inventory.py` after any manifest change — `test.sh` T5 fails if a composed skill is missing from INVENTORY.md.
 - `bash scripts/test.sh` — release gate (T1 counts, T2 frontmatter, T3 exclusions, T4 provenance, T5 inventory, T6 manifests, F1 client lifecycle). Must print ALL TESTS PASS.
 - `bash scripts/package_release.sh` → `bigslick-<version>.zip`, the end-user download (dist/ prebuilt, installer, marketplace manifest, client packs). `scripts/package_dmg.sh` wraps it for macOS.
@@ -20,9 +20,9 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 - Quarterly: `bash scripts/update_upstreams.sh` → review add/removes → edit manifest → recompose → gen_inventory → test → bump `overlay/plugin/plugin.json` version.
 
 ## Working conventions
-- `dist/` is gitignored and absent from GitHub, so `marketplace.json`'s `./dist` source only resolves locally. The public install path is the **release asset** (`.zip`/`.dmg`) + `install.sh`, per INSTALL.md — not `claude plugin marketplace add <github url>`, which cannot work.
+- The repo root IS the plugin: `marketplace.json` says `"source": "."`, and `skills/` + `.claude-plugin/plugin.json` are committed, so `claude plugin marketplace add https://github.com/frankdays/bigslick` works. **Recompose and commit `skills/` whenever a skill changes** — T7 fails the gate if it drifts or goes untracked. The release `.zip`/`.dmg` ships the identical layout.
 - Execution finds what review misses: run any changed skill once against the Hansel AI sample client (`core/clients/hansel-ai`) before committing.
-- Commit messages: imperative, one line, what + why. Never commit `dist/`, `.agents/`, build zips, or real client packs (gitignored; only `_template` and `hansel-ai` are public).
+- Commit messages: imperative, one line, what + why. Never commit `dist/`, `.agents/`, build zips, or real client packs (gitignored; only `_template` and `hansel-ai` are public). Do commit `skills/` — it is the published plugin, not a build artifact.
 - Don't reformat or "improve" upstream skill content unasked. Patches go in `overlay/patches/`, and every patch is a merge-conflict cost at the next upstream refresh.
 
 ## Git

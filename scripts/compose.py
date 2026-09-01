@@ -53,6 +53,19 @@ def main():
         dest = ROOT/"dist"/".claude-plugin"; dest.mkdir(exist_ok=True); shutil.copy(ps, dest/"plugin.json")
     rd = ROOT/"overlay"/"plugin"/"README.md"
     if rd.exists(): shutil.copy(rd, ROOT/"dist"/"README.md")
-    print(f"Composed {len(plan)} skills into dist/skills/ (installable plugin; provenance: dist/PROVENANCE.txt)")
+
+    # Publish the repo root as the plugin itself, so `claude plugin marketplace add
+    # <github url>` resolves. dist/ is gitignored and never reaches GitHub, so a
+    # marketplace pointing at "./dist" can only ever install from a local checkout.
+    # These two paths ARE committed; that is the whole point of mirroring them.
+    root_skills = ROOT/"skills"
+    if root_skills.exists(): shutil.rmtree(root_skills)
+    shutil.copytree(DIST, root_skills)
+    if ps.exists():
+        rootcp = ROOT/".claude-plugin"; rootcp.mkdir(exist_ok=True)
+        shutil.copy(ps, rootcp/"plugin.json")
+
+    print(f"Composed {len(plan)} skills into dist/skills/ and skills/ "
+          f"(installable plugin; provenance: dist/PROVENANCE.txt)")
 
 if __name__ == "__main__": main()

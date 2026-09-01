@@ -18,13 +18,16 @@ python3 scripts/compose.py >/dev/null
 
 mkdir -p "$STAGE"
 # What an end user needs, and nothing else. No upstream/, no overlay/, no
-# core/skills/ — those are build inputs, already composed into dist/.
-cp -R dist "$STAGE/dist"
-# Stale per-skill claude.ai zips are regenerated on demand by
-# package_for_claude_ai.py; shipping a months-old copy means shipping skills the
-# manifest now excludes, under the old brand name.
-rm -rf "$STAGE/dist/claude-ai"
+# core/skills/ — those are build inputs, already composed.
+#
+# The extracted folder must have the same shape as the repo root, because
+# marketplace.json says `"source": "."` — so skills/ and .claude-plugin/ sit at
+# the top level here, exactly as they do in git. Shipping dist/ instead would
+# leave the marketplace pointing at a directory this zip does not contain.
 mkdir -p "$STAGE/.claude-plugin" "$STAGE/scripts" "$STAGE/core/clients"
+cp -R dist/skills "$STAGE/skills"
+cp dist/.claude-plugin/plugin.json "$STAGE/.claude-plugin/"
+cp dist/PROVENANCE.txt "$STAGE/" 2>/dev/null || true
 cp .claude-plugin/marketplace.json "$STAGE/.claude-plugin/"
 cp install.sh INSTALL.command INSTALL.md README.md LICENSE LICENSING.md "$STAGE/"
 cp scripts/activate_client.sh "$STAGE/scripts/"
@@ -48,3 +51,4 @@ rm -rf "$(dirname "$STAGE")"
 
 echo "Built $OUT ($(du -h "$OUT" | cut -f1))"
 echo "Contains: $(unzip -l "$OUT" | grep -c 'SKILL.md') skills, installer, marketplace manifest, client packs."
+echo "Layout matches the repo root (skills/ + .claude-plugin/), so \"source\": \".\" resolves."

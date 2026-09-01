@@ -35,8 +35,33 @@ if inv.exists():
 else:
     print("T5 inventory coverage FAIL (INVENTORY.md missing)"); fails+=["T5"]
 p=json.load(open("dist/.claude-plugin/plugin.json")); mk=json.load(open(".claude-plugin/marketplace.json"))
-ok = p["name"]=="bigslick" and mk["plugins"][0]["source"]=="./dist"
+ok = p["name"]=="bigslick" and mk["plugins"][0]["source"]=="."
 print("T6 manifests", "PASS" if ok else "FAIL"); fails+= [] if ok else ["T6"]
+# T7 — the repo root must be a valid plugin that is actually COMMITTED. dist/ is
+# gitignored, so a marketplace pointing into it installs from a local checkout and 404s
+# from GitHub. Checking the working tree is not enough: compose.py runs at the top of
+# this script and would recreate skills/ every time, so the assertion that matters is
+# what git tracks. Uncommitted skills/ is the exact state that breaks the public install.
+import subprocess
+rp=Path(".claude-plugin/plugin.json"); rs=Path("skills")
+t7=[]
+if not rp.exists(): t7.append(".claude-plugin/plugin.json missing")
+elif json.load(open(rp))!=p: t7.append("root plugin.json out of sync with dist/")
+if not rs.exists(): t7.append("skills/ missing")
+elif len([d for d in rs.iterdir() if d.is_dir()])!=len(skills): t7.append("skills/ count != dist/")
+try:
+    g=subprocess.run(["git","ls-files","skills"],capture_output=True,text=True,timeout=30)
+    if g.returncode==0:
+        tracked={l.split("/")[1] for l in g.stdout.splitlines() if "/" in l}
+        if not tracked: t7.append("skills/ is not committed — GitHub install would 404")
+        else:
+            missing=sorted({d.name for d in skills}-tracked)
+            if missing: t7.append(f"{len(missing)} composed skills untracked e.g. {missing[:3]}")
+    if not json.loads(Path(".claude-plugin/marketplace.json").read_text())["plugins"][0]["source"]==".":
+        t7.append("marketplace source is not the repo root")
+except Exception as e:
+    print(f"  (T7 git check skipped: {e})")
+print("T7 repo-root plugin", "PASS" if not t7 else f"FAIL {t7}"); fails+= [] if not t7 else ["T7"]
 sys.exit(1 if fails else 0)
 PY
 # F1 client lifecycle

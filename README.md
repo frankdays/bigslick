@@ -11,7 +11,14 @@ Marketing work you'd normally hire for — pipeline reviews, exec reporting, pro
 
 ## Install
 
-Download the latest `.dmg` from [Releases](https://github.com/frankdays/bigslick/releases), drag the `bigslick` folder to Documents, then right-click `INSTALL.command` → Open. (A `.zip` is there too.)
+If you already use Claude Code, two lines:
+
+```bash
+claude plugin marketplace add https://github.com/frankdays/bigslick
+claude plugin install bigslick@bigslick
+```
+
+Prefer a download? Grab the latest `.dmg` from [Releases](https://github.com/frankdays/bigslick/releases), drag the `bigslick` folder to Documents, then right-click `INSTALL.command` → Open. (A `.zip` is there too.) That route also sets up the sample company for you.
 
 **[Full install guide →](INSTALL.md)** — five minutes, no technical background needed, including the macOS security prompt that trips most people up.
 
@@ -43,7 +50,7 @@ Most people should use the download above. Build from source only if you're chan
 
 ```bash
 pip install pyyaml
-python scripts/compose.py                      # -> dist/skills/ (209 skills) + plugin manifest
+python scripts/compose.py                      # -> skills/ (209) + .claude-plugin/plugin.json
 bash install.sh                                # registers the plugin, verifies, loads the sample company
 ```
 
@@ -108,7 +115,7 @@ all 209 are listed in **[INVENTORY.md](INVENTORY.md)**.
 **Brand**
 - `brand-archetype-system`, `brand-style-guide`, `creative-brief`, `brand-review`
 
-**Plus the full upstream library** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `dist/skills/`; provenance per skill in `dist/PROVENANCE.txt` and `INVENTORY.md`.
+**Plus the full upstream library** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `skills/`; provenance per skill in `dist/PROVENANCE.txt` and `INVENTORY.md`.
 
 ---
 

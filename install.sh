@@ -12,13 +12,13 @@ if ! command -v claude >/dev/null 2>&1; then
   echo "Then run this installer again."; exit 1
 fi
 
-# The downloaded package ships dist/ prebuilt, so there is nothing to build and
-# no Python needed. Only a source checkout ever hits this branch.
-if [ ! -d dist/skills ]; then
+# The downloaded package ships skills/ prebuilt, so there is nothing to build and
+# no Python needed. Only a source checkout with an unbuilt tree hits this branch.
+if [ ! -d skills ]; then
   if [ -f scripts/compose.py ] && command -v python3 >/dev/null; then
     pip3 install -q pyyaml && python3 scripts/compose.py
   else
-    echo "dist/skills is missing and this package can't rebuild it — re-download Big Slick."; exit 1
+    echo "skills/ is missing and this package can't rebuild it — re-download Big Slick."; exit 1
   fi
 fi
 
@@ -29,10 +29,10 @@ claude plugin install bigslick@bigslick >/dev/null 2>&1 || claude plugin update 
 
 # Verify rather than assume. "Done" printed over a failed install is worse than
 # an error, because the user only finds out when a skill silently never fires.
-SKILLS=$(find dist/skills -name SKILL.md | wc -l | tr -d ' ')
+SKILLS=$(find skills -name SKILL.md | wc -l | tr -d ' ')
 PROBLEMS=""
 claude plugin list 2>/dev/null | grep -q "bigslick@bigslick" || PROBLEMS="the plugin did not register"
-[ "$SKILLS" -gt 0 ] || PROBLEMS="${PROBLEMS:+$PROBLEMS; }no skills found in dist/skills"
+[ "$SKILLS" -gt 0 ] || PROBLEMS="${PROBLEMS:+$PROBLEMS; }no skills found in skills/"
 if [ -n "$PROBLEMS" ]; then
   echo ""; echo "Installed with problems — $PROBLEMS."
   echo "Try:  claude plugin install bigslick@bigslick"; exit 1

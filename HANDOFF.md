@@ -34,7 +34,8 @@ branch, and none are on disk. `scripts/package_release.sh` is the working packag
 
 ## Gotchas
 - System Python is PEP 668 externally-managed: `pip3 install pyyaml` fails. Use a venv.
-- `dist/` is gitignored and absent from GitHub, so `claude plugin marketplace add <github url>`
-  cannot install this repo. The public path is the release asset + `install.sh` (see INSTALL.md).
+- The repo root is the plugin (`skills/` + `.claude-plugin/plugin.json` committed,
+  marketplace `"source": "."`), so installing straight from the GitHub URL works. Recompose
+  and commit `skills/` after any skill change or T7 fails.
 - Regenerate `INVENTORY.md` (`scripts/gen_inventory.py`) after any manifest change or `test.sh`
   T5 fails.

@@ -14,7 +14,7 @@ Three layers, strictly separated:
 | `overlay/` | `manifest.yaml` — which upstream skills are enabled/excluded — plus `patches/` for modifications to upstream skills | The merge, as config. Edit here, not in upstream. |
 | `core/` | Client context packs, the roadmap, and `skills/` — 2 first-party MIT infrastructure skills (`company-onboarding`, `resource-hub`). The source-available proprietary layer was removed in v0.2 and is not coming back. | Packs are your data; `core/skills/` is MIT and ships. |
 
-`scripts/compose.py` builds the deployable library into `dist/skills/` from those three layers. `dist/PROVENANCE.txt` records where every skill came from.
+`scripts/compose.py` builds the deployable library into `dist/skills/` from those three layers, then mirrors it to `skills/` and `.claude-plugin/plugin.json` at the repo root — those are committed, which is what makes the GitHub URL directly installable. `dist/PROVENANCE.txt` records where every skill came from.
 
 **The other key idea: skills are engines, clients are data.** No skill contains client specifics. Each client gets a context pack in `core/clients/<name>/`; you activate one client at a time and every skill reads that pack. Switching clients is one command.
 
@@ -27,11 +27,11 @@ Three layers, strictly separated:
 pip install pyyaml
 python scripts/compose.py                      # -> dist/skills/ (209 skills) + plugin manifest
 
-# 2. Install as a Claude Code plugin (dist/ is a valid plugin after compose)
-claude plugin marketplace add /path/to/bigslick   # or the repo's git URL once pushed
+# 2. Install as a Claude Code plugin (the repo root is the plugin)
+claude plugin marketplace add https://github.com/frankdays/bigslick   # or a local path
 claude plugin install bigslick
 #    (Cowork: Settings -> Plugins -> install from the same marketplace path)
-#    Alternative, no plugin system: point Claude Code at dist/skills/ as a skills directory.
+#    Alternative, no plugin system: point Claude Code at skills/ as a skills directory.
 
 # 3. Onboard your first client (creates the context pack)
 #    In Claude (with the plugin installed): "Onboard <company>"
