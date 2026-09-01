@@ -25,6 +25,8 @@ UPSTREAMS = {
     "wondel":              ("wondelai/skills",                    "MIT",        "2.1k"),
     # First-party infrastructure, MIT under the repo root LICENSE — not vendored,
     # so it has no upstream repo or star count of its own.
+    "claude-seo":          ("AgriciDaniel/claude-seo",            "MIT",        "16.1k"),
+    "geo-seo":             ("zubair-trabzada/geo-seo-claude",     "MIT",        "10.1k"),
     "core":                ("frankdays/bigslick (first-party)",   "MIT",        "—"),
 }
 

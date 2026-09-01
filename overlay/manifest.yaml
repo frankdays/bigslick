@@ -68,6 +68,27 @@ upstreams:
       obviously-awesome, one-page-marketing, predictable-revenue, scorecard-marketing, 
       storybrand-messaging, traction-eos]
 
+  # AgriciDaniel/claude-seo (MIT, 16.1k stars) — deep SEO specialisation.
+  # seo-audit and seo-content-brief are excluded: we already ship curated versions of
+  # both under those names, and compose.py's later-wins rule would silently replace them.
+  - name: claude-seo
+    path: upstream/claude-seo/skills
+    mode: include
+    include: [
+      seo-backlinks, seo-cluster, seo-competitor-pages, seo-content, seo-dataforseo,
+      seo-drift, seo-ecommerce, seo-flow, seo-geo, seo-google, seo-hreflang,
+      seo-image-gen, seo-images, seo-local, seo-maps, seo-page, seo-plan,
+      seo-programmatic, seo-schema, seo-sitemap, seo-sxo, seo-technical, seo
+      ]
+  # zubair-trabzada/geo-seo-claude (MIT, 10.1k stars) — generative-engine optimisation.
+  - name: geo-seo
+    path: upstream/geo-seo/skills
+    mode: include
+    include: [
+      geo-audit, geo-brand-mentions, geo-citability, geo-compare, geo-content,
+      geo-crawlers, geo-llmstxt, geo-platform-optimizer, geo-proposal, geo-prospect,
+      geo-report-pdf, geo-report, geo-schema, geo-technical, geo-update
+      ]
 # First-party infrastructure skills. MIT, same as the rest of the repo — this is not a
 # return of the v0.2-removed proprietary layer, which was source-available only. These two
 # exist because no vendored upstream covers them: company-onboarding writes the client
@@ -92,15 +113,22 @@ bundles:
       ahrefs-research, backlink-audit, content-gap-analysis, content-refresh-system,
       domain-research, eeat-signals, entity-seo, glossary, gsc-portfolio-audit, i18n,
       pillar-content-architecture, programmatic-seo, schema, search-console,
-      semrush-research, seo-content-brief, seo-traffic-diagnosis, serp-analyzer,
-      similarweb-traffic, site-architecture
+      semrush-research, seo, seo-backlinks, seo-cluster, seo-competitor-pages,
+      seo-content, seo-content-brief, seo-dataforseo, seo-drift, seo-ecommerce, seo-flow,
+      seo-geo, seo-google, seo-hreflang, seo-image-gen, seo-images, seo-local, seo-maps,
+      seo-page, seo-plan, seo-programmatic, seo-schema, seo-sitemap, seo-sxo,
+      seo-technical, seo-traffic-diagnosis, serp-analyzer, similarweb-traffic,
+      site-architecture
       ]
   - name: ai-search
     description: >-
       Generative-engine optimisation: AI Overviews, citations, answer-engine visibility and AI-traffic reporting.
     skills: [
-      aeo, ai-citations-report, ai-seo, ai-traffic, geo, geo-analysis, geo-difficulty,
-      geo-query-finder, grokipedia
+      aeo, ai-citations-report, ai-seo, ai-traffic, geo, geo-analysis, geo-audit,
+      geo-brand-mentions, geo-citability, geo-compare, geo-content, geo-crawlers,
+      geo-difficulty, geo-llmstxt, geo-platform-optimizer, geo-proposal, geo-prospect,
+      geo-query-finder, geo-report, geo-report-pdf, geo-schema, geo-technical, geo-update,
+      grokipedia
       ]
   - name: paid
     description: >-

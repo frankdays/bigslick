@@ -20,7 +20,7 @@ print("T3 exclusions", "PASS" if not leak else f"FAIL {leak}"); fails+= [] if no
 # the first-party core/ layer is MIT under the root LICENSE. What must never come back is
 # the source-available Reserved Component License removed in v0.2, so fail on any
 # per-skill LICENSE.md in core/skills and on any provenance we don't recognise.
-known={"marketingskills","openclaudia","anthropic-marketing","goose-skills","kostja-marketing","rampstack","wondel","core"}
+known={"marketingskills","openclaudia","anthropic-marketing","goose-skills","kostja-marketing","rampstack","wondel","claude-seo","geo-seo","core"}
 bad_prov=sorted({n for n,src in prov.items() if src.replace("+patch","") not in known})
 # Scan for an actual source-available LICENCE GRANT, not merely the words. Docs like
 # LICENSING.md legitimately describe the removed licence in prose and must not trip this;
