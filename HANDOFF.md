@@ -1,20 +1,41 @@
-# HANDOFF.md — state as of 2026-09-01, for the first Claude Code session
+# HANDOFF.md — state as of 2026-09-01
 
 ## Where things stand
-- Public repo `frankdays/bigslick`: 13 commits, upstreams pinned (Corey @3df87f9, OpenClaudia @2856765, Anthropic @5267cf7), Option A licensing committed, Hansel AI sample client present, 29 core skills (incl. `oss-devrel-gtm`, built locally — note: exceeds the v0.1 no-authoring rule; keep, but log it in DESIGN-SPEC §4.3).
-- Reserved Components (9 skills: company-onboarding, staff-meeting, persona-* ×7) are STILL in the public repo → must move to private `bigslick-pro`.
-- Built and tested artifacts (from the chat session, in the owner's downloads): `bigslick.plugin` (open, 125 skills), `bigslick-pro.plugin` (9), `scripts/package.sh`, `bigslick-setup` skill, `split-pro.sh`, `REQUIREMENTS.md`, `bigslick-skill-requirements.csv`, `DESIGN-SPEC.md` v0.1, `CLAUDE.md`.
+- Public repo `frankdays/bigslick`, v0.2 merged and pushed: **207 skills**, all vendored from
+  7 MIT/Apache-2.0 upstreams. The proprietary `core/skills/` layer (29 skills — personas,
+  `staff-meeting`, `company-onboarding`, `resource-hub`, `pipeline-math` and the rest) was
+  removed. Big Slick is no longer open-core; it is fully open source.
+- The removed 29 are recoverable at commit **4373503**. `bigslick-pro` was never created and
+  the split was deliberately abandoned, not deferred.
+- Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS). `bigslick-0.2.0.zip` builds
+  from `scripts/package_release.sh` (207 skills, 3.3M).
+- Docs reconciled to the v0.2 reality: CLAUDE.md, MAINTAINERS.md, INSTALL.md, install.sh.
 
-## Do these, in order
-1. Add to repo root: `CLAUDE.md`, `HANDOFF.md`, `REQUIREMENTS.md`, `bigslick-skill-requirements.csv`, updated `DESIGN-SPEC.md`. Add `scripts/package.sh`. Add `core/skills/bigslick-setup/` (from bigslick-setup-skill.zip). Commit: "Add repo context, requirements inventory, setup skill, packaging".
-2. Run `PURGE_HISTORY=1 bash split-pro.sh frankdays` (from repo root; script in the owner's downloads). Confirms: private repo created/pushed, 9 reserved skills removed from public repo + history, LICENSING.md updated. Verify `python3 scripts/compose.py` reports 125.
-3. Run `bash scripts/test.sh` → ALL TESTS PASS. Run `bash scripts/package.sh` → bigslick.plugin. Commit + tag `v0.1`.
-4. Verify the public install path from a clean shell: `claude plugin marketplace add https://github.com/frankdays/bigslick && claude plugin install bigslick@bigslick`.
-5. Update DESIGN-SPEC.md: inventory to 125 open + 9 pro (private), note oss-devrel-gtm, mark punch-list item 9 done.
+## Open items
+1. **Tag and publish v0.2.** `plugin.json` says `0.2.0`, but the latest GitHub release is v0.1
+   with a stale 133-skill asset. Needs: tag `v0.2` at the merge commit, publish
+   `bigslick-0.2.0.zip`, and run `scripts/package_dmg.sh` for the `.dmg`. `v0.1` stays where
+   it is — don't move a published tag.
+2. **No way to create client packs.** `company-onboarding` was the intake skill that wrote
+   `core/clients/<name>/`; nothing replaces it. Today it's a manual
+   `cp -r core/clients/_template core/clients/<name>` plus filling in ten markdown files.
+   Either accept that, or vendor/author an intake skill.
+3. **No capability-routing layer.** `resource-hub` is gone and no shipped skill references it.
+   Skills needing an external API name it directly. Decide whether that matters.
+4. Pilot client not yet chosen — still the highest-value open business item.
+5. Trigger-eval set for ambiguous skill pairs never built. At 207 skills, trigger collisions
+   are more likely than they were at 133.
+6. Landing page + directory submissions, once v0.2 is published.
 
-## Known gaps / decisions pending (owner)
-- Pilot client not yet chosen (Phase 1 item 3) — highest-value open item.
-- Curation round (Phase 2): vet candidate repos per DESIGN-SPEC §4.13 to fill market-sizing and partner-channel gaps.
-- Trigger-eval set for the 8 watch-flag pairs not yet built (§4.15).
-- Attorney review of the Reserved Component License before launch.
-- Landing page + directory submissions after step 4 passes.
+## Things that don't exist (referenced in older notes — stop looking for them)
+`DESIGN-SPEC.md`, `REQUIREMENTS.md`, `bigslick-skill-requirements.csv`, `scripts/package.sh`,
+`split-pro.sh`, `core/skills/bigslick-setup/`. None were ever committed to this repo on any
+branch, and none are on disk. `scripts/package_release.sh` is the working packager;
+`BUILD-BIGSLICK.md` and `INVENTORY.md` carry the design and inventory content.
+
+## Gotchas
+- System Python is PEP 668 externally-managed: `pip3 install pyyaml` fails. Use a venv.
+- `dist/` is gitignored and absent from GitHub, so `claude plugin marketplace add <github url>`
+  cannot install this repo. The public path is the release asset + `install.sh` (see INSTALL.md).
+- Regenerate `INVENTORY.md` (`scripts/gen_inventory.py`) after any manifest change or `test.sh`
+  T5 fails.

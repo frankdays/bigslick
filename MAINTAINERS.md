@@ -10,7 +10,7 @@ Three layers, strictly separated:
 
 | Layer | What lives there | Rule |
 |---|---|---|
-| `upstream/` | 3 vendored open-source skill distributions (Corey Haines, OpenClaudia, Anthropic), versions pinned in `upstream/VERSIONS` | **Never edit.** Refresh with a script. |
+| `upstream/` | 7 vendored open-source skill distributions (Corey Haines, OpenClaudia, Anthropic, goose-skills, kostja-marketing, rampstack, wondel), versions pinned in `upstream/VERSIONS` | **Never edit.** Refresh with a script. |
 | `overlay/` | `manifest.yaml` — which upstream skills are enabled/excluded — plus `patches/` for modifications to upstream skills | The merge, as config. Edit here, not in upstream. |
 | `core/` | Client context packs and the roadmap. The proprietary skills layer was removed in v0.2; `compose.py` treats the `core:` manifest key as optional. | Your data, not distributed skills. |
 
@@ -33,69 +33,68 @@ claude plugin install bigslick
 #    (Cowork: Settings -> Plugins -> install from the same marketplace path)
 #    Alternative, no plugin system: point Claude Code at dist/skills/ as a skills directory.
 
-# 3. Onboard your first client (creates the context pack)
-#    In Claude (with the plugin installed): "Onboard <company>"
-#    -> runs the company-onboarding skill -> writes core/clients/<company>/
+# 3. Create your first client pack (manual since v0.2 — see Known gaps)
+cp -r core/clients/_template core/clients/<company>
+#    Then fill in the ten markdown files in that folder.
 
 # 4. Activate the client
 ./scripts/activate_client.sh <company>
 
 # 5. Work
-#    "Build the pipeline model for Q4"        -> pipeline-math
-#    "Draft my board update"                  -> board-reporting
-#    "Run this plan past the staff meeting"   -> staff-meeting (persona review)
+#    "Build a marketing plan for <company>"     -> marketing-plan
+#    "Define our ICP"                           -> icp-builder
+#    "Run this plan past the marketing council" -> marketing-council
 #    After changing any skill: re-run compose + reinstall so the plugin picks up changes.
 ```
 
-Use in **Claude Code** (full capability — API keys, MCPs, file access) or upload individual skills to **Claude.ai / Cowork** (built-in tools and connected MCPs substitute for raw APIs; the resource-hub skill handles the difference).
+Use in **Claude Code** (full capability — API keys, MCPs, file access) or upload individual skills to **Claude.ai / Cowork** (built-in tools and connected MCPs substitute for raw APIs). Note the Claude.ai path is experimental — see the last section.
 
 ---
 
 ## The skills, by job
 
-**Start of an engagement**
-- `company-onboarding` — the keystone. Structured intake → full client pack (ICP, messaging, competitors, voice, stack, **metrics-baseline** — the funnel definitions and 4 quarters of actuals that the quantitative skills depend on). Run this first, always.
+All 207 are vendored from upstreams; the full table with source, licence and external
+dependencies is **[INVENTORY.md](INVENTORY.md)**. Orientation by area:
 
-**The CFO-facing quant layer** *(deploy together — they share `metrics-baseline.md`)*
-- `pipeline-math` — revenue target → pipeline/budget model, new-logo AND expansion, scenarios, channel allocation
-- `board-reporting` — board/CEO narrative, forward view, CFO-attack prep
-- `attribution-diagnostics` — three-lens attribution, funnel stall forensics
-- `crm-conventions` — lifecycle stages, scoring, naming, hygiene rules
-- `sales-marketing-alignment` — the definitions treaty, bilateral SLA, pipeline council
+**Strategy & positioning** — `good-strategy-bad-strategy`, `blue-ocean-strategy`,
+`crossing-the-chasm`, `obviously-awesome`, `jobs-to-be-done`, `pmf`, `marketing-plan`,
+`growth-strategy`, `okr-design`, `traction-eos`
 
-**Programs**
-- `abm-builder`, `field-marketing-events`, `case-study-builder`, `win-loss-program`, `pr-analyst-relations`, `exec-linkedin-ghostwriting`
+**Research & customer** — `icp-builder`, `icp-identification`, `buyer-persona-generator`,
+`customer-discovery`, `mom-test`, `voice-of-customer-synthesizer`, `journey-mapping`,
+`competitor-intel`, `battlecard-generator`
 
-**The GEO / AI-citation system** *(the differentiator)*
-- `reddit-b2b-tech-strategy`, `wikipedia-b2b-citation-strategy`, `review-site-strategy` — one skill per citation source AI engines lean on
-- `ai-answer-monitoring` — the measurement layer; produces the monthly **AI Visibility Report** and routes gaps back to the three source skills
+**SEO, content & AI search** — `seo-audit`, `keyword-research`, `content-strategy`,
+`write-blog`, `pillar-content-architecture`, `programmatic-seo`, `schema`, plus the
+GEO/AI-citation set: `geo`, `aeo`, `ai-seo`, `ai-citations-report`, `ai-traffic`,
+`entity-seo`, `eeat-signals`, `grokipedia`
 
-**Leadership & ops**
-- `hiring-interview-kit`, `martech-stack-auditor`
+**Paid & channels** — `ads`, `google-ads`, `facebook-ads`, `linkedin-ads`, `reddit-ads`,
+`ad-creative`, `video-ad-analysis`, `affiliate-marketing`, `influencer-marketing`
 
-**The personas** — 6 charters + 1 antagonist + 1 orchestrator
-- `persona-cmo`, `persona-product-marketing-director`, `persona-vp-growth`, `persona-field-marketing-director`, `persona-comms-manager`, `persona-content-seo-director` — each defines a lane, decision rights, quality bar, and which function skills it orchestrates. Zero domain knowledge by design.
-- `persona-vp-sales` — adversarial reviewer only; attacks plans from the revenue side
-- `staff-meeting` — convenes personas against a document; produces a decision log. Ask for it before any plan ships.
+**GTM & pipeline** — `prospecting`, `outbound-prospecting-engine`, `cold-email`,
+`predictable-revenue`, `pipeline-review`, `sales-enablement`, `revops`, `demand-gen`,
+`performance-report`, `investor-call-prep`
 
-**Infrastructure**
-- `resource-hub` — all external LLM/API routing. Skills request *capabilities* (`research_synthesis`, `bulk_classification`…); `core/skills/resource-hub/config/registry.yaml` maps capabilities to providers. Swap models by editing that one file. Fill in the `SET_ME` model placeholders and set env vars before first use.
+**Lifecycle & retention** — `onboarding`, `churn-prevention`, `churn-risk-detector`,
+`retention`, `improve-retention`, `paywalls`, `pricing`, `emails`, `email-sequence`
 
-**Plus 100 upstream skills** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `dist/skills/`; provenance per skill in `dist/PROVENANCE.txt`.
-
----
+**Review & orchestration** — `marketing-council` convenes a simulated board of advisors
+(Godin, Ogilvy, Dunford, Sutherland and others) against a document. It is the nearest
+thing to the old `staff-meeting`, though it reviews from marketing-canon perspectives
+rather than a company org chart.
 
 ## Everyday commands
 
 | You want to… | Do this |
 |---|---|
-| Start a new client | Run `company-onboarding` in Claude, then `./scripts/activate_client.sh <name>` |
+| Start a new client | `cp -r core/clients/_template core/clients/<name>`, fill in the files, then `./scripts/activate_client.sh <name>` |
 | Switch clients | `./scripts/activate_client.sh <other-name>` |
 | See which client is active | `ls -l core/clients/_active` |
 | Rebuild after any change | `python scripts/compose.py` |
 | Pull upstream updates (quarterly) | `./scripts/update_upstreams.sh` → review reported adds/renames → adjust `overlay/manifest.yaml` → recompose |
 | Modify an upstream skill | Copy the changed file into `overlay/patches/<skill-name>/` — never edit `upstream/` |
-| Add your own skill | New folder + `SKILL.md` in `core/skills/` → recompose. Follow the house pattern: read the client pack, route APIs via resource-hub, end with a named deliverable |
+| Add your own skill | Don't — v0.2 is curation-only. To admit an upstream skill, vendor a repo clearing the ≥500-star + MIT/Apache-2.0 bar, add it to `overlay/manifest.yaml`, recompose, regenerate INVENTORY.md |
 | Disable an upstream skill | Add it to the `exclude:` list in `overlay/manifest.yaml` → recompose |
 | Retire a client | Archive `core/clients/<name>/` — skills are untouched |
 
@@ -105,18 +104,19 @@ Use in **Claude Code** (full capability — API keys, MCPs, file access) or uplo
 
 1. **Client specifics live in client packs only.** If you're typing a company name into a skill file, stop.
 2. **`upstream/` is read-only.** Changes go through `overlay/patches/`.
-3. **No skill names a model or API provider.** Capabilities via resource-hub; providers in `registry.yaml`.
+3. **Every composed skill resolves to a redistributable upstream.** `test.sh` T4 enforces it; INVENTORY.md records source, licence and external deps per skill.
 4. **The quant skills trust `metrics-baseline.md`.** If a client won't agree definitions and share actuals, the models degrade — that's a client conversation, not a config problem.
-5. **Quarterly maintenance (~1 hr):** refresh upstreams, re-check benchmark tables in `pipeline-math` / `pr-analyst-relations` (reference numbers age), review resource-hub costs/models, prune skills nobody used.
+5. **Quarterly maintenance (~1 hr):** refresh upstreams, regenerate INVENTORY.md, re-check any benchmark tables (reference numbers age), prune skills nobody used.
 
 ## Troubleshooting
 
-- **A skill gives generic output** → no active client pack, or the pack is thin. Check `core/clients/_active`, re-run `company-onboarding` on the gaps.
+- **A skill gives generic output** → no active client pack, or the pack is thin. Check `core/clients/_active` and fill in the gaps in that folder's markdown files.
 - **Wrong skill triggers** (e.g., upstream `reddit-marketing` instead of your strategy skill) → tighten either skill's frontmatter `description` via `overlay/patches/`, or exclude the upstream one in the manifest.
 - **compose.py errors** → `pip install pyyaml`; check YAML indentation in `overlay/manifest.yaml`.
 - **Skills can't find the client pack** → skills resolve `.agents/product-marketing.md` relative to the repo root — run Claude Code from the repo directory, and re-run `activate_client.sh` after moving/cloning the repo.
-- **A provider call fails** → resource-hub walks fallbacks and names the missing env var; set it or reassign the capability in `registry.yaml`.
-- **In Claude.ai, external APIs unreachable** → expected; the sandbox only reaches the Anthropic API. Resource-hub routes to built-in tools/MCPs there; full registry works in Claude Code.
+- **A provider call fails** → since v0.2 there is no routing layer; the skill names its API directly. Check that skill's `INVENTORY.md` row for the env var it expects.
+- **In Claude.ai, external APIs unreachable** → expected; the sandbox only reaches the Anthropic API. Use connected MCPs there, or run the skill in Claude Code.
+- **`pip install pyyaml` fails with "externally-managed-environment"** → PEP 668. Use a venv: `python3 -m venv .venv && .venv/bin/pip install pyyaml`.
 
 ## Licensing
 

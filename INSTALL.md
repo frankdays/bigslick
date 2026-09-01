@@ -54,19 +54,35 @@ Open the `bigslick` folder in Terminal and type `claude`. If that sentence meant
 Then paste this:
 
 ```
-Onboard my company
+Build a marketing plan for Hansel AI
 ```
 
-That's the one to run first. It interviews you about your business — positioning, ICP, competitors, funnel numbers, tooling — and writes it all down for you. Every other skill reads what it wrote, so you never edit files by hand.
+Hansel AI is the sample company that ships with Big Slick, so this works before
+you've entered anything about your own business.
 
-Two more worth trying once you're set up:
+Two more worth trying:
 
 ```
-Build the pipeline model for next year
-Run this plan past the staff meeting
+Define the ICP for Hansel AI
+Run this plan past the marketing council
 ```
 
-The second convenes a simulated marketing leadership team — a CMO, a growth lead, a product marketer, and a VP of Sales whose job is to attack your plan — and gives you their arguments.
+The last one convenes a simulated board of advisors — Seth Godin, David Ogilvy,
+April Dunford and others — and gives you their arguments about your plan.
+
+### Using your own company
+
+Each company's facts live in their own folder, and every skill reads whichever
+one is active. Copy the template, fill in the files, then activate it:
+
+```
+cp -r core/clients/_template core/clients/mycompany
+bash scripts/activate_client.sh mycompany
+```
+
+The template is ten short markdown files — ICP, messaging, competitors, voice,
+metrics baseline, stack, team map. Fill in what you know; skills degrade
+gracefully on the gaps.
 
 ---
 
