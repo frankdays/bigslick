@@ -75,3 +75,108 @@ upstreams:
 # Anything added here must be MIT and infrastructure, not marketing content (see CLAUDE.md).
 core:
   path: core/skills
+
+# ---------------------------------------------------------------------------
+# Bundles. The root plugin ships ONLY the skills not listed below; each bundle becomes a
+# separate installable plugin under bundles/<name>/. This exists because every skill's
+# frontmatter description loads into every session - 209 skills cost ~28k always-on tokens,
+# which is a tax on people who only ever wanted the SEO half. Membership is a partition:
+# a skill appears in exactly one bundle, so installing several can never register a name
+# twice. compose.py enforces both properties and fails on a duplicate or unknown name.
+# ---------------------------------------------------------------------------
+bundles:
+  - name: seo
+    description: >-
+      Technical and on-page SEO: audits, briefs, architecture, backlinks, and the Ahrefs/Semrush/GSC data pulls.
+    skills: [
+      ahrefs-research, backlink-audit, content-gap-analysis, content-refresh-system,
+      domain-research, eeat-signals, entity-seo, glossary, gsc-portfolio-audit, i18n,
+      pillar-content-architecture, programmatic-seo, schema, search-console,
+      semrush-research, seo-content-brief, seo-traffic-diagnosis, serp-analyzer,
+      similarweb-traffic, site-architecture
+      ]
+  - name: ai-search
+    description: >-
+      Generative-engine optimisation: AI Overviews, citations, answer-engine visibility and AI-traffic reporting.
+    skills: [
+      aeo, ai-citations-report, ai-seo, ai-traffic, geo, geo-analysis, geo-difficulty,
+      geo-query-finder, grokipedia
+      ]
+  - name: paid
+    description: >-
+      Paid media by platform - Google, Meta, LinkedIn, Reddit - plus ad creative and app-store optimisation.
+    skills: [
+      ad-creative, aso, creative-brief, facebook-ads, google-ads, google-ads-report,
+      linkedin-ads, reddit-ads, video-ad-analysis
+      ]
+  - name: content
+    description: >-
+      Content production: editing, calendars, repurposing, newsletters, video, podcasts, imagery and decks.
+    skills: [
+      ai-image-gen, content-calendar, content-repurposing, copy-editing, editorial-qa,
+      free-tools, image, lead-magnets, marketing-slides, media-kit, newsletter,
+      podcast-edit, podcast-marketing, resources, stock-images, thread-writer, video
+      ]
+  - name: social
+    description: >-
+      Organic social and community: LinkedIn, Reddit, Bluesky, YouTube, developer and open-source channels.
+    skills: [
+      bluesky, comment-mining, community-marketing, github-repo-signals,
+      influencer-marketing, linkedin-content, linkedin-message-writer, linkedin-outreach,
+      linkedin-post-research, open-source, reddit-marketing, reddit-post-finder,
+      social-listening, youtube-analytics
+      ]
+  - name: gtm
+    description: >-
+      Outbound and sales alignment: prospecting engines, enablement, battlecards, pipeline and revenue ops.
+    skills: [
+      apollo-outreach, battlecard-generator, champion-tracker, company-intel,
+      competitor-intel, competitor-profiling, conference-speaker-scraper,
+      disqualification-handling, event-prospecting-pipeline, investor-call-prep,
+      meeting-brief, outbound-prospecting-engine, pipeline-review, predictable-revenue,
+      revops, sales-coaching, sales-enablement, sequence-performance, tam-builder,
+      targeted-prospecting
+      ]
+  - name: lifecycle
+    description: >-
+      Post-signup revenue: activation, retention, churn, referrals, email/SMS sequences and monetisation.
+    skills: [
+      affiliate-marketing, churn-prevention, churn-risk-detector, co-marketing,
+      email-deliverability, email-sequence, email-subject-lines, expansion-signal-spotter,
+      improve-retention, monetizing-innovation, onboarding, paywalls, popups, referrals,
+      retention, signup, sms
+      ]
+  - name: strategy
+    description: >-
+      Positioning and growth frameworks drawn from the canon, plus brand foundations and planning rituals.
+    skills: [
+      blue-ocean-strategy, brand-archetype-system, brand-discovery, brand-monitor,
+      brand-research, brand-style-guide, brand-voice-extractor, cold-start-problem,
+      contagious, continuous-discovery, crossing-the-chasm, distribution-channels,
+      good-strategy-bad-strategy, growth-funnel, high-output-management, hooked-ux,
+      indie-hacker, influence-psychology, inspired-product, jobs-to-be-done, jtbd-framing,
+      lean-analytics, lean-startup, made-to-stick, marketing-ideas, marketing-loops,
+      marketing-psychology, okr-design, one-page-marketing, pmf, roadmap-planning,
+      scorecard-marketing, storybrand-messaging, traction-eos
+      ]
+  - name: research
+    description: >-
+      Customer and market research: discovery interviews, personas, voice-of-customer, reviews and PR.
+    skills: [
+      buyer-persona-generator, customer-discovery, customer-stories,
+      customer-story-builder, discovery-research-synthesis, google-reviews,
+      icp-identification, journey-mapping, mom-test, press-coverage, public-relations,
+      review-intelligence-digest, review-site-scraper, tech-stack-teardown, testimonials,
+      usability-testing, user-feedback-aggregation, vendor-evaluation,
+      voice-of-customer-synthesizer
+      ]
+  - name: ops
+    description: >-
+      Marketing operations: analytics stack, experimentation, CRM and chat integrations, launch runbooks.
+    skills: [
+      ab-test-setup, ab-testing, after-action-report, analytics-strategy,
+      beta-program-management, directory-submissions, discord-bot, experiment-design,
+      experimentation-analytics, feature-launch-playbook, google-analytics, hubspot,
+      integration-orchestrator, launch-runbook, product-hunt-launch, slack-bot,
+      stakeholder-communication, team-onboarding-playbook, telegram-bot
+      ]

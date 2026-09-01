@@ -44,24 +44,40 @@ print("T6 manifests", "PASS" if ok else "FAIL"); fails+= [] if ok else ["T6"]
 # what git tracks. Uncommitted skills/ is the exact state that breaks the public install.
 import subprocess
 rp=Path(".claude-plugin/plugin.json"); rs=Path("skills")
+mk_src={pl["name"]: pl["source"] for pl in mk["plugins"]}
 t7=[]
 if not rp.exists(): t7.append(".claude-plugin/plugin.json missing")
-elif json.load(open(rp))!=p: t7.append("root plugin.json out of sync with dist/")
 if not rs.exists(): t7.append("skills/ missing")
-elif len([d for d in rs.iterdir() if d.is_dir()])!=len(skills): t7.append("skills/ count != dist/")
+
+# Every published plugin root must exist, and together they must partition dist/ exactly:
+# no skill shipped twice (installing two bundles would register a duplicate name) and none
+# dropped on the floor (composed but unreachable by any install).
+published={}
+for pname, src in mk_src.items():
+    root=Path(src)
+    if not (root/".claude-plugin"/"plugin.json").exists(): t7.append(f"{pname}: no plugin.json at {src}")
+    sd=root/"skills"
+    if not sd.is_dir(): t7.append(f"{pname}: no skills/ at {src}"); continue
+    for d in sd.iterdir():
+        if d.is_dir():
+            if d.name in published: t7.append(f"{d.name} in both {published[d.name]} and {pname}")
+            published[d.name]=pname
+composed={d.name for d in skills}
+missing=sorted(composed-set(published)); extra=sorted(set(published)-composed)
+if missing: t7.append(f"{len(missing)} composed but unpublished e.g. {missing[:3]}")
+if extra: t7.append(f"published but not composed: {extra[:3]}")
+
 try:
-    g=subprocess.run(["git","ls-files","skills"],capture_output=True,text=True,timeout=30)
+    g=subprocess.run(["git","ls-files","skills","bundles"],capture_output=True,text=True,timeout=30)
     if g.returncode==0:
-        tracked={l.split("/")[1] for l in g.stdout.splitlines() if "/" in l}
-        if not tracked: t7.append("skills/ is not committed — GitHub install would 404")
-        else:
-            missing=sorted({d.name for d in skills}-tracked)
-            if missing: t7.append(f"{len(missing)} composed skills untracked e.g. {missing[:3]}")
-    if not json.loads(Path(".claude-plugin/marketplace.json").read_text())["plugins"][0]["source"]==".":
-        t7.append("marketplace source is not the repo root")
+        tracked={l for l in g.stdout.splitlines()}
+        if not any(l.startswith("skills/") for l in tracked):
+            t7.append("skills/ is not committed — GitHub install would 404")
+        if mk_src and not any(l.startswith("bundles/") for l in tracked):
+            t7.append("bundles/ is not committed — bundle installs would 404")
 except Exception as e:
     print(f"  (T7 git check skipped: {e})")
-print("T7 repo-root plugin", "PASS" if not t7 else f"FAIL {t7}"); fails+= [] if not t7 else ["T7"]
+print(f"T7 plugin roots ({len(mk_src)} plugins, {len(published)} skills)", "PASS" if not t7 else f"FAIL {t7}"); fails+= [] if not t7 else ["T7"]
 sys.exit(1 if fails else 0)
 PY
 # F1 client lifecycle

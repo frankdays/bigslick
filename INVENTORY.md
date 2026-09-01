@@ -42,214 +42,216 @@ Detected by static scan of each skill's files; treat it as a strong hint, not a 
 
 `†` = shipped with a local patch from `overlay/patches/` (usually a rewritten trigger description).
 
-| Skill | Source | Licence | External dependencies |
-|---|---|---|---|
-| `ab-test-setup` | OpenClaudia/openclaudia-skills | MIT | none |
-| `ab-testing` | coreyhaines31/marketingskills | MIT | none |
-| `ad-creative` | coreyhaines31/marketingskills | MIT | env: `ELEVENLABS_API_KEY`, `GEMINI_API_KEY`; pkg: `create-video`, `gooseworks`, `remotion`; API: api.elevenlabs.io |
-| `ads` | coreyhaines31/marketingskills | MIT | none |
-| `aeo` | gooseworks-ai/goose-skills | MIT | env: `GOOSE_AEO_CLAUDE_API_KEY`, `GOOSE_AEO_DEEPSEEK_API_KEY`, `GOOSE_AEO_FIRECRAWL_API_KEY`, `GOOSE_AEO_GEMINI_API_KEY`, `GOOSE_AEO_GROK_API_KEY`, `GOOSE_AEO_OPENAI_API_KEY`; pkg: `goose-aeo` |
-| `affiliate-marketing` | OpenClaudia/openclaudia-skills | MIT | none |
-| `after-action-report` | rampstackco/claude-skills | MIT | none |
-| `ahrefs-research` | OpenClaudia/openclaudia-skills | MIT | env: `AHREFS_API_KEY`; pkg: `git`; API: api.ahrefs.com |
-| `ai-citations-report` | OpenClaudia/openclaudia-skills | MIT | env: `ENCEPTION_API_KEY` |
-| `ai-image-gen` | OpenClaudia/openclaudia-skills | MIT | env: `OPENAI_API_KEY`, `STABILITY_API_KEY`; pkg: `requests` |
-| `ai-seo` | coreyhaines31/marketingskills | MIT | pkg: `is-agentic` |
-| `ai-traffic` | kostja94/marketing-skills | MIT | none |
-| `analytics` | coreyhaines31/marketingskills | MIT | none |
-| `analytics-strategy` | rampstackco/claude-skills | MIT | none |
-| `apollo-outreach` | OpenClaudia/openclaudia-skills | MIT | env: `APOLLO_API_KEY`; API: api.apollo.io |
-| `aso` | coreyhaines31/marketingskills | MIT | none |
-| `attribution` † | coreyhaines31/marketingskills | MIT | env: `POSTHOG_API_KEY`, `SAVVYCAL_WEBHOOK_SECRET` |
-| `backlink-audit` | OpenClaudia/openclaudia-skills | MIT | env: `AHREFS_API_KEY`, `SEMRUSH_API_KEY`; API: api.ahrefs.com, api.semrush.com |
-| `battlecard-generator` | gooseworks-ai/goose-skills | MIT | none |
-| `beta-program-management` | rampstackco/claude-skills | MIT | none |
-| `blue-ocean-strategy` | wondelai/skills | MIT | none |
-| `bluesky` | OpenClaudia/openclaudia-skills | MIT | env: `BLUESKY_APP_PASSWORD` |
-| `brand-archetype-system` | rampstackco/claude-skills | MIT | none |
-| `brand-discovery` | rampstackco/claude-skills | MIT | none |
-| `brand-monitor` | OpenClaudia/openclaudia-skills | MIT | env: `BRANDDEV_API_KEY`; API: api.brand.dev |
-| `brand-research` | OpenClaudia/openclaudia-skills | MIT | env: `BRANDDEV_API_KEY`; API: api.brand.dev |
-| `brand-review` | anthropics/knowledge-work-plugins | Apache-2.0 | none |
-| `brand-style-guide` | rampstackco/claude-skills | MIT | none |
-| `brand-voice-extractor` | gooseworks-ai/goose-skills | MIT | none |
-| `buyer-persona-generator` | gooseworks-ai/goose-skills | MIT | none |
-| `campaign-plan` | anthropics/knowledge-work-plugins | Apache-2.0 | none |
-| `champion-tracker` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; pkg: `requests`; API: api.apify.com, api.gooseworks.ai |
-| `churn-prevention` | coreyhaines31/marketingskills | MIT | none |
-| `churn-risk-detector` | gooseworks-ai/goose-skills | MIT | none |
-| `co-marketing` | coreyhaines31/marketingskills | MIT | none |
-| `cold-email` | coreyhaines31/marketingskills | MIT | none |
-| `cold-start-problem` | wondelai/skills | MIT | none |
-| `comment-mining` | gooseworks-ai/goose-skills | MIT | none |
-| `community-marketing` † | coreyhaines31/marketingskills | MIT | none |
-| `company-intel` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
-| `company-onboarding` | frankdays/bigslick (first-party) | MIT | none |
-| `competitor-intel` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN` |
-| `competitor-profiling` | coreyhaines31/marketingskills | MIT | none |
-| `competitors` | coreyhaines31/marketingskills | MIT | none |
-| `conference-speaker-scraper` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; pkg: `requests`; API: api.apify.com, api.gooseworks.ai |
-| `contagious` | wondelai/skills | MIT | none |
-| `content-calendar` | OpenClaudia/openclaudia-skills | MIT | none |
-| `content-gap-analysis` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`; API: api.semrush.com |
-| `content-refresh-system` | rampstackco/claude-skills | MIT | none |
-| `content-repurposing` | OpenClaudia/openclaudia-skills | MIT | none |
-| `content-strategy` | coreyhaines31/marketingskills | MIT | none |
-| `continuous-discovery` | wondelai/skills | MIT | none |
-| `copy-editing` | coreyhaines31/marketingskills | MIT | none |
-| `copywriting` | coreyhaines31/marketingskills | MIT | none |
-| `creative-brief` | rampstackco/claude-skills | MIT | none |
-| `cro` | coreyhaines31/marketingskills | MIT | none |
-| `crossing-the-chasm` | wondelai/skills | MIT | none |
-| `customer-discovery` | gooseworks-ai/goose-skills | MIT | pkg: `requests`; API: api.builtwith.com |
-| `customer-research` | coreyhaines31/marketingskills | MIT | none |
-| `customer-stories` | kostja94/marketing-skills | MIT | none |
-| `customer-story-builder` | gooseworks-ai/goose-skills | MIT | none |
-| `demand-gen` | OpenClaudia/openclaudia-skills | MIT | none |
-| `directory-submissions` | coreyhaines31/marketingskills | MIT | none |
-| `discord-bot` | OpenClaudia/openclaudia-skills | MIT | env: `DISCORD_BOT_TOKEN`, `YOUR_WEBHOOK_TOKEN` |
-| `discovery-research-synthesis` | rampstackco/claude-skills | MIT | none |
-| `disqualification-handling` | gooseworks-ai/goose-skills | MIT | none |
-| `distribution-channels` | kostja94/marketing-skills | MIT | none |
-| `domain-research` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`; API: api.domaindetails.com, api.semrush.com |
-| `editorial-qa` | rampstackco/claude-skills | MIT | none |
-| `eeat-signals` | kostja94/marketing-skills | MIT | none |
-| `email-deliverability` | rampstackco/claude-skills | MIT | none |
-| `email-sequence` | OpenClaudia/openclaudia-skills | MIT | env: `RESEND_API_KEY`; API: api.resend.com |
-| `email-subject-lines` | OpenClaudia/openclaudia-skills | MIT | env: `RESEND_API_KEY`; API: api.resend.com |
-| `emails` | coreyhaines31/marketingskills | MIT | none |
-| `entity-seo` | kostja94/marketing-skills | MIT | none |
-| `event-prospecting-pipeline` | gooseworks-ai/goose-skills | MIT | none |
-| `expansion-signal-spotter` | gooseworks-ai/goose-skills | MIT | none |
-| `experiment-design` | rampstackco/claude-skills | MIT | none |
-| `experimentation-analytics` | rampstackco/claude-skills | MIT | none |
-| `facebook-ads` | OpenClaudia/openclaudia-skills | MIT | none |
-| `feature-launch-playbook` | rampstackco/claude-skills | MIT | none |
-| `free-tools` | coreyhaines31/marketingskills | MIT | none |
-| `geo` | kostja94/marketing-skills | MIT | none |
-| `geo-analysis` | OpenClaudia/openclaudia-skills | MIT | env: `ENCEPTION_ANALYSIS_API_KEY` |
-| `geo-difficulty` | OpenClaudia/openclaudia-skills | MIT | none |
-| `geo-query-finder` | OpenClaudia/openclaudia-skills | MIT | env: `DATAFORSEO_PASSWORD`, `OPENAI_API_KEY`; API: api.dataforseo.com, api.openai.com |
-| `github-repo-signals` | gooseworks-ai/goose-skills | MIT | none |
-| `glossary` | kostja94/marketing-skills | MIT | none |
-| `good-strategy-bad-strategy` | wondelai/skills | MIT | none |
-| `google-ads` | OpenClaudia/openclaudia-skills | MIT | none |
-| `google-ads-report` | OpenClaudia/openclaudia-skills | MIT | env: `DEVELOPER_TOKEN`, `GADS_ACCESS_TOKEN`, `GOOGLE_ADS_DEVELOPER_TOKEN`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`; API: ads.google.com |
-| `google-analytics` | OpenClaudia/openclaudia-skills | MIT | env: `GA_ACCESS_TOKEN`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` |
-| `google-reviews` | OpenClaudia/openclaudia-skills | MIT | env: `AISA_ONE_API_KEY`, `DATAFORSEO_PASSWORD` |
-| `grokipedia` | kostja94/marketing-skills | MIT | none |
-| `growth-funnel` | kostja94/marketing-skills | MIT | none |
-| `growth-strategy` | OpenClaudia/openclaudia-skills | MIT | none |
-| `gsc-portfolio-audit` | OpenClaudia/openclaudia-skills | MIT | env: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_GSC_CLIENT_ID`, `GOOGLE_GSC_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`; pkg: `requests` |
-| `high-output-management` | wondelai/skills | MIT | none |
-| `hooked-ux` | wondelai/skills | MIT | none |
-| `hubspot` † | OpenClaudia/openclaudia-skills | MIT | env: `HUBSPOT_ACCESS_TOKEN`; API: api.hubapi.com |
-| `i18n` | OpenClaudia/openclaudia-skills | MIT | pkg: `next-intl` |
-| `icp-builder` | OpenClaudia/openclaudia-skills | MIT | none |
-| `icp-identification` | gooseworks-ai/goose-skills | MIT | none |
-| `image` | coreyhaines31/marketingskills | MIT | none |
-| `improve-retention` | wondelai/skills | MIT | none |
-| `indie-hacker` | kostja94/marketing-skills | MIT | none |
-| `influence-psychology` | wondelai/skills | MIT | none |
-| `influencer-marketing` | coreyhaines31/marketingskills | MIT | none |
-| `inspired-product` | wondelai/skills | MIT | none |
-| `integration-orchestrator` | rampstackco/claude-skills | MIT | none |
-| `investor-call-prep` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
-| `jobs-to-be-done` | wondelai/skills | MIT | none |
-| `journey-mapping` | rampstackco/claude-skills | MIT | none |
-| `jtbd-framing` | rampstackco/claude-skills | MIT | none |
-| `keyword-research` | OpenClaudia/openclaudia-skills | MIT | env: `DATAFORSEO_PASSWORD`, `SEMRUSH_API_KEY`, `SERPAPI_API_KEY`; API: api.dataforseo.com, api.semrush.com |
-| `launch` | coreyhaines31/marketingskills | MIT | none |
-| `launch-runbook` | rampstackco/claude-skills | MIT | none |
-| `lead-magnets` | coreyhaines31/marketingskills | MIT | none |
-| `lean-analytics` | wondelai/skills | MIT | none |
-| `lean-startup` | wondelai/skills | MIT | none |
-| `linkedin-ads` | OpenClaudia/openclaudia-skills | MIT | none |
-| `linkedin-content` † | OpenClaudia/openclaudia-skills | MIT | none |
-| `linkedin-message-writer` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`; API: api.apify.com |
-| `linkedin-outreach` | gooseworks-ai/goose-skills | MIT | env: `SUPABASE_SERVICE_ROLE_KEY` |
-| `linkedin-post-research` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; pkg: `requests`; API: api.apify.com, api.gooseworks.ai |
-| `made-to-stick` | wondelai/skills | MIT | none |
-| `marketing-council` † | coreyhaines31/marketingskills | MIT | none |
-| `marketing-ideas` | coreyhaines31/marketingskills | MIT | none |
-| `marketing-loops` | coreyhaines31/marketingskills | MIT | none |
-| `marketing-plan` | coreyhaines31/marketingskills | MIT | env: `AHREFS_API_KEY`; pkg: `agent-browser` |
-| `marketing-psychology` | coreyhaines31/marketingskills | MIT | none |
-| `marketing-slides` | OpenClaudia/openclaudia-skills | MIT | none |
-| `media-kit` | kostja94/marketing-skills | MIT | none |
-| `meeting-brief` | gooseworks-ai/goose-skills | MIT | none |
-| `mom-test` | wondelai/skills | MIT | none |
-| `monetizing-innovation` | wondelai/skills | MIT | none |
-| `newsletter` | OpenClaudia/openclaudia-skills | MIT | none |
-| `obviously-awesome` | wondelai/skills | MIT | none |
-| `offers` | coreyhaines31/marketingskills | MIT | none |
-| `okr-design` | rampstackco/claude-skills | MIT | none |
-| `onboarding` | coreyhaines31/marketingskills | MIT | none |
-| `one-page-marketing` | wondelai/skills | MIT | none |
-| `open-source` | kostja94/marketing-skills | MIT | none |
-| `outbound-prospecting-engine` | gooseworks-ai/goose-skills | MIT | none |
-| `paywalls` | coreyhaines31/marketingskills | MIT | none |
-| `performance-report` | anthropics/knowledge-work-plugins | Apache-2.0 | none |
-| `pillar-content-architecture` | rampstackco/claude-skills | MIT | none |
-| `pipeline-review` | gooseworks-ai/goose-skills | MIT | none |
-| `pmf` | kostja94/marketing-skills | MIT | none |
-| `podcast-edit` | OpenClaudia/openclaudia-skills | MIT | env: `OPENAI_API_KEY`; pkg: `resemblyzer`; API: api.openai.com |
-| `podcast-marketing` | OpenClaudia/openclaudia-skills | MIT | none |
-| `popups` | coreyhaines31/marketingskills | MIT | none |
-| `predictable-revenue` | wondelai/skills | MIT | none |
-| `press-coverage` | kostja94/marketing-skills | MIT | none |
-| `pricing` | coreyhaines31/marketingskills | MIT | none |
-| `product-hunt-launch` | kostja94/marketing-skills | MIT | none |
-| `product-marketing` | coreyhaines31/marketingskills | MIT | none |
-| `programmatic-seo` | coreyhaines31/marketingskills | MIT | none |
-| `prospecting` | coreyhaines31/marketingskills | MIT | none |
-| `public-relations` | coreyhaines31/marketingskills | MIT | none |
-| `reddit-ads` | kostja94/marketing-skills | MIT | none |
-| `reddit-marketing` † | OpenClaudia/openclaudia-skills | MIT | none |
-| `reddit-post-finder` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; API: api.apify.com, api.gooseworks.ai |
-| `referrals` | coreyhaines31/marketingskills | MIT | none |
-| `resource-hub` | frankdays/bigslick (first-party) | MIT | env: `ANTHROPIC_API_KEY`, `APOLLO_API_KEY`, `DATAFORSEO_PASSWORD`, `GEMINI_API_KEY`, `OPENAI_API_KEY`, `PERPLEXITY_API_KEY`; pkg: `pyyaml`; API: api.anthropic.com, api.apollo.io, api.dataforseo.com, api.openai.com |
-| `resources` | kostja94/marketing-skills | MIT | none |
-| `retention` | kostja94/marketing-skills | MIT | none |
-| `review-intelligence-digest` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN` |
-| `review-site-scraper` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; API: api.apify.com, api.gooseworks.ai |
-| `revops` | coreyhaines31/marketingskills | MIT | none |
-| `roadmap-planning` | rampstackco/claude-skills | MIT | none |
-| `sales-coaching` | gooseworks-ai/goose-skills | MIT | none |
-| `sales-enablement` | coreyhaines31/marketingskills | MIT | none |
-| `schema` | coreyhaines31/marketingskills | MIT | none |
-| `scorecard-marketing` | wondelai/skills | MIT | none |
-| `search-console` | OpenClaudia/openclaudia-skills | MIT | env: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GSC_ACCESS_TOKEN` |
-| `semrush-research` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`; API: api.semrush.com |
-| `seo-audit` | coreyhaines31/marketingskills | MIT | none |
-| `seo-content-brief` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`; API: api.semrush.com |
-| `seo-traffic-diagnosis` | rampstackco/claude-skills | MIT | none |
-| `sequence-performance` | gooseworks-ai/goose-skills | MIT | MCP: `smartlead` |
-| `serp-analyzer` | OpenClaudia/openclaudia-skills | MIT | env: `DATAFORSEO_PASSWORD`, `SEMRUSH_API_KEY`, `SERPAPI_API_KEY`; API: api.dataforseo.com, api.semrush.com |
-| `signup` | coreyhaines31/marketingskills | MIT | none |
-| `similarweb-traffic` | OpenClaudia/openclaudia-skills | MIT | none |
-| `site-architecture` | coreyhaines31/marketingskills | MIT | none |
-| `slack-bot` | OpenClaudia/openclaudia-skills | MIT | env: `SLACK_BOT_TOKEN`; API: api.slack.com |
-| `sms` | coreyhaines31/marketingskills | MIT | none |
-| `social` | coreyhaines31/marketingskills | MIT | none |
-| `social-listening` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
-| `stakeholder-communication` | rampstackco/claude-skills | MIT | none |
-| `stock-images` | OpenClaudia/openclaudia-skills | MIT | env: `UNSPLASH_CLIENT_ID`; pkg: `Pillow`, `requests` |
-| `storybrand-messaging` | wondelai/skills | MIT | none |
-| `tam-builder` | gooseworks-ai/goose-skills | MIT | env: `APOLLO_API_KEY`; API: api.apollo.io |
-| `targeted-prospecting` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
-| `team-onboarding-playbook` | rampstackco/claude-skills | MIT | none |
-| `tech-stack-teardown` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; pkg: `requests`; API: api.apify.com, api.gooseworks.ai |
-| `telegram-bot` | OpenClaudia/openclaudia-skills | MIT | env: `TELEGRAM_BOT_TOKEN`; API: api.telegram.org |
-| `testimonials` | kostja94/marketing-skills | MIT | none |
-| `thread-writer` | OpenClaudia/openclaudia-skills | MIT | env: `REDDIT_ACCESS_TOKEN`, `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET` |
-| `traction-eos` | wondelai/skills | MIT | none |
-| `usability-testing` | rampstackco/claude-skills | MIT | none |
-| `user-feedback-aggregation` | rampstackco/claude-skills | MIT | none |
-| `vendor-evaluation` | rampstackco/claude-skills | MIT | none |
-| `video` | coreyhaines31/marketingskills | MIT | pkg: `create-video`, `hyperframes` |
-| `video-ad-analysis` | OpenClaudia/openclaudia-skills | MIT | none |
-| `voice-of-customer-synthesizer` | gooseworks-ai/goose-skills | MIT | none |
-| `write-blog` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`, `UNSPLASH_CLIENT_ID`; API: api.semrush.com, api.unsplash.com |
-| `write-landing` | OpenClaudia/openclaudia-skills | MIT | none |
-| `youtube-analytics` | OpenClaudia/openclaudia-skills | MIT | env: `YOUTUBE_API_KEY` |
+**Plugin** is which install ships the skill. `bigslick` is the lean default; the rest are opt-in bundles you add with `claude plugin install bigslick-<bundle>@bigslick`.
+
+| Skill | Plugin | Source | Licence | External dependencies |
+|---|---|---|---|---|
+| `ab-test-setup` | `bigslick-ops` | OpenClaudia/openclaudia-skills | MIT | none |
+| `ab-testing` | `bigslick-ops` | coreyhaines31/marketingskills | MIT | none |
+| `ad-creative` | `bigslick-paid` | coreyhaines31/marketingskills | MIT | env: `ELEVENLABS_API_KEY`, `GEMINI_API_KEY`; pkg: `create-video`, `gooseworks`, `remotion`; API: api.elevenlabs.io |
+| `ads` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `aeo` | `bigslick-ai-search` | gooseworks-ai/goose-skills | MIT | env: `GOOSE_AEO_CLAUDE_API_KEY`, `GOOSE_AEO_DEEPSEEK_API_KEY`, `GOOSE_AEO_FIRECRAWL_API_KEY`, `GOOSE_AEO_GEMINI_API_KEY`, `GOOSE_AEO_GROK_API_KEY`, `GOOSE_AEO_OPENAI_API_KEY`; pkg: `goose-aeo` |
+| `affiliate-marketing` | `bigslick-lifecycle` | OpenClaudia/openclaudia-skills | MIT | none |
+| `after-action-report` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `ahrefs-research` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `AHREFS_API_KEY`; pkg: `git`; API: api.ahrefs.com |
+| `ai-citations-report` | `bigslick-ai-search` | OpenClaudia/openclaudia-skills | MIT | env: `ENCEPTION_API_KEY` |
+| `ai-image-gen` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | env: `OPENAI_API_KEY`, `STABILITY_API_KEY`; pkg: `requests` |
+| `ai-seo` | `bigslick-ai-search` | coreyhaines31/marketingskills | MIT | pkg: `is-agentic` |
+| `ai-traffic` | `bigslick-ai-search` | kostja94/marketing-skills | MIT | none |
+| `analytics` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `analytics-strategy` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `apollo-outreach` | `bigslick-gtm` | OpenClaudia/openclaudia-skills | MIT | env: `APOLLO_API_KEY`; API: api.apollo.io |
+| `aso` | `bigslick-paid` | coreyhaines31/marketingskills | MIT | none |
+| `attribution` † | `bigslick` | coreyhaines31/marketingskills | MIT | env: `POSTHOG_API_KEY`, `SAVVYCAL_WEBHOOK_SECRET` |
+| `backlink-audit` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `AHREFS_API_KEY`, `SEMRUSH_API_KEY`; API: api.ahrefs.com, api.semrush.com |
+| `battlecard-generator` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | none |
+| `beta-program-management` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `blue-ocean-strategy` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `bluesky` | `bigslick-social` | OpenClaudia/openclaudia-skills | MIT | env: `BLUESKY_APP_PASSWORD` |
+| `brand-archetype-system` | `bigslick-strategy` | rampstackco/claude-skills | MIT | none |
+| `brand-discovery` | `bigslick-strategy` | rampstackco/claude-skills | MIT | none |
+| `brand-monitor` | `bigslick-strategy` | OpenClaudia/openclaudia-skills | MIT | env: `BRANDDEV_API_KEY`; API: api.brand.dev |
+| `brand-research` | `bigslick-strategy` | OpenClaudia/openclaudia-skills | MIT | env: `BRANDDEV_API_KEY`; API: api.brand.dev |
+| `brand-review` | `bigslick` | anthropics/knowledge-work-plugins | Apache-2.0 | none |
+| `brand-style-guide` | `bigslick-strategy` | rampstackco/claude-skills | MIT | none |
+| `brand-voice-extractor` | `bigslick-strategy` | gooseworks-ai/goose-skills | MIT | none |
+| `buyer-persona-generator` | `bigslick-research` | gooseworks-ai/goose-skills | MIT | none |
+| `campaign-plan` | `bigslick` | anthropics/knowledge-work-plugins | Apache-2.0 | none |
+| `champion-tracker` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; pkg: `requests`; API: api.apify.com, api.gooseworks.ai |
+| `churn-prevention` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
+| `churn-risk-detector` | `bigslick-lifecycle` | gooseworks-ai/goose-skills | MIT | none |
+| `co-marketing` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
+| `cold-email` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `cold-start-problem` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `comment-mining` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | none |
+| `community-marketing` † | `bigslick-social` | coreyhaines31/marketingskills | MIT | none |
+| `company-intel` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
+| `company-onboarding` | `bigslick` | frankdays/bigslick (first-party) | MIT | none |
+| `competitor-intel` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN` |
+| `competitor-profiling` | `bigslick-gtm` | coreyhaines31/marketingskills | MIT | none |
+| `competitors` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `conference-speaker-scraper` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; pkg: `requests`; API: api.apify.com, api.gooseworks.ai |
+| `contagious` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `content-calendar` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | none |
+| `content-gap-analysis` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`; API: api.semrush.com |
+| `content-refresh-system` | `bigslick-seo` | rampstackco/claude-skills | MIT | none |
+| `content-repurposing` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | none |
+| `content-strategy` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `continuous-discovery` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `copy-editing` | `bigslick-content` | coreyhaines31/marketingskills | MIT | none |
+| `copywriting` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `creative-brief` | `bigslick-paid` | rampstackco/claude-skills | MIT | none |
+| `cro` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `crossing-the-chasm` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `customer-discovery` | `bigslick-research` | gooseworks-ai/goose-skills | MIT | pkg: `requests`; API: api.builtwith.com |
+| `customer-research` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `customer-stories` | `bigslick-research` | kostja94/marketing-skills | MIT | none |
+| `customer-story-builder` | `bigslick-research` | gooseworks-ai/goose-skills | MIT | none |
+| `demand-gen` | `bigslick` | OpenClaudia/openclaudia-skills | MIT | none |
+| `directory-submissions` | `bigslick-ops` | coreyhaines31/marketingskills | MIT | none |
+| `discord-bot` | `bigslick-ops` | OpenClaudia/openclaudia-skills | MIT | env: `DISCORD_BOT_TOKEN`, `YOUR_WEBHOOK_TOKEN` |
+| `discovery-research-synthesis` | `bigslick-research` | rampstackco/claude-skills | MIT | none |
+| `disqualification-handling` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | none |
+| `distribution-channels` | `bigslick-strategy` | kostja94/marketing-skills | MIT | none |
+| `domain-research` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`; API: api.domaindetails.com, api.semrush.com |
+| `editorial-qa` | `bigslick-content` | rampstackco/claude-skills | MIT | none |
+| `eeat-signals` | `bigslick-seo` | kostja94/marketing-skills | MIT | none |
+| `email-deliverability` | `bigslick-lifecycle` | rampstackco/claude-skills | MIT | none |
+| `email-sequence` | `bigslick-lifecycle` | OpenClaudia/openclaudia-skills | MIT | env: `RESEND_API_KEY`; API: api.resend.com |
+| `email-subject-lines` | `bigslick-lifecycle` | OpenClaudia/openclaudia-skills | MIT | env: `RESEND_API_KEY`; API: api.resend.com |
+| `emails` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `entity-seo` | `bigslick-seo` | kostja94/marketing-skills | MIT | none |
+| `event-prospecting-pipeline` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | none |
+| `expansion-signal-spotter` | `bigslick-lifecycle` | gooseworks-ai/goose-skills | MIT | none |
+| `experiment-design` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `experimentation-analytics` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `facebook-ads` | `bigslick-paid` | OpenClaudia/openclaudia-skills | MIT | none |
+| `feature-launch-playbook` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `free-tools` | `bigslick-content` | coreyhaines31/marketingskills | MIT | none |
+| `geo` | `bigslick-ai-search` | kostja94/marketing-skills | MIT | none |
+| `geo-analysis` | `bigslick-ai-search` | OpenClaudia/openclaudia-skills | MIT | env: `ENCEPTION_ANALYSIS_API_KEY` |
+| `geo-difficulty` | `bigslick-ai-search` | OpenClaudia/openclaudia-skills | MIT | none |
+| `geo-query-finder` | `bigslick-ai-search` | OpenClaudia/openclaudia-skills | MIT | env: `DATAFORSEO_PASSWORD`, `OPENAI_API_KEY`; API: api.dataforseo.com, api.openai.com |
+| `github-repo-signals` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | none |
+| `glossary` | `bigslick-seo` | kostja94/marketing-skills | MIT | none |
+| `good-strategy-bad-strategy` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `google-ads` | `bigslick-paid` | OpenClaudia/openclaudia-skills | MIT | none |
+| `google-ads-report` | `bigslick-paid` | OpenClaudia/openclaudia-skills | MIT | env: `DEVELOPER_TOKEN`, `GADS_ACCESS_TOKEN`, `GOOGLE_ADS_DEVELOPER_TOKEN`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`; API: ads.google.com |
+| `google-analytics` | `bigslick-ops` | OpenClaudia/openclaudia-skills | MIT | env: `GA_ACCESS_TOKEN`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` |
+| `google-reviews` | `bigslick-research` | OpenClaudia/openclaudia-skills | MIT | env: `AISA_ONE_API_KEY`, `DATAFORSEO_PASSWORD` |
+| `grokipedia` | `bigslick-ai-search` | kostja94/marketing-skills | MIT | none |
+| `growth-funnel` | `bigslick-strategy` | kostja94/marketing-skills | MIT | none |
+| `growth-strategy` | `bigslick` | OpenClaudia/openclaudia-skills | MIT | none |
+| `gsc-portfolio-audit` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_GSC_CLIENT_ID`, `GOOGLE_GSC_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`; pkg: `requests` |
+| `high-output-management` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `hooked-ux` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `hubspot` † | `bigslick-ops` | OpenClaudia/openclaudia-skills | MIT | env: `HUBSPOT_ACCESS_TOKEN`; API: api.hubapi.com |
+| `i18n` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | pkg: `next-intl` |
+| `icp-builder` | `bigslick` | OpenClaudia/openclaudia-skills | MIT | none |
+| `icp-identification` | `bigslick-research` | gooseworks-ai/goose-skills | MIT | none |
+| `image` | `bigslick-content` | coreyhaines31/marketingskills | MIT | none |
+| `improve-retention` | `bigslick-lifecycle` | wondelai/skills | MIT | none |
+| `indie-hacker` | `bigslick-strategy` | kostja94/marketing-skills | MIT | none |
+| `influence-psychology` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `influencer-marketing` | `bigslick-social` | coreyhaines31/marketingskills | MIT | none |
+| `inspired-product` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `integration-orchestrator` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `investor-call-prep` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
+| `jobs-to-be-done` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `journey-mapping` | `bigslick-research` | rampstackco/claude-skills | MIT | none |
+| `jtbd-framing` | `bigslick-strategy` | rampstackco/claude-skills | MIT | none |
+| `keyword-research` | `bigslick` | OpenClaudia/openclaudia-skills | MIT | env: `DATAFORSEO_PASSWORD`, `SEMRUSH_API_KEY`, `SERPAPI_API_KEY`; API: api.dataforseo.com, api.semrush.com |
+| `launch` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `launch-runbook` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `lead-magnets` | `bigslick-content` | coreyhaines31/marketingskills | MIT | none |
+| `lean-analytics` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `lean-startup` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `linkedin-ads` | `bigslick-paid` | OpenClaudia/openclaudia-skills | MIT | none |
+| `linkedin-content` † | `bigslick-social` | OpenClaudia/openclaudia-skills | MIT | none |
+| `linkedin-message-writer` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`; API: api.apify.com |
+| `linkedin-outreach` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | env: `SUPABASE_SERVICE_ROLE_KEY` |
+| `linkedin-post-research` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; pkg: `requests`; API: api.apify.com, api.gooseworks.ai |
+| `made-to-stick` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `marketing-council` † | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `marketing-ideas` | `bigslick-strategy` | coreyhaines31/marketingskills | MIT | none |
+| `marketing-loops` | `bigslick-strategy` | coreyhaines31/marketingskills | MIT | none |
+| `marketing-plan` | `bigslick` | coreyhaines31/marketingskills | MIT | env: `AHREFS_API_KEY`; pkg: `agent-browser` |
+| `marketing-psychology` | `bigslick-strategy` | coreyhaines31/marketingskills | MIT | none |
+| `marketing-slides` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | none |
+| `media-kit` | `bigslick-content` | kostja94/marketing-skills | MIT | none |
+| `meeting-brief` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | none |
+| `mom-test` | `bigslick-research` | wondelai/skills | MIT | none |
+| `monetizing-innovation` | `bigslick-lifecycle` | wondelai/skills | MIT | none |
+| `newsletter` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | none |
+| `obviously-awesome` | `bigslick` | wondelai/skills | MIT | none |
+| `offers` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `okr-design` | `bigslick-strategy` | rampstackco/claude-skills | MIT | none |
+| `onboarding` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
+| `one-page-marketing` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `open-source` | `bigslick-social` | kostja94/marketing-skills | MIT | none |
+| `outbound-prospecting-engine` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | none |
+| `paywalls` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
+| `performance-report` | `bigslick` | anthropics/knowledge-work-plugins | Apache-2.0 | none |
+| `pillar-content-architecture` | `bigslick-seo` | rampstackco/claude-skills | MIT | none |
+| `pipeline-review` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | none |
+| `pmf` | `bigslick-strategy` | kostja94/marketing-skills | MIT | none |
+| `podcast-edit` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | env: `OPENAI_API_KEY`; pkg: `resemblyzer`; API: api.openai.com |
+| `podcast-marketing` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | none |
+| `popups` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
+| `predictable-revenue` | `bigslick-gtm` | wondelai/skills | MIT | none |
+| `press-coverage` | `bigslick-research` | kostja94/marketing-skills | MIT | none |
+| `pricing` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `product-hunt-launch` | `bigslick-ops` | kostja94/marketing-skills | MIT | none |
+| `product-marketing` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `programmatic-seo` | `bigslick-seo` | coreyhaines31/marketingskills | MIT | none |
+| `prospecting` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `public-relations` | `bigslick-research` | coreyhaines31/marketingskills | MIT | none |
+| `reddit-ads` | `bigslick-paid` | kostja94/marketing-skills | MIT | none |
+| `reddit-marketing` † | `bigslick-social` | OpenClaudia/openclaudia-skills | MIT | none |
+| `reddit-post-finder` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; API: api.apify.com, api.gooseworks.ai |
+| `referrals` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
+| `resource-hub` | `bigslick` | frankdays/bigslick (first-party) | MIT | env: `ANTHROPIC_API_KEY`, `APOLLO_API_KEY`, `DATAFORSEO_PASSWORD`, `GEMINI_API_KEY`, `OPENAI_API_KEY`, `PERPLEXITY_API_KEY`; pkg: `pyyaml`; API: api.anthropic.com, api.apollo.io, api.dataforseo.com, api.openai.com |
+| `resources` | `bigslick-content` | kostja94/marketing-skills | MIT | none |
+| `retention` | `bigslick-lifecycle` | kostja94/marketing-skills | MIT | none |
+| `review-intelligence-digest` | `bigslick-research` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN` |
+| `review-site-scraper` | `bigslick-research` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; API: api.apify.com, api.gooseworks.ai |
+| `revops` | `bigslick-gtm` | coreyhaines31/marketingskills | MIT | none |
+| `roadmap-planning` | `bigslick-strategy` | rampstackco/claude-skills | MIT | none |
+| `sales-coaching` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | none |
+| `sales-enablement` | `bigslick-gtm` | coreyhaines31/marketingskills | MIT | none |
+| `schema` | `bigslick-seo` | coreyhaines31/marketingskills | MIT | none |
+| `scorecard-marketing` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `search-console` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GSC_ACCESS_TOKEN` |
+| `semrush-research` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`; API: api.semrush.com |
+| `seo-audit` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `seo-content-brief` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`; API: api.semrush.com |
+| `seo-traffic-diagnosis` | `bigslick-seo` | rampstackco/claude-skills | MIT | none |
+| `sequence-performance` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | MCP: `smartlead` |
+| `serp-analyzer` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | env: `DATAFORSEO_PASSWORD`, `SEMRUSH_API_KEY`, `SERPAPI_API_KEY`; API: api.dataforseo.com, api.semrush.com |
+| `signup` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
+| `similarweb-traffic` | `bigslick-seo` | OpenClaudia/openclaudia-skills | MIT | none |
+| `site-architecture` | `bigslick-seo` | coreyhaines31/marketingskills | MIT | none |
+| `slack-bot` | `bigslick-ops` | OpenClaudia/openclaudia-skills | MIT | env: `SLACK_BOT_TOKEN`; API: api.slack.com |
+| `sms` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
+| `social` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `social-listening` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
+| `stakeholder-communication` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `stock-images` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | env: `UNSPLASH_CLIENT_ID`; pkg: `Pillow`, `requests` |
+| `storybrand-messaging` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `tam-builder` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | env: `APOLLO_API_KEY`; API: api.apollo.io |
+| `targeted-prospecting` | `bigslick-gtm` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
+| `team-onboarding-playbook` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
+| `tech-stack-teardown` | `bigslick-research` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; pkg: `requests`; API: api.apify.com, api.gooseworks.ai |
+| `telegram-bot` | `bigslick-ops` | OpenClaudia/openclaudia-skills | MIT | env: `TELEGRAM_BOT_TOKEN`; API: api.telegram.org |
+| `testimonials` | `bigslick-research` | kostja94/marketing-skills | MIT | none |
+| `thread-writer` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | env: `REDDIT_ACCESS_TOKEN`, `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET` |
+| `traction-eos` | `bigslick-strategy` | wondelai/skills | MIT | none |
+| `usability-testing` | `bigslick-research` | rampstackco/claude-skills | MIT | none |
+| `user-feedback-aggregation` | `bigslick-research` | rampstackco/claude-skills | MIT | none |
+| `vendor-evaluation` | `bigslick-research` | rampstackco/claude-skills | MIT | none |
+| `video` | `bigslick-content` | coreyhaines31/marketingskills | MIT | pkg: `create-video`, `hyperframes` |
+| `video-ad-analysis` | `bigslick-paid` | OpenClaudia/openclaudia-skills | MIT | none |
+| `voice-of-customer-synthesizer` | `bigslick-research` | gooseworks-ai/goose-skills | MIT | none |
+| `write-blog` | `bigslick` | OpenClaudia/openclaudia-skills | MIT | env: `SEMRUSH_API_KEY`, `UNSPLASH_CLIENT_ID`; API: api.semrush.com, api.unsplash.com |
+| `write-landing` | `bigslick` | OpenClaudia/openclaudia-skills | MIT | none |
+| `youtube-analytics` | `bigslick-social` | OpenClaudia/openclaudia-skills | MIT | env: `YOUTUBE_API_KEY` |

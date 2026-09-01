@@ -1,10 +1,63 @@
 {
   "name": "bigslick",
-  "owner": { "name": "Frank Days" },
+  "owner": {
+    "name": "Frank Days"
+  },
   "plugins": [
-    { "name": "bigslick",
-      "displayName": "Big Slick — Marketing Distribution",
+    {
+      "name": "bigslick",
       "source": ".",
-      "description": "The open-source marketing distribution for Claude: 209 curated skills spanning strategy, SEO, content, paid, GTM, pipeline and AI-search visibility, with swappable per-company context packs. The best starting hand a marketer can be dealt." }
+      "description": "Big Slick: the open-source marketing distribution for Claude. 209 skills spanning strategy and positioning frameworks, SEO and content, paid channels, CRO, GTM and prospecting, pipeline and exec reporting, and an AI-visibility (GEO) system — with swappable per-company context packs. 207 skills are vendored from MIT/Apache-2.0 upstreams; 2 first-party infrastructure skills are MIT."
+    },
+    {
+      "name": "bigslick-seo",
+      "source": "./bundles/seo",
+      "description": "Technical and on-page SEO: audits, briefs, architecture, backlinks, and the Ahrefs/Semrush/GSC data pulls."
+    },
+    {
+      "name": "bigslick-ai-search",
+      "source": "./bundles/ai-search",
+      "description": "Generative-engine optimisation: AI Overviews, citations, answer-engine visibility and AI-traffic reporting."
+    },
+    {
+      "name": "bigslick-paid",
+      "source": "./bundles/paid",
+      "description": "Paid media by platform - Google, Meta, LinkedIn, Reddit - plus ad creative and app-store optimisation."
+    },
+    {
+      "name": "bigslick-content",
+      "source": "./bundles/content",
+      "description": "Content production: editing, calendars, repurposing, newsletters, video, podcasts, imagery and decks."
+    },
+    {
+      "name": "bigslick-social",
+      "source": "./bundles/social",
+      "description": "Organic social and community: LinkedIn, Reddit, Bluesky, YouTube, developer and open-source channels."
+    },
+    {
+      "name": "bigslick-gtm",
+      "source": "./bundles/gtm",
+      "description": "Outbound and sales alignment: prospecting engines, enablement, battlecards, pipeline and revenue ops."
+    },
+    {
+      "name": "bigslick-lifecycle",
+      "source": "./bundles/lifecycle",
+      "description": "Post-signup revenue: activation, retention, churn, referrals, email/SMS sequences and monetisation."
+    },
+    {
+      "name": "bigslick-strategy",
+      "source": "./bundles/strategy",
+      "description": "Positioning and growth frameworks drawn from the canon, plus brand foundations and planning rituals."
+    },
+    {
+      "name": "bigslick-research",
+      "source": "./bundles/research",
+      "description": "Customer and market research: discovery interviews, personas, voice-of-customer, reviews and PR."
+    },
+    {
+      "name": "bigslick-ops",
+      "source": "./bundles/ops",
+      "description": "Marketing operations: analytics stack, experimentation, CRM and chat integrations, launch runbooks."
+    }
   ]
 }

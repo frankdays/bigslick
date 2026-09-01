@@ -25,8 +25,12 @@ mkdir -p "$STAGE"
 # the top level here, exactly as they do in git. Shipping dist/ instead would
 # leave the marketplace pointing at a directory this zip does not contain.
 mkdir -p "$STAGE/.claude-plugin" "$STAGE/scripts" "$STAGE/core/clients"
-cp -R dist/skills "$STAGE/skills"
-cp dist/.claude-plugin/plugin.json "$STAGE/.claude-plugin/"
+cp -R skills "$STAGE/skills"
+cp .claude-plugin/plugin.json "$STAGE/.claude-plugin/"
+# Bundles ship in the download too, so the offline installer can offer them without a
+# network round-trip. They cost nothing until the user installs one — an uninstalled
+# bundle contributes zero always-on tokens.
+[ -d bundles ] && cp -R bundles "$STAGE/bundles"
 cp dist/PROVENANCE.txt "$STAGE/" 2>/dev/null || true
 cp .claude-plugin/marketplace.json "$STAGE/.claude-plugin/"
 cp install.sh INSTALL.command INSTALL.md README.md LICENSE LICENSING.md "$STAGE/"
@@ -51,4 +55,4 @@ rm -rf "$(dirname "$STAGE")"
 
 echo "Built $OUT ($(du -h "$OUT" | cut -f1))"
 echo "Contains: $(unzip -l "$OUT" | grep -c 'SKILL.md') skills, installer, marketplace manifest, client packs."
-echo "Layout matches the repo root (skills/ + .claude-plugin/), so \"source\": \".\" resolves."
+echo "Layout matches the repo root (skills/ + bundles/ + .claude-plugin/), so every source resolves."

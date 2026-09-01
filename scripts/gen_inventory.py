@@ -141,10 +141,24 @@ def main():
     out.append("## Skills\n")
     out.append("`†` = shipped with a local patch from `overlay/patches/` "
                "(usually a rewritten trigger description).\n")
-    out.append("| Skill | Source | Licence | External dependencies |")
-    out.append("|---|---|---|---|")
+    out.append("**Plugin** is which install ships the skill. `bigslick` is the lean default; "
+               "the rest are opt-in bundles you add with "
+               "`claude plugin install bigslick-<bundle>@bigslick`.\n")
+    # Read the published plugin roots rather than the manifest, so this column reflects
+    # what a user can actually install.
+    where = {}
+    import json as _json
+    mkp = ROOT/".claude-plugin"/"marketplace.json"
+    if mkp.exists():
+        for pl in _json.loads(mkp.read_text()).get("plugins", []):
+            sd = ROOT/pl["source"]/"skills"
+            if sd.is_dir():
+                for d in sd.iterdir():
+                    if d.is_dir(): where[d.name] = pl["name"]
+    out.append("| Skill | Plugin | Source | Licence | External dependencies |")
+    out.append("|---|---|---|---|---|")
     for name, repo, lic, cell, patched in rows:
-        out.append(f"| `{name}`{' †' if patched else ''} | {repo} | {lic} | {cell} |")
+        out.append(f"| `{name}`{' †' if patched else ''} | `{where.get(name,'—')}` | {repo} | {lic} | {cell} |")
     out.append("")
 
     (ROOT / "INVENTORY.md").write_text("\n".join(out))

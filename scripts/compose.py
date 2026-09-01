@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Compose dist/skills from upstream + overlay + core. Later layers win; core wins all."""
-import argparse, shutil, sys
+import argparse, json, shutil, sys
 from pathlib import Path
 try:
     import yaml
@@ -57,15 +57,55 @@ def main():
     # Publish the repo root as the plugin itself, so `claude plugin marketplace add
     # <github url>` resolves. dist/ is gitignored and never reaches GitHub, so a
     # marketplace pointing at "./dist" can only ever install from a local checkout.
-    # These two paths ARE committed; that is the whole point of mirroring them.
-    root_skills = ROOT/"skills"
-    if root_skills.exists(): shutil.rmtree(root_skills)
-    shutil.copytree(DIST, root_skills)
-    if ps.exists():
-        rootcp = ROOT/".claude-plugin"; rootcp.mkdir(exist_ok=True)
-        shutil.copy(ps, rootcp/"plugin.json")
+    # These paths ARE committed; that is the whole point of mirroring them.
+    #
+    # The root plugin is deliberately LEAN: every skill's frontmatter description is
+    # loaded into every session, so shipping all of them by default taxes people who
+    # wanted one specialty. Bundles carry the rest as separate installable plugins.
+    bundles = m.get("bundles") or []
+    assigned, dupes = {}, []
+    for b in bundles:
+        for n in b["skills"]:
+            if n in assigned: dupes.append(f"{n} in both {assigned[n]} and {b['name']}")
+            assigned[n] = b["name"]
+    unknown = sorted(n for n in assigned if n not in plan)
+    if dupes or unknown:
+        sys.exit("manifest bundles invalid:\n  " + "\n  ".join(dupes + [f"unknown skill {n}" for n in unknown]))
 
-    print(f"Composed {len(plan)} skills into dist/skills/ and skills/ "
-          f"(installable plugin; provenance: dist/PROVENANCE.txt)")
+    base_meta = json.loads(ps.read_text()) if ps.exists() else {"name": "bigslick"}
+
+    def publish(dest: Path, names, meta):
+        """Write one installable plugin root: .claude-plugin/plugin.json + skills/."""
+        sk = dest/"skills"
+        if sk.exists(): shutil.rmtree(sk)
+        sk.mkdir(parents=True)
+        for n in names: shutil.copytree(DIST/n, sk/n)
+        cp = dest/".claude-plugin"; cp.mkdir(parents=True, exist_ok=True)
+        (cp/"plugin.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n")
+
+    core_names = sorted(n for n in plan if n not in assigned)
+    publish(ROOT, core_names, base_meta)
+
+    bundles_dir = ROOT/"bundles"
+    if bundles_dir.exists(): shutil.rmtree(bundles_dir)
+    entries = [{"name": base_meta["name"], "source": ".",
+                "description": base_meta.get("description", "")}]
+    for b in bundles:
+        meta = {"name": f"bigslick-{b['name']}", "version": base_meta.get("version", "0.0.0"),
+                "description": b["description"].strip(), "author": base_meta.get("author", {})}
+        publish(bundles_dir/b["name"], sorted(b["skills"]), meta)
+        entries.append({"name": meta["name"], "source": f"./bundles/{b['name']}",
+                        "description": meta["description"]})
+
+    # marketplace.json is generated so the plugin list can never drift from the manifest.
+    mkp = ROOT/".claude-plugin"/"marketplace.json"
+    existing = json.loads(mkp.read_text()) if mkp.exists() else {}
+    mkp.write_text(json.dumps({"name": existing.get("name", "bigslick"),
+                               "owner": existing.get("owner", {}),
+                               "plugins": entries}, indent=2, ensure_ascii=False) + "\n")
+
+    print(f"Composed {len(plan)} skills into dist/skills/. "
+          f"Published {len(core_names)} in the root plugin + "
+          f"{len(bundles)} bundles ({len(assigned)} skills).")
 
 if __name__ == "__main__": main()
