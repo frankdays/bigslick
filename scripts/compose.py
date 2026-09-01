@@ -28,7 +28,13 @@ def main():
         for n, d in chosen.items():
             if n in plan: print(f"  collision: {n} ({prov[n]} -> {up['name']}) — later wins")
             plan[n], prov[n] = d, up["name"]
-    for d in skill_dirs(ROOT/m["core"]["path"]): plan[d.name], prov[d.name] = d, "core"
+    # The core (proprietary) layer is optional: v0.2 removed it and the
+    # distribution is now open-source-only. A manifest with no `core:` key, or
+    # one pointing at a directory that no longer exists, composes cleanly.
+    core = m.get("core") or {}
+    core_path = ROOT/core["path"] if core.get("path") else None
+    if core_path and core_path.exists():
+        for d in skill_dirs(core_path): plan[d.name], prov[d.name] = d, "core"
     if a.check:
         print(f"Would compose {len(plan)} skills.")
         if new_up: print(f"Upstream skills NOT in manifest include-lists (review after updates): {new_up}")

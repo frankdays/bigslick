@@ -1,6 +1,6 @@
 ---
 name: hubspot
-description: Manage HubSpot CRM contacts, companies, deals, and CMS content via API. Use when the user says "add contact to HubSpot", "create deal", "search CRM", "HubSpot contacts", "update deal stage", "CRM report", "HubSpot pages", or asks about managing their sales pipeline, CRM data, or HubSpot content. ROUTING — this skill performs HubSpot API operations. To decide lifecycle stages, lead scoring, campaign naming, required fields, or data-hygiene rules, use `crm-conventions` instead; those are conventions decisions, not API calls.
+description: Manage HubSpot CRM contacts, companies, deals, and CMS content via API. Use when the user says "add contact to HubSpot", "create deal", "search CRM", "HubSpot contacts", "update deal stage", "CRM report", "HubSpot pages", or asks about managing their sales pipeline, CRM data, or HubSpot content. ROUTING — this skill performs HubSpot API operations. To decide lifecycle stages, lead scoring, campaign naming, required fields, or data-hygiene rules, use `revops` instead; those are process decisions, not API calls.
 ---
 
 # HubSpot CRM & CMS Skill

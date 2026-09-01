@@ -24,12 +24,11 @@ reads that pack. Switching companies is one command.
 ## Try it
 
 - `"Build the pipeline model for Hansel AI's year"` — sample company is pre-loaded
-- `"Run this plan past the staff meeting"` — convenes the persona layer against your doc
+- `"Run this past the marketing council"` — debates it through named marketing frameworks
 - `"Onboard <your company>"` — generates a real context pack
 
 ## Licensing
 
-MIT, with these Reserved Components (source-available, not open source):
-`company-onboarding`, `staff-meeting`, the `persona-*` charters, and the client
-pack architecture. Free for individuals, internal company use, and a
-practitioner's own client work. See `LICENSING.md` in the repository.
+Fully open source. Every skill is vendored from an MIT- or Apache-2.0-licensed
+upstream and is redistributable; per-skill source and licence are listed in
+`INVENTORY.md`. Upstream licence texts ship in `licenses/`. See `LICENSING.md`.

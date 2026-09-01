@@ -1,6 +1,6 @@
 ---
 name: linkedin-content
-description: Create high-performing LinkedIn posts and content strategy. Use when the user says "LinkedIn post", "write for LinkedIn", "LinkedIn content", "LinkedIn strategy", "LinkedIn hook", "professional post", "thought leadership post", or asks about creating content specifically for LinkedIn. ROUTING — to write posts in a named executive's voice, use `exec-linkedin-ghostwriting` instead. To search LinkedIn or find and contact people, use `linkedin-connectsafely-search`. Use this skill for general LinkedIn content strategy and post craft.
+description: Create high-performing LinkedIn posts and content strategy. Use when the user says "LinkedIn post", "write for LinkedIn", "LinkedIn content", "LinkedIn strategy", "LinkedIn hook", "professional post", "thought leadership post", or asks about creating content specifically for LinkedIn. ROUTING — to research what is already landing on LinkedIn before you write, use `linkedin-post-research`. To find and contact people, use `linkedin-outreach` or `linkedin-message-writer`. Use this skill for general LinkedIn content strategy and post craft.
 ---
 
 # LinkedIn Content Skill

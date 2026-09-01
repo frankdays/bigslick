@@ -1,3 +1,8 @@
+> **Historical — describes the v0.1 build.** v0.2 removed the proprietary `core/skills/`
+> layer described in Phase 1 and made the distribution fully open source (207 skills from
+> seven MIT/Apache-2.0 upstreams). For the current layer model see `MAINTAINERS.md`;
+> for per-skill provenance see `INVENTORY.md`.
+
 # BUILD-BIGSLICK.md — Executable Build Specification v0.1
 **Run this with Claude Code.** Put this file in a working folder and say: *"Execute BUILD-BIGSLICK.md exactly. Run each phase in order, verify each checkpoint, and stop and report if a checkpoint fails."*
 

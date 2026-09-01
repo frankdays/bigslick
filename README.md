@@ -1,9 +1,11 @@
 # Big Slick
-**The open-source marketing distribution for Claude — 133 skills: 104 curated from open source, 29 proprietary.**
+**The open-source marketing distribution for Claude — 207 skills, every one of them redistributable.**
 
 *The best starting hand a marketer can be dealt.*
 
-Marketing work you'd normally hire for — pipeline models, board decks, ABM programs, win-loss, PR, AI-search visibility — as skills Claude can actually run. Built for running marketing across several B2B software companies at once, and it converts cleanly to a single company if you take a full-time seat.
+Marketing work you'd normally hire for — pipeline reviews, exec reporting, prospecting, win-loss, PR, AI-search visibility — as skills Claude can actually run. Built for running marketing across several B2B software companies at once, and it converts cleanly to a single company if you take a full-time seat.
+
+**v0.2 is fully open source.** The proprietary layer is gone. Every skill is vendored from an MIT- or Apache-2.0-licensed upstream with a documented source, licence, and dependency list — see [INVENTORY.md](INVENTORY.md).
 
 ---
 
@@ -16,10 +18,10 @@ Download the latest `.dmg` from [Releases](https://github.com/frankdays/bigslick
 Then open Claude in the folder and say:
 
 ```
-Onboard my company
+Set up a client pack for my company
 ```
 
-It interviews you about your business and writes everything down. Every other skill reads what it wrote, so you never edit a file by hand.
+It walks you through your business and fills in a client pack. Every other skill reads that pack, so you configure once.
 
 ---
 
@@ -41,7 +43,7 @@ Most people should use the download above. Build from source only if you're chan
 
 ```bash
 pip install pyyaml
-python scripts/compose.py                      # -> dist/skills/ (133 skills) + plugin manifest
+python scripts/compose.py                      # -> dist/skills/ (207 skills) + plugin manifest
 bash install.sh                                # registers the plugin, verifies, loads the sample company
 ```
 
@@ -53,13 +55,13 @@ Big Slick runs in **Claude Code**, where it has full capability — API keys, MC
 
 Claude.ai takes one zip per skill, caps each description at **200 characters**, and has no filesystem, so repo-relative client-pack paths never resolve. `scripts/package_for_claude_ai.py` reconciles all three, bundling the active client pack into each zip and rewriting paths to match.
 
-**Status: 7 of 133 skills are ready for this path.** The description *is* the trigger logic, and 125 skills run past the cap (median ~450 chars). Auto-compression drops the "Use when the user says…" phrases that make a skill fire, so a compressed skill installs but may never trigger. Hand-written short descriptions live in `overlay/claude-ai/descriptions.yaml`; write an entry before relying on a skill here.
+**Status: 7 of 207 skills are ready for this path.** The description *is* the trigger logic, and 125 skills run past the cap (median ~450 chars). Auto-compression drops the "Use when the user says…" phrases that make a skill fire, so a compressed skill installs but may never trigger. Hand-written short descriptions live in `overlay/claude-ai/descriptions.yaml`; write an entry before relying on a skill here.
 
 This path is deliberately excluded from the end-user download — shipping skills that install but don't fire is worse than not shipping them. Generate on demand:
 
 ```bash
 python scripts/package_for_claude_ai.py --all --check      # report, write nothing
-python scripts/package_for_claude_ai.py persona-cmo staff-meeting
+python scripts/package_for_claude_ai.py pipeline-review stakeholder-communication
 ```
 
 Then in Claude.ai: enable code execution in **Settings → Capabilities**, upload at **Customize → Skills**. Bundled packs are a snapshot — regenerate after changing a client pack.
@@ -68,35 +70,45 @@ Then in Claude.ai: enable code execution in **Settings → Capabilities**, uploa
 
 ## The skills, by job
 
-**Start of an engagement**
-- `company-onboarding` — the keystone. Structured intake → full client pack (ICP, messaging, competitors, voice, stack, **metrics-baseline** — the funnel definitions and 4 quarters of actuals that the quantitative skills depend on). Run this first, always.
+Every skill below is open source. Source repo, licence, and external dependencies for
+all 207 are listed in **[INVENTORY.md](INVENTORY.md)**.
 
-**The CFO-facing quant layer** *(deploy together — they share `metrics-baseline.md`)*
-- `pipeline-math` — revenue target → pipeline/budget model, new-logo AND expansion, scenarios, channel allocation
-- `board-reporting` — board/CEO narrative, forward view, CFO-attack prep
-- `attribution-diagnostics` — three-lens attribution, funnel stall forensics
-- `crm-conventions` — lifecycle stages, scoring, naming, hygiene rules
-- `sales-marketing-alignment` — the definitions treaty, bilateral SLA, pipeline council
+**Start of an engagement**
+- `brand-discovery`, `icp-identification`, `brand-voice-extractor`, `company-intel` — the intake set. Run these, then write the answers into `core/clients/<name>/` (copy `core/clients/_template/` to start) and `./scripts/activate_client.sh <name>`.
+
+**Strategy and positioning** *(the framework layer)*
+- `good-strategy-bad-strategy`, `obviously-awesome`, `crossing-the-chasm`, `blue-ocean-strategy`, `jobs-to-be-done`, `storybrand-messaging`, `one-page-marketing`, `monetizing-innovation`
+
+**The CFO-facing quant layer**
+- `pipeline-review` — pipeline coverage, stage health, what actually closes
+- `predictable-revenue` — outbound engine design, role splits, ramp math
+- `lean-analytics` — the metric that matters at this stage, and why the others are noise
+- `stakeholder-communication`, `okr-design`, `after-action-report` — reporting upward and closing the loop
+- `experimentation-analytics`, `analytics-strategy`, `experiment-design` — test design and readouts
+- `revops` — lifecycle stages, scoring, naming, hygiene rules
 
 **Programs**
-- `abm-builder`, `field-marketing-events`, `case-study-builder`, `win-loss-program`, `pr-analyst-relations`, `exec-linkedin-ghostwriting`
+- `targeted-prospecting`, `outbound-prospecting-engine`, `tam-builder`, `champion-tracker` — account and pipeline programs
+- `event-prospecting-pipeline`, `conference-speaker-scraper` — field marketing
+- `customer-story-builder`, `customer-stories`, `testimonials` — proof
+- `voice-of-customer-synthesizer`, `customer-discovery`, `mom-test`, `churn-risk-detector` — win-loss and retention research
+- `press-coverage`, `media-kit`, `public-relations` — PR and analyst relations
+- `linkedin-post-research`, `linkedin-outreach`, `linkedin-message-writer` — executive and social presence
 
-**The GEO / AI-citation system** *(the differentiator)*
-- `reddit-b2b-tech-strategy`, `wikipedia-b2b-citation-strategy`, `review-site-strategy` — one skill per citation source AI engines lean on
-- `ai-answer-monitoring` — the measurement layer; produces the monthly **AI Visibility Report** and routes gaps back to the three source skills
+**The GEO / AI-citation system**
+- `geo`, `aeo`, `ai-traffic`, `entity-seo`, `eeat-signals`, `grokipedia` — the citation surfaces AI engines lean on
+- `ai-seo`, `ai-citations-report`, `ai-answer-monitoring`'s replacement measurement path via `seo-traffic-diagnosis`
+
+**Community and open source**
+- `open-source`, `github-repo-signals`, `cold-start-problem`, `reddit-post-finder`, `comment-mining`, `social-listening`
 
 **Leadership & ops**
-- `hiring-interview-kit`, `martech-stack-auditor`
+- `high-output-management`, `team-onboarding-playbook`, `roadmap-planning`, `vendor-evaluation`, `tech-stack-teardown`, `integration-orchestrator`
 
-**The personas** — 6 charters + 1 antagonist + 1 orchestrator
-- `persona-cmo`, `persona-product-marketing-director`, `persona-vp-growth`, `persona-field-marketing-director`, `persona-comms-manager`, `persona-content-seo-director` — each defines a lane, decision rights, quality bar, and which function skills it orchestrates. Zero domain knowledge by design.
-- `persona-vp-sales` — adversarial reviewer only; attacks plans from the revenue side
-- `staff-meeting` — convenes personas against a document; produces a decision log. Ask for it before any plan ships.
+**Brand**
+- `brand-archetype-system`, `brand-style-guide`, `creative-brief`, `brand-review`
 
-**Infrastructure**
-- `resource-hub` — all external LLM/API routing. Skills request *capabilities* (`research_synthesis`, `bulk_classification`…); `core/skills/resource-hub/config/registry.yaml` maps capabilities to providers. Swap models by editing that one file. Fill in the `SET_ME` model placeholders and set env vars before first use.
-
-**Plus 104 upstream skills** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `dist/skills/`; provenance per skill in `dist/PROVENANCE.txt`.
+**Plus the full upstream library** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `dist/skills/`; provenance per skill in `dist/PROVENANCE.txt` and `INVENTORY.md`.
 
 ---
 
@@ -104,13 +116,13 @@ Then in Claude.ai: enable code execution in **Settings → Capabilities**, uploa
 
 | You want to… | Do this |
 |---|---|
-| Start a new client | Run `company-onboarding` in Claude, then `./scripts/activate_client.sh <name>` |
+| Start a new client | `cp -r core/clients/_template core/clients/<name>`, fill it in (use `brand-discovery` / `icp-identification` to do the interviewing), then `./scripts/activate_client.sh <name>` |
 | Switch clients | `./scripts/activate_client.sh <other-name>` |
 | See which client is active | `ls -l core/clients/_active` |
 | Rebuild after any change | `python scripts/compose.py` |
 | Pull upstream updates (quarterly) | `./scripts/update_upstreams.sh` → review reported adds/renames → adjust `overlay/manifest.yaml` → recompose |
 | Modify an upstream skill | Copy the changed file into `overlay/patches/<skill-name>/` — never edit `upstream/` |
-| Add your own skill | New folder + `SKILL.md` in `core/skills/` → recompose. Follow the house pattern: read the client pack, route APIs via resource-hub, end with a named deliverable |
+| Add your own skill | New folder + `SKILL.md` under a directory you add to `overlay/manifest.yaml` → recompose. Follow the house pattern: read the client pack, end with a named deliverable |
 | Disable an upstream skill | Add it to the `exclude:` list in `overlay/manifest.yaml` → recompose |
 | Retire a client | Archive `core/clients/<name>/` — skills are untouched |
 
@@ -120,19 +132,20 @@ Then in Claude.ai: enable code execution in **Settings → Capabilities**, uploa
 
 1. **Client specifics live in client packs only.** If you're typing a company name into a skill file, stop.
 2. **`upstream/` is read-only.** Changes go through `overlay/patches/`.
-3. **No skill names a model or API provider.** Capabilities via resource-hub; providers in `registry.yaml`.
+3. **Every skill is redistributable.** Nothing enters the manifest without a permissive upstream licence and an `INVENTORY.md` row. The bar for a new upstream is ≥500 GitHub stars and an MIT/Apache-2.0 licence.
 4. **The quant skills trust `metrics-baseline.md`.** If a client won't agree definitions and share actuals, the models degrade — that's a client conversation, not a config problem.
-5. **Quarterly maintenance (~1 hr):** refresh upstreams, re-check benchmark tables in `pipeline-math` / `pr-analyst-relations` (reference numbers age), review resource-hub costs/models, prune skills nobody used.
+5. **Quarterly maintenance (~1 hr):** refresh upstreams, re-check benchmark tables where reference numbers age, regenerate `INVENTORY.md`, prune skills nobody used.
 
 ## Troubleshooting
 
-- **A skill gives generic output** → no active client pack, or the pack is thin. Check `core/clients/_active`, re-run `company-onboarding` on the gaps.
-- **Wrong skill triggers** (e.g., upstream `reddit-marketing` instead of your strategy skill) → tighten either skill's frontmatter `description` via `overlay/patches/`, or exclude the upstream one in the manifest.
+- **A skill gives generic output** → no active client pack, or the pack is thin. Check `core/clients/_active` and fill the gaps in that pack.
+- **Wrong skill triggers** (e.g., `reddit-marketing` instead of `reddit-post-finder`) → tighten either skill's frontmatter `description` via `overlay/patches/`, or exclude one in the manifest.
 - **compose.py errors** → `pip install pyyaml`; check YAML indentation in `overlay/manifest.yaml`.
 - **Skills can't find the client pack** → skills resolve `.agents/product-marketing.md` relative to the repo root — run Claude Code from the repo directory, and re-run `activate_client.sh` after moving/cloning the repo.
-- **A provider call fails** → resource-hub walks fallbacks and names the missing env var; set it or reassign the capability in `registry.yaml`.
 - **In Claude.ai, external APIs unreachable** → expected; the sandbox only reaches the Anthropic API. Resource-hub routes to built-in tools/MCPs there; full registry works in Claude Code.
 
 ## Licensing
 
-Upstream distributions are MIT / source-available — original license files are preserved in each `upstream/` folder and in `licenses/`. Keep them intact. Everything in `core/` is proprietary to you; MIT imposes no copyleft on it. Merge decisions and provenance: `MANIFEST.md` and `dist/PROVENANCE.txt`. Build history and remaining roadmap: `core/ROADMAP.md`.
+Every upstream is MIT or Apache-2.0 and redistributable. Original licence files are preserved in each `upstream/` folder and in `licenses/` — keep them intact. Per-skill source, licence, and external dependencies: **[INVENTORY.md](INVENTORY.md)**. Merge decisions and provenance: `overlay/manifest.yaml` and `dist/PROVENANCE.txt`.
+
+Client packs under `core/clients/` are your own data, not part of the distributed skill library.

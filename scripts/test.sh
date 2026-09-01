@@ -16,9 +16,20 @@ for d in skills:
 print(f"T2 frontmatter invalid: {len(bad)}", "PASS" if not bad else f"FAIL {bad[:5]}"); fails+= [] if not bad else ["T2"]
 leak=[e for e in ["task-banner","wechat-moments","feishu-lark","launch-strategy"] if (dist/e).exists()]
 print("T3 exclusions", "PASS" if not leak else f"FAIL {leak}"); fails+= [] if not leak else ["T3"]
-core=[d.name for d in Path("core/skills").iterdir() if (d/"SKILL.md").exists()]
-miss=[n for n in core if prov.get(n)!="core"]
-print(f"T4 core precedence ({len(core)})", "PASS" if not miss else f"FAIL {miss}"); fails+= [] if not miss else ["T4"]
+# T4 — the distribution is open-core-only: every skill must resolve to a vendored
+# upstream with a redistributable licence. A skill provenanced to "core" means the
+# proprietary layer crept back in.
+known={"marketingskills","openclaudia","anthropic-marketing","goose-skills","kostja-marketing","rampstack","wondel"}
+bad_prov=sorted({n for n,src in prov.items() if src.replace("+patch","") not in known})
+print(f"T4 open-core provenance ({len(prov)})", "PASS" if not bad_prov else f"FAIL {bad_prov[:5]}"); fails+= [] if not bad_prov else ["T4"]
+# T5 — INVENTORY.md must document every composed skill (source/licence/deps).
+inv=Path("INVENTORY.md")
+if inv.exists():
+    txt=inv.read_text()
+    undoc=[d.name for d in skills if f"`{d.name}`" not in txt]
+    print(f"T5 inventory coverage", "PASS" if not undoc else f"FAIL {len(undoc)} undocumented {undoc[:5]}"); fails+= [] if not undoc else ["T5"]
+else:
+    print("T5 inventory coverage FAIL (INVENTORY.md missing)"); fails+=["T5"]
 p=json.load(open("dist/.claude-plugin/plugin.json")); mk=json.load(open(".claude-plugin/marketplace.json"))
 ok = p["name"]=="bigslick" and mk["plugins"][0]["source"]=="./dist"
 print("T6 manifests", "PASS" if ok else "FAIL"); fails+= [] if ok else ["T6"]

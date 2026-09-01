@@ -2,7 +2,7 @@
 """Package composed skills as upload-ready zips for Claude.ai / desktop app.
 
 Usage:  python scripts/package_for_claude_ai.py --set leadership
-        python scripts/package_for_claude_ai.py persona-cmo staff-meeting
+        python scripts/package_for_claude_ai.py pipeline-review stakeholder-communication
         python scripts/package_for_claude_ai.py --all --client unleash
         python scripts/package_for_claude_ai.py --set leadership --check
 
@@ -41,8 +41,10 @@ KEEP_KEYS = ("name", "description")
 
 # Curated upload sets — claude.ai is the phone/couch surface, not the full library.
 SETS = {
-    "leadership": ["persona-cmo", "staff-meeting", "board-reporting", "pipeline-math"],
-    "personas": sorted(d.name for d in DIST.glob("persona-*")) if DIST.exists() else [],
+    "leadership": ["stakeholder-communication", "pipeline-review", "good-strategy-bad-strategy",
+                   "predictable-revenue"],
+    "proof": ["customer-story-builder", "review-intelligence-digest", "testimonials",
+              "voice-of-customer-synthesizer"],
 }
 
 

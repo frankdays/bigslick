@@ -11,31 +11,6 @@
 #
 # Used by scripts/package_for_claude_ai.py. Keys are dist/skills/ folder names.
 
-persona-cmo: >-
-  Adopt the CMO charter: owns the tradeoffs no single lane can make. Use for "as my CMO",
-  "CMO perspective", cross-lane budget tradeoffs, final calls between competing lanes, or
-  the board-facing view.
-
-staff-meeting: >-
-  Convene the marketing leadership personas to review a plan, budget, or launch from
-  conflicting angles. Use for "staff meeting", "run this by the team", "red-team then
-  decide", or before a plan ships.
-
-board-reporting: >-
-  Turn marketing performance into the narrative a CEO, CFO, or board needs. Use for
-  "board deck", "QBR", "investor update", "defend the marketing budget", "CFO is asking",
-  or reporting results upward.
-
-pipeline-math: >-
-  Reverse-engineer a revenue target into a pipeline and budget model. Use for "pipeline
-  model", "pipeline coverage", "how many MQLs do we need", "can we hit the number", or
-  defending a plan or budget.
-
-case-study-builder: >-
-  Produce customer case studies end to end: selection, interview, draft, approval,
-  repurposing. Use for "case study", "customer story", "success story", "customer proof",
-  or "logo permission".
-
 competitors: >-
   Create competitor comparison and alternative pages for SEO and sales. Use for "vs page",
   "alternative page", "comparison page", "[X] alternative", "how do we compare to X", or
@@ -49,3 +24,26 @@ product-marketing: >-
   Positioning, ICP, and packaging work off the bundled client context. Use for
   "positioning", "messaging", "who is my target audience", "ICP", "free vs paid boundary",
   or "what should we charge for".
+
+pipeline-review: >-
+  Work a pipeline for coverage, stage health, and what actually closes. Use for "pipeline
+  review", "pipeline coverage", "can we hit the number", "stage health", or "what's
+  slipping this quarter".
+
+predictable-revenue: >-
+  Build an outbound revenue engine with split roles and repeatable prospecting. Use for
+  "predictable revenue", "outbound engine", "SDR model", "how do we scale pipeline", or
+  "cold outbound process".
+
+stakeholder-communication: >-
+  Turn work into the update a CEO, board, or exec sponsor needs. Use for "board deck",
+  "investor update", "exec update", "QBR", or "how do I report this upward".
+
+customer-story-builder: >-
+  Produce customer case studies end to end: selection, interview, draft, approval. Use for
+  "case study", "customer story", "success story", or "customer proof".
+
+good-strategy-bad-strategy: >-
+  Pressure-test a strategy for a real diagnosis and coherent action, not goals dressed up
+  as strategy. Use for "is this a strategy", "strategy review", "our plan is just a list
+  of goals", or "kernel".

@@ -1,4 +1,9 @@
-# Overlay manifest — v0.1 (inventory of 2026-08-22). Precedence: core > patches > later upstream > earlier.
+# Overlay manifest — v0.2 (open-core-only, 2026-08-30).
+# Precedence: patches > later upstream > earlier upstream.
+# The proprietary `core:` layer was removed in v0.2; every skill here is
+# vendored from an MIT- or Apache-2.0-licensed upstream and redistributable.
+# Star counts recorded in INVENTORY.md; the curation bar is >=500 GitHub stars
+# plus a license that permits redistribution.
 upstreams:
   - name: marketingskills
     path: upstream/marketingskills/skills
@@ -18,5 +23,47 @@ upstreams:
     path: upstream/anthropic-marketing/skills
     mode: include
     include: [brand-review, campaign-plan, performance-report]
-core:
-  path: core/skills
+  # gooseworks-ai/goose-skills (MIT, 1.2k stars) — GTM, prospecting, sales and signal skills
+  - name: goose-skills
+    path: upstream/goose-skills/skills
+    mode: include
+    include: [aeo, battlecard-generator, brand-voice-extractor, buyer-persona-generator, 
+      champion-tracker, churn-risk-detector, comment-mining, company-intel, 
+      competitor-intel, conference-speaker-scraper, customer-discovery, 
+      customer-story-builder, disqualification-handling, event-prospecting-pipeline, 
+      expansion-signal-spotter, github-repo-signals, icp-identification, 
+      investor-call-prep, linkedin-message-writer, linkedin-outreach, 
+      linkedin-post-research, meeting-brief, outbound-prospecting-engine, pipeline-review, 
+      reddit-post-finder, review-intelligence-digest, review-site-scraper, sales-coaching, 
+      sequence-performance, social-listening, tam-builder, targeted-prospecting, 
+      tech-stack-teardown, voice-of-customer-synthesizer]
+  # kostja94/marketing-skills (MIT, 936 stars) — SEO, PR, community and site-surface skills
+  - name: kostja-marketing
+    path: upstream/kostja-marketing/skills
+    mode: include
+    include: [ai-traffic, customer-stories, distribution-channels, eeat-signals, 
+      entity-seo, geo, glossary, grokipedia, growth-funnel, indie-hacker, media-kit, 
+      open-source, pmf, press-coverage, product-hunt-launch, reddit-ads, resources, 
+      retention, testimonials]
+  # rampstackco/claude-skills (MIT, 786 stars) — brand, experimentation and marketing-ops skills
+  - name: rampstack
+    path: upstream/rampstack/skills
+    mode: include
+    include: [after-action-report, analytics-strategy, beta-program-management, 
+      brand-archetype-system, brand-discovery, brand-style-guide, content-refresh-system, 
+      creative-brief, discovery-research-synthesis, editorial-qa, email-deliverability, 
+      experiment-design, experimentation-analytics, feature-launch-playbook, 
+      integration-orchestrator, journey-mapping, jtbd-framing, launch-runbook, okr-design, 
+      pillar-content-architecture, roadmap-planning, seo-traffic-diagnosis, 
+      stakeholder-communication, team-onboarding-playbook, usability-testing, 
+      user-feedback-aggregation, vendor-evaluation]
+  # wondelai/skills (MIT, 2.1k stars) — strategy and positioning frameworks
+  - name: wondel
+    path: upstream/wondel/skills
+    mode: include
+    include: [blue-ocean-strategy, cold-start-problem, contagious, continuous-discovery, 
+      crossing-the-chasm, good-strategy-bad-strategy, high-output-management, hooked-ux, 
+      improve-retention, influence-psychology, inspired-product, jobs-to-be-done, 
+      lean-analytics, lean-startup, made-to-stick, mom-test, monetizing-innovation, 
+      obviously-awesome, one-page-marketing, predictable-revenue, scorecard-marketing, 
+      storybrand-messaging, traction-eos]
