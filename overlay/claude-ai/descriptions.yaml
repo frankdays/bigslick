@@ -47,3 +47,63 @@ good-strategy-bad-strategy: >-
   Pressure-test a strategy for a real diagnosis and coherent action, not goals dressed up
   as strategy. Use for "is this a strategy", "strategy review", "our plan is just a list
   of goals", or "kernel".
+
+# --- lean-core set (v0.2): the 31 skills in the default plugin ---
+campaign-plan: >-
+  Build a campaign brief: objectives, audience, messaging, channels, week-by-week calendar, metrics. Use for a product launch, lead-gen push, awareness campaign, or "plan this campaign".
+cold-email: >-
+  Write B2B cold outreach emails and follow-up sequences. Use for "cold email", "prospecting email", "outbound email", "SDR email", "nobody's replying", subject lines, multi-touch sequences.
+company-onboarding: >-
+  Set up a new company or client: interviews you, then writes the context pack every other skill reads. Use for "onboard my company", "set up a new client", "create a context pack". Run first.
+content-strategy: >-
+  Decide what content to create. Use for "content strategy", "what should I write about", "topic clusters", "content pillars", "editorial calendar", "blog topics", "content roadmap".
+copywriting: >-
+  Write or improve marketing page copy - homepage, landing, pricing, features. Use for "write copy", "rewrite this page", "headline", "CTA", "value proposition", "this copy is weak".
+cro: >-
+  Improve conversion on a page or form. Use for "CRO", "not converting", "improve conversions", "low conversion rate", "form abandonment", or when a URL is shared asking for feedback.
+customer-research: >-
+  Run or analyse customer research. Use for "customer interviews", "voice of customer", "VOC", "survey analysis", "review mining", "build personas", "why customers churn", "JTBD".
+demand-gen: >-
+  Build demand generation and multi-channel campaigns. Use for "demand gen", "lead generation strategy", "pipeline generation", "funnel strategy", "MQL", "SQL", qualified leads.
+emails: >-
+  Build lifecycle email sequences and drip campaigns. Use for "email sequence", "nurture sequence", "welcome series", "onboarding emails", "email automation", "what emails should I send".
+growth-strategy: >-
+  Build a growth strategy with frameworks and metrics. Use for "growth strategy", "growth plan", "AARRR", "growth loops", "North Star Metric", "activation rate", "growth experiments".
+icp-builder: >-
+  Define ideal customer profiles and buyer personas. Use for "ICP", "ideal customer profile", "buyer persona", "target audience", "customer segmentation", "who should I target".
+keyword-research: >-
+  Keyword research via SemRush. Use for "find keywords", "keyword research", "what should I rank for", "search volume", "keyword difficulty", "topic clusters", "content gaps".
+launch: >-
+  Plan a product launch or feature announcement. Use for "launch", "Product Hunt", "go-to-market", "GTM plan", "beta launch", "waitlist", "launch checklist", "we're about to ship".
+marketing-council: >-
+  Get multiple expert takes on a marketing question from a simulated advisory board (Godin, Ogilvy, Dunford, Hormozi). Use for "marketing council", "board of advisors", "debate this".
+marketing-plan: >-
+  Build a comprehensive AARRR marketing plan sized to budget, team and stage. Use for "marketing plan", "growth plan", "GTM plan", "90-day plan", "roadmap", "fractional CMO plan".
+obviously-awesome: >-
+  Position a product: competitive alternatives, unique attributes, best-fit customers, market category. Use for "positioning", "market category", "repositioning", "prospects don't get us".
+offers: >-
+  Design the offer you sell - value stack, bonuses, guarantee, scarcity, naming, payment terms. Use for "offer design", "grand slam offer", "guarantee", "why isn't my offer converting".
+performance-report: >-
+  Build a marketing performance report: metrics, trends, wins and misses, next-period priorities. Use when wrapping a campaign or preparing a weekly, monthly or quarterly summary.
+pricing: >-
+  Pricing, packaging and monetisation. Use for "pricing", "pricing tiers", "freemium", "value metric", "willingness to pay", "how much should I charge", "pricing page audit".
+prospecting: >-
+  Find and qualify prospects and build target lists. Use for "prospecting", "build a prospect list", "find leads", "target account list", "who should we go after", "find first customers".
+resource-hub: >-
+  Registry of LLM providers, APIs and external capabilities. Load before any external API or LLM call from another skill. Use for "add a provider", "swap the model", "API keys", routing.
+seo-audit: >-
+  Audit and diagnose SEO. Use for "SEO audit", "technical SEO", "why am I not ranking", "traffic dropped", "lost rankings", "core web vitals", "indexing issues", or a vague "help with SEO".
+social: >-
+  Create and optimise social content for LinkedIn, X, Instagram, TikTok. Use for "LinkedIn post", "Twitter thread", "what should I post", "carousel", "short-form video", "social listening".
+write-blog: >-
+  Write a full SEO-optimised blog post. Use for "write a blog post", "blog article", "SEO article", "write about", or when given a keyword and asked for an article.
+write-landing: >-
+  Write landing page copy and structure. Use for "landing page", "sales page", "landing page copy", "lead gen page", "hero section", or marketing page copy with a conversion goal.
+ads: >-
+  Paid advertising on Google, Meta, LinkedIn and X: strategy, targeting, bidding, optimisation. Use for "PPC", "paid media", "ROAS", "CPA", "ad campaign", "retargeting", "should I run ads".
+analytics: >-
+  Set up or audit analytics and tracking. Use for "set up tracking", "GA4", "conversion tracking", "event tracking", "UTM", "tag manager", "how do I measure this", "analytics isn't working".
+attribution: >-
+  Work out which marketing drives revenue, and reconcile numbers that disagree. Use for "attribution", "first-touch vs last-touch", "multi-touch", "what's my real CAC", "my dashboards disagree".
+brand-review: >-
+  Review content against brand voice, style guide and messaging pillars, flagging deviations by severity with before/after fixes. Use to check a draft before it ships or screen for risky claims.
