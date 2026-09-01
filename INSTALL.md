@@ -35,7 +35,7 @@ Inside that folder is a file called **`INSTALL.command`**.
 A black window opens and prints what it's doing. When it finishes you'll see:
 
 ```
-Ready. 207 marketing skills installed and enabled.
+Ready. 209 marketing skills installed and enabled.
 Sample company loaded: hansel-ai
 ```
 
@@ -72,17 +72,22 @@ April Dunford and others — and gives you their arguments about your plan.
 
 ### Using your own company
 
-Each company's facts live in their own folder, and every skill reads whichever
-one is active. Copy the template, fill in the files, then activate it:
+Paste this:
+
+```
+Onboard my company
+```
+
+It interviews you about your business — positioning, ICP, competitors, funnel
+numbers, tooling — and writes it all down. Every other skill reads what it
+wrote, so you never edit files by hand.
+
+If you would rather fill the files in yourself, copy the template instead:
 
 ```
 cp -r core/clients/_template core/clients/mycompany
 bash scripts/activate_client.sh mycompany
 ```
-
-The template is ten short markdown files — ICP, messaging, competitors, voice,
-metrics baseline, stack, team map. Fill in what you know; skills degrade
-gracefully on the gaps.
 
 ---
 

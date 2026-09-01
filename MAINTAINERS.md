@@ -12,7 +12,7 @@ Three layers, strictly separated:
 |---|---|---|
 | `upstream/` | 7 vendored open-source skill distributions (Corey Haines, OpenClaudia, Anthropic, goose-skills, kostja-marketing, rampstack, wondel), versions pinned in `upstream/VERSIONS` | **Never edit.** Refresh with a script. |
 | `overlay/` | `manifest.yaml` — which upstream skills are enabled/excluded — plus `patches/` for modifications to upstream skills | The merge, as config. Edit here, not in upstream. |
-| `core/` | Client context packs and the roadmap. The proprietary skills layer was removed in v0.2; `compose.py` treats the `core:` manifest key as optional. | Your data, not distributed skills. |
+| `core/` | Client context packs, the roadmap, and `skills/` — 2 first-party MIT infrastructure skills (`company-onboarding`, `resource-hub`). The source-available proprietary layer was removed in v0.2 and is not coming back. | Packs are your data; `core/skills/` is MIT and ships. |
 
 `scripts/compose.py` builds the deployable library into `dist/skills/` from those three layers. `dist/PROVENANCE.txt` records where every skill came from.
 
@@ -25,7 +25,7 @@ Three layers, strictly separated:
 ```bash
 # 1. Build the library
 pip install pyyaml
-python scripts/compose.py                      # -> dist/skills/ (207 skills) + plugin manifest
+python scripts/compose.py                      # -> dist/skills/ (209 skills) + plugin manifest
 
 # 2. Install as a Claude Code plugin (dist/ is a valid plugin after compose)
 claude plugin marketplace add /path/to/bigslick   # or the repo's git URL once pushed
@@ -33,9 +33,10 @@ claude plugin install bigslick
 #    (Cowork: Settings -> Plugins -> install from the same marketplace path)
 #    Alternative, no plugin system: point Claude Code at dist/skills/ as a skills directory.
 
-# 3. Create your first client pack (manual since v0.2 — see Known gaps)
-cp -r core/clients/_template core/clients/<company>
-#    Then fill in the ten markdown files in that folder.
+# 3. Onboard your first client (creates the context pack)
+#    In Claude (with the plugin installed): "Onboard <company>"
+#    -> runs company-onboarding -> writes core/clients/<company>/
+#    (Or copy core/clients/_template yourself and fill it in.)
 
 # 4. Activate the client
 ./scripts/activate_client.sh <company>
@@ -53,7 +54,8 @@ Use in **Claude Code** (full capability — API keys, MCPs, file access) or uplo
 
 ## The skills, by job
 
-All 207 are vendored from upstreams; the full table with source, licence and external
+207 of the 209 are vendored from upstreams (the other 2 are first-party infrastructure);
+the full table with source, licence and external
 dependencies is **[INVENTORY.md](INVENTORY.md)**. Orientation by area:
 
 **Strategy & positioning** — `good-strategy-bad-strategy`, `blue-ocean-strategy`,
@@ -88,13 +90,13 @@ rather than a company org chart.
 
 | You want to… | Do this |
 |---|---|
-| Start a new client | `cp -r core/clients/_template core/clients/<name>`, fill in the files, then `./scripts/activate_client.sh <name>` |
+| Start a new client | Run `company-onboarding` in Claude, then `./scripts/activate_client.sh <name>` |
 | Switch clients | `./scripts/activate_client.sh <other-name>` |
 | See which client is active | `ls -l core/clients/_active` |
 | Rebuild after any change | `python scripts/compose.py` |
 | Pull upstream updates (quarterly) | `./scripts/update_upstreams.sh` → review reported adds/renames → adjust `overlay/manifest.yaml` → recompose |
 | Modify an upstream skill | Copy the changed file into `overlay/patches/<skill-name>/` — never edit `upstream/` |
-| Add your own skill | Don't — v0.2 is curation-only. To admit an upstream skill, vendor a repo clearing the ≥500-star + MIT/Apache-2.0 bar, add it to `overlay/manifest.yaml`, recompose, regenerate INVENTORY.md |
+| Add your own skill | Marketing skills: don't — vendor an upstream clearing the ≥500-star + MIT/Apache-2.0 bar instead. Infrastructure skills: add to `core/skills/` under the root MIT licence, never a per-skill LICENSE.md (T4 fails on one) |
 | Disable an upstream skill | Add it to the `exclude:` list in `overlay/manifest.yaml` → recompose |
 | Retire a client | Archive `core/clients/<name>/` — skills are untouched |
 
@@ -104,7 +106,7 @@ rather than a company org chart.
 
 1. **Client specifics live in client packs only.** If you're typing a company name into a skill file, stop.
 2. **`upstream/` is read-only.** Changes go through `overlay/patches/`.
-3. **Every composed skill resolves to a redistributable upstream.** `test.sh` T4 enforces it; INVENTORY.md records source, licence and external deps per skill.
+3. **Everything shipped is redistributable.** Upstreams are MIT/Apache-2.0; `core/skills/` is MIT under the root LICENSE. `test.sh` T4 fails on a per-skill LICENSE.md in `core/skills/` — that is how source-available terms would creep back.
 4. **The quant skills trust `metrics-baseline.md`.** If a client won't agree definitions and share actuals, the models degrade — that's a client conversation, not a config problem.
 5. **Quarterly maintenance (~1 hr):** refresh upstreams, regenerate INVENTORY.md, re-check any benchmark tables (reference numbers age), prune skills nobody used.
 
@@ -114,7 +116,7 @@ rather than a company org chart.
 - **Wrong skill triggers** (e.g., upstream `reddit-marketing` instead of your strategy skill) → tighten either skill's frontmatter `description` via `overlay/patches/`, or exclude the upstream one in the manifest.
 - **compose.py errors** → `pip install pyyaml`; check YAML indentation in `overlay/manifest.yaml`.
 - **Skills can't find the client pack** → skills resolve `.agents/product-marketing.md` relative to the repo root — run Claude Code from the repo directory, and re-run `activate_client.sh` after moving/cloning the repo.
-- **A provider call fails** → since v0.2 there is no routing layer; the skill names its API directly. Check that skill's `INVENTORY.md` row for the env var it expects.
+- **A provider call fails** → for first-party skills, `resource-hub` walks fallbacks and names the missing env var; set it or reassign the capability in `config/registry.yaml`. For vendored upstream skills, check that skill's `INVENTORY.md` row for the env var it expects.
 - **In Claude.ai, external APIs unreachable** → expected; the sandbox only reaches the Anthropic API. Use connected MCPs there, or run the skill in Claude Code.
 - **`pip install pyyaml` fails with "externally-managed-environment"** → PEP 668. Use a venv: `python3 -m venv .venv && .venv/bin/pip install pyyaml`.
 
@@ -124,7 +126,7 @@ Every upstream is MIT or Apache-2.0 and redistributable — original licence fil
 
 ## Claude.ai packaging — experimental, maintainer-only (decided 2026-08-22)
 
-`scripts/package_for_claude_ai.py` works, but the path is ~3% complete: 7 of 207 skills have
+`scripts/package_for_claude_ai.py` works, but the path is ~3% complete: 7 of 209 skills have
 hand-written short descriptions in `overlay/claude-ai/descriptions.yaml`, and 125 exceed
 Claude.ai's 200-character description cap. Because the description *is* the trigger logic,
 auto-compressed skills install but may never fire — a failure the user cannot see or diagnose.

@@ -16,12 +16,16 @@ for d in skills:
 print(f"T2 frontmatter invalid: {len(bad)}", "PASS" if not bad else f"FAIL {bad[:5]}"); fails+= [] if not bad else ["T2"]
 leak=[e for e in ["task-banner","wechat-moments","feishu-lark","launch-strategy"] if (dist/e).exists()]
 print("T3 exclusions", "PASS" if not leak else f"FAIL {leak}"); fails+= [] if not leak else ["T3"]
-# T4 — the distribution is open-core-only: every skill must resolve to a vendored
-# upstream with a redistributable licence. A skill provenanced to "core" means the
-# proprietary layer crept back in.
-known={"marketingskills","openclaudia","anthropic-marketing","goose-skills","kostja-marketing","rampstack","wondel"}
+# T4 — everything shipped must be redistributable. Vendored upstreams are MIT/Apache-2.0;
+# the first-party core/ layer is MIT under the root LICENSE. What must never come back is
+# the source-available Reserved Component License removed in v0.2, so fail on any
+# per-skill LICENSE.md in core/skills and on any provenance we don't recognise.
+known={"marketingskills","openclaudia","anthropic-marketing","goose-skills","kostja-marketing","rampstack","wondel","core"}
 bad_prov=sorted({n for n,src in prov.items() if src.replace("+patch","") not in known})
-print(f"T4 open-core provenance ({len(prov)})", "PASS" if not bad_prov else f"FAIL {bad_prov[:5]}"); fails+= [] if not bad_prov else ["T4"]
+reserved=sorted(d.name for d in Path("core/skills").iterdir() if d.is_dir() and (d/"LICENSE.md").exists()) if Path("core/skills").exists() else []
+t4 = not bad_prov and not reserved
+detail = "" if t4 else f"FAIL unknown={bad_prov[:5]} reserved-licensed={reserved[:5]}"
+print(f"T4 redistributable provenance ({len(prov)})", "PASS" if t4 else detail); fails+= [] if t4 else ["T4"]
 # T5 — INVENTORY.md must document every composed skill (source/licence/deps).
 inv=Path("INVENTORY.md")
 if inv.exists():

@@ -67,3 +67,11 @@ upstreams:
       lean-analytics, lean-startup, made-to-stick, mom-test, monetizing-innovation, 
       obviously-awesome, one-page-marketing, predictable-revenue, scorecard-marketing, 
       storybrand-messaging, traction-eos]
+
+# First-party infrastructure skills. MIT, same as the rest of the repo — this is not a
+# return of the v0.2-removed proprietary layer, which was source-available only. These two
+# exist because no vendored upstream covers them: company-onboarding writes the client
+# context pack every other skill reads, and resource-hub is where provider config lives.
+# Anything added here must be MIT and infrastructure, not marketing content (see CLAUDE.md).
+core:
+  path: core/skills

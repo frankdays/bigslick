@@ -23,6 +23,9 @@ UPSTREAMS = {
     "kostja-marketing":    ("kostja94/marketing-skills",          "MIT",        "936"),
     "rampstack":           ("rampstackco/claude-skills",          "MIT",        "786"),
     "wondel":              ("wondelai/skills",                    "MIT",        "2.1k"),
+    # First-party infrastructure, MIT under the repo root LICENSE — not vendored,
+    # so it has no upstream repo or star count of its own.
+    "core":                ("frankdays/bigslick (first-party)",   "MIT",        "—"),
 }
 
 TEXT_SUFFIXES = {".md", ".py", ".sh", ".yaml", ".yml", ".json", ".txt", ".js", ".ts"}

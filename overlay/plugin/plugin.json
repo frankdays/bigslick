@@ -1,7 +1,7 @@
 {
   "name": "bigslick",
   "version": "0.2.0",
-  "description": "Big Slick: the open-source marketing distribution for Claude. 207 skills spanning strategy and positioning frameworks, SEO and content, paid channels, CRO, GTM and prospecting, pipeline and exec reporting, and an AI-visibility (GEO) system — with swappable per-company context packs. Every skill is vendored from an MIT- or Apache-2.0-licensed upstream.",
+  "description": "Big Slick: the open-source marketing distribution for Claude. 209 skills spanning strategy and positioning frameworks, SEO and content, paid channels, CRO, GTM and prospecting, pipeline and exec reporting, and an AI-visibility (GEO) system — with swappable per-company context packs. 207 skills are vendored from MIT/Apache-2.0 upstreams; 2 first-party infrastructure skills are MIT.",
   "author": {
     "name": "Frank Days"
   }
