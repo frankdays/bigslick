@@ -11,9 +11,22 @@ Marketing work you'd normally hire for — pipeline reviews, exec reporting, pro
 
 ## Install
 
-**Using the Claude desktop app?** Nothing to download. In the app: **Customize → Plugins →
-Personal plugins → "+" → Add marketplace → Add from a repository**, then paste
-`https://github.com/frankdays/bigslick` and install `bigslick`. Type `/` in a chat to see the skills.
+**Using the Claude desktop app?** Nothing to download:
+
+1. Open the Claude desktop app
+2. Click the **Customize** button in the left sidebar
+3. Open **Plugins**
+4. Click **Add**
+5. Choose **Add marketplace**
+6. Choose **Add from a repository**
+7. Paste in `https://github.com/frankdays/bigslick` and confirm
+8. Click **Sync** — this pulls the marketplace down; nothing appears until you do
+9. Click **Browse** to see what's in it
+10. Go to **Personal**
+11. Add the packages you want — start with **bigslick**, the 31-skill core
+12. Start a chat and say **Onboard my company** to tailor it to your business
+
+Type `/` in a chat to see the skills you've added.
 
 **Using Claude Code in a terminal?**
 

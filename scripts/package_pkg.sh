@@ -83,17 +83,23 @@ You do not need this installer at all, and you can delete this folder when
 you are done. Add Big Slick inside the app instead:
 
   1. Open the Claude desktop app
-  2. Click "Customize" in the left sidebar
-  3. Open the "Plugins" tab
-  4. Under "Personal plugins", click the "+" button
-  5. Choose "Add marketplace", then "Add from a repository"
-  6. Paste this:
+  2. Click the "Customize" button in the left sidebar
+  3. Open "Plugins"
+  4. Click "Add"
+  5. Choose "Add marketplace"
+  6. Choose "Add from a repository"
+  7. Paste this in and confirm:
 
          https://github.com/frankdays/bigslick
 
-  7. Install "bigslick" from the marketplace that appears
+  8. Click "Sync" — this pulls the marketplace down, and nothing
+     appears until you do
+  9. Click "Browse" to see what's in it
+ 10. Go to "Personal"
+ 11. Add the packages you want. Start with "bigslick" — the 31-skill core
+ 12. Start a chat and say "Onboard my company" to tailor it to your business
 
-Then type "/" in a chat to see the new skills.
+Type "/" in a chat at any point to see the skills you've added.
 
 
 IF YOU USE CLAUDE CODE IN THE TERMINAL
