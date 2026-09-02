@@ -6,8 +6,9 @@
 # cutting a release, after package_release.sh.
 #
 # NOTE: a .dmg does not bypass Gatekeeper. Files inside a downloaded image are
-# still quarantined, so INSTALL.command still needs right-click → Open on first
-# run. Only Apple code-signing plus notarisation removes that prompt.
+# still quarantined. On macOS 15+ the user must approve it in System Settings →
+# Privacy & Security → Open Anyway; right-click → Open no longer works. Only Apple
+# code-signing plus notarisation removes that step.
 set -e
 cd "$(dirname "$0")/.."
 
@@ -24,19 +25,21 @@ unzip -q "$ZIP" -d "$STAGE"
 # A plain-language note at the top level of the image, because the first thing a
 # user does with a mounted DMG is look at it, not read a web page.
 cat > "$STAGE/Read Me First.txt" << 'TXT'
-BIG SLICK — INSTALL IN THREE STEPS
+BIG SLICK — INSTALLING
 
 1. Drag the "bigslick" folder out of this window, into Documents.
 
-2. Open that folder and RIGHT-CLICK the file called INSTALL.command,
-   then choose "Open". Click "Open" again when macOS asks.
+2. Open that folder and double-click INSTALL.command.
+   macOS will refuse, saying it can't verify the developer. Expected.
 
-   Right-click matters. Double-clicking shows a warning and refuses,
-   because this installer isn't signed with a paid Apple developer
-   account. Right-click - Open is how you tell macOS you trust it.
-   You only do this once.
+3. Open System Settings - Privacy & Security. Scroll down to Security.
+   Click "Open Anyway" next to the message naming INSTALL.command,
+   then confirm with Touch ID or your password. You only do this once.
 
-3. Wait for it to say "Ready." Then follow the instructions it prints.
+   (Older guides say to right-click and choose Open. That stopped
+   working in macOS 15. Use System Settings.)
+
+4. Wait for it to say "Ready." Then follow the instructions it prints.
 
 Need Claude Code first? Get it at https://claude.com/claude-code
 

@@ -18,7 +18,7 @@ claude plugin marketplace add https://github.com/frankdays/bigslick
 claude plugin install bigslick@bigslick
 ```
 
-Prefer a download? Grab the latest `.dmg` from [Releases](https://github.com/frankdays/bigslick/releases), drag the `bigslick` folder to Documents, then right-click `INSTALL.command` → Open. (A `.zip` is there too.) That route also sets up the sample company for you.
+Prefer a download? Grab `bigslick-0.2.1.pkg` from [Releases](https://github.com/frankdays/bigslick/releases) and double-click it. macOS will block it the first time — it isn't signed with a paid Apple developer account. Go to **System Settings → Privacy & Security**, scroll to Security, and click **Open Anyway**. (On macOS 15 and later the old right-click → Open trick no longer works.) A `.dmg` and `.zip` are there too.
 
 **[Full install guide →](INSTALL.md)** — five minutes, no technical background needed, including the macOS security prompt that trips most people up.
 

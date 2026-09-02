@@ -28,9 +28,13 @@ Double-click it. A window opens showing a folder called `bigslick` and a short n
 
 Inside that folder is a file called **`INSTALL.command`**.
 
-**Right-click it and choose "Open."** Then click **"Open"** again in the dialog that appears.
+**Double-click it.** macOS will block it — that's expected, and the next step is how you get past it.
 
-> **Why right-click instead of double-click?** macOS blocks apps it can't trace to a paid Apple developer account, and shows a warning like *"cannot be opened because it is from an unidentified developer."* Right-click → Open is how you tell macOS you trust this one. You only need to do it the first time. If you already double-clicked and got the warning, just close it and right-click → Open instead.
+> **Getting past the warning.** macOS blocks anything not signed with a paid Apple developer account. Close the dialog, then open
+> **System Settings → Privacy & Security**, scroll down to the **Security** section, and click **Open Anyway** next to the message
+> naming the blocked file. Confirm with Touch ID or your password. You only do this once.
+>
+> *If you've read older instructions saying to right-click and choose Open — that stopped working in macOS 15 (Sequoia). Use System Settings instead.*
 
 A black window opens and prints what it's doing. When it finishes you'll see:
 
@@ -109,7 +113,7 @@ A sample company called **hansel-ai** ships with it so you can try things before
 
 **"Claude Code isn't installed yet"** — Step 1 didn't finish. Install Claude Code, then run `INSTALL.command` again.
 
-**"cannot be opened because it is from an unidentified developer"** — you double-clicked. Close the dialog, right-click the file, choose Open.
+**"cannot be opened because it is from an unidentified developer"** — expected. Close the dialog, open **System Settings → Privacy & Security**, scroll to Security, click **Open Anyway**, and confirm. Right-click → Open does *not* work on macOS 15 or later.
 
 **"Installed with problems — the plugin did not register"** — the installer checked its own work and something didn't take. Open Terminal in the folder and run `claude plugin install bigslick@bigslick` to see the actual error.
 

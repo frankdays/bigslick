@@ -12,8 +12,9 @@
 # It installs into the user's home (Documents/bigslick) via the currentUserHome
 # domain, so it never asks for an admin password.
 #
-# NOTE: still not code-signed, so the first launch needs right-click -> Open.
-# Only an Apple Developer ID plus notarisation removes that.
+# NOTE: still not code-signed. On macOS 15+ the user approves it once under
+# System Settings -> Privacy & Security -> Open Anyway (right-click -> Open was
+# removed in Sequoia). Only an Apple Developer ID plus notarisation removes that.
 set -e
 cd "$(dirname "$0")/.."
 
@@ -114,4 +115,5 @@ productbuild --quiet --distribution "$BUILD/distribution.xml" \
   --package-path "$BUILD" --resources "$BUILD/resources" "$PKG"
 
 echo "Built $PKG ($(du -h "$PKG" | cut -f1))"
-echo "Double-click to install. Unsigned, so first run needs right-click -> Open."
+echo "Double-click to install. Unsigned: first run needs System Settings ->"
+echo "Privacy & Security -> Open Anyway."
