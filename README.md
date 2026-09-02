@@ -1,5 +1,5 @@
 # Big Slick
-**The open-source marketing distribution for Claude — 209 skills, every one of them redistributable.**
+**The open-source marketing distribution for Claude — 247 skills, every one of them redistributable.**
 
 *The best starting hand a marketer can be dealt.*
 
@@ -50,7 +50,7 @@ Most people should use the download above. Build from source only if you're chan
 
 ```bash
 pip install pyyaml
-python scripts/compose.py                      # -> skills/ (209) + .claude-plugin/plugin.json
+python scripts/compose.py                      # -> skills/ (247) + .claude-plugin/plugin.json
 bash install.sh                                # registers the plugin, verifies, loads the sample company
 ```
 
@@ -62,7 +62,7 @@ Big Slick runs in **Claude Code**, where it has full capability — API keys, MC
 
 Claude.ai takes one zip per skill, caps each description at **200 characters**, and has no filesystem, so repo-relative client-pack paths never resolve. `scripts/package_for_claude_ai.py` reconciles all three, bundling the active client pack into each zip and rewriting paths to match.
 
-**Status: 7 of 209 skills are ready for this path.** The description *is* the trigger logic, and 125 skills run past the cap (median ~450 chars). Auto-compression drops the "Use when the user says…" phrases that make a skill fire, so a compressed skill installs but may never trigger. Hand-written short descriptions live in `overlay/claude-ai/descriptions.yaml`; write an entry before relying on a skill here.
+**Status: 31 of 247 skills are ready for this path** — the full lean core, hand-written. The description *is* the trigger logic, and 125 skills run past the cap (median ~450 chars). Auto-compression drops the "Use when the user says…" phrases that make a skill fire, so a compressed skill installs but may never trigger. Hand-written short descriptions live in `overlay/claude-ai/descriptions.yaml`; write an entry before relying on a skill here.
 
 This path is deliberately excluded from the end-user download — shipping skills that install but don't fire is worse than not shipping them. Generate on demand:
 
@@ -78,7 +78,7 @@ Then in Claude.ai: enable code execution in **Settings → Capabilities**, uploa
 ## The skills, by job
 
 Every skill below is open source. Source repo, licence, and external dependencies for
-all 209 are listed in **[INVENTORY.md](INVENTORY.md)**.
+all 247 are listed in **[INVENTORY.md](INVENTORY.md)**.
 
 **Start of an engagement**
 - `brand-discovery`, `icp-identification`, `brand-voice-extractor`, `company-intel` — the intake set. Run these, then write the answers into `core/clients/<name>/` (copy `core/clients/_template/` to start) and `./scripts/activate_client.sh <name>`.

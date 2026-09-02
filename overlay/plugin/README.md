@@ -13,7 +13,7 @@ claude plugin install bigslick-paid@bigslick
 ```
 
 Bundles: `seo`, `ai-search`, `paid`, `content`, `social`, `gtm`, `lifecycle`,
-`strategy`, `research`, `ops` — 209 skills in total across all of them.
+`strategy`, `research`, `ops` — 247 skills in total across all of them.
 
 This split is deliberate. Every skill's description loads into every session, so
 the full library costs ~28k tokens of context before you ask for anything. The
@@ -30,6 +30,8 @@ lean core costs ~5k. An uninstalled bundle costs nothing.
 | kostja94/marketing-skills | 19 | MIT |
 | rampstackco/claude-skills | 27 | MIT |
 | wondelai/skills | 23 | MIT |
+| AgriciDaniel/claude-seo | 23 | MIT |
+| zubair-trabzada/geo-seo-claude | 15 | MIT |
 | first-party infrastructure | 2 | MIT |
 
 Every skill's origin is recorded in `PROVENANCE.txt`; per-skill source, licence and

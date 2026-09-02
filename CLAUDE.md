@@ -12,7 +12,7 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 
 ## Build & release
 - System Python is PEP 668 externally-managed, so `pip3 install pyyaml` fails. Use a venv: `python3 -m venv .venv && .venv/bin/pip install pyyaml`, then run scripts with `.venv/bin` on PATH.
-- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `skills/` + `.claude-plugin/plugin.json` at the repo root (committed — this is the plugin itself). Expect **209** skills (207 upstream + 2 core).
+- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `skills/` + `.claude-plugin/plugin.json` at the repo root (committed — this is the plugin itself). Expect **247** skills (245 upstream + 2 core).
 - `python3 scripts/gen_inventory.py` after any manifest change — `test.sh` T5 fails if a composed skill is missing from INVENTORY.md.
 - `bash scripts/test.sh` — release gate (T1 counts, T2 frontmatter, T3 exclusions, T4 provenance, T5 inventory, T6 manifests, F1 client lifecycle). Must print ALL TESTS PASS.
 - `bash scripts/package_release.sh` → `bigslick-<version>.zip`, the end-user download (dist/ prebuilt, installer, marketplace manifest, client packs). `scripts/package_dmg.sh` wraps it for macOS.

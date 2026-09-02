@@ -25,7 +25,7 @@ Three layers, strictly separated:
 ```bash
 # 1. Build the library
 pip install pyyaml
-python scripts/compose.py                      # -> dist/skills/ (209 skills) + plugin manifest
+python scripts/compose.py                      # -> dist/skills/ (247 skills) + plugin manifest
 
 # 2. Install as a Claude Code plugin (the repo root is the plugin)
 claude plugin marketplace add https://github.com/frankdays/bigslick   # or a local path
@@ -54,7 +54,7 @@ Use in **Claude Code** (full capability — API keys, MCPs, file access) or uplo
 
 ## The skills, by job
 
-207 of the 209 are vendored from upstreams (the other 2 are first-party infrastructure);
+245 of the 247 are vendored from upstreams (the other 2 are first-party infrastructure);
 the full table with source, licence and external
 dependencies is **[INVENTORY.md](INVENTORY.md)**. Orientation by area:
 
@@ -126,7 +126,7 @@ Every upstream is MIT or Apache-2.0 and redistributable — original licence fil
 
 ## Claude.ai packaging — experimental, maintainer-only (decided 2026-08-22)
 
-`scripts/package_for_claude_ai.py` works, but the path is ~3% complete: 7 of 209 skills have
+`scripts/package_for_claude_ai.py` works, but the path covers the lean core: 31 of 247 skills have
 hand-written short descriptions in `overlay/claude-ai/descriptions.yaml`, and 125 exceed
 Claude.ai's 200-character description cap. Because the description *is* the trigger logic,
 auto-compressed skills install but may never fire — a failure the user cannot see or diagnose.
