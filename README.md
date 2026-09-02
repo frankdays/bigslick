@@ -11,14 +11,24 @@ Marketing work you'd normally hire for — pipeline reviews, exec reporting, pro
 
 ## Install
 
-If you already use Claude Code, two lines:
+**Using the Claude desktop app?** Nothing to download. In the app: **Customize → Plugins →
+Personal plugins → "+" → Add marketplace → Add from a repository**, then paste
+`https://github.com/frankdays/bigslick` and install `bigslick`. Type `/` in a chat to see the skills.
+
+**Using Claude Code in a terminal?**
 
 ```bash
 claude plugin marketplace add https://github.com/frankdays/bigslick
 claude plugin install bigslick@bigslick
 ```
 
-Prefer a download? Grab `bigslick-0.2.1.pkg` from [Releases](https://github.com/frankdays/bigslick/releases) and double-click it. macOS will block it the first time — it isn't signed with a paid Apple developer account. Go to **System Settings → Privacy & Security**, scroll to Security, and click **Open Anyway**. (On macOS 15 and later the old right-click → Open trick no longer works.) A `.dmg` and `.zip` are there too.
+**Prefer a download?** Grab `bigslick-0.2.1.pkg` from [Releases](https://github.com/frankdays/bigslick/releases)
+and double-click it. macOS blocks it the first time — it isn't signed with a paid Apple developer
+account — so go to **System Settings → Privacy & Security**, scroll to Security, and click **Open Anyway**.
+(The right-click → Open trick stopped working in macOS 15.) A `.dmg` and `.zip` are there too.
+
+> The `.pkg`/`.dmg` installers drive the **Claude Code CLI**. They cannot add skills to the desktop
+> app — if you only have the desktop app, use the first route above.
 
 **[Full install guide →](INSTALL.md)** — five minutes, no technical background needed, including the macOS security prompt that trips most people up.
 

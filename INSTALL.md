@@ -4,6 +4,21 @@ You don't need to be technical to do this. It takes about five minutes, and most
 
 ---
 
+## Which Claude do you have?
+
+**The desktop app** (a window you chat in) and **Claude Code** (you type `claude` at a command
+prompt) are different products, and Big Slick installs differently in each.
+
+**Desktop app — no download needed.** In the app: **Customize → Plugins → Personal plugins →
+"+" → Add marketplace → Add from a repository**, paste `https://github.com/frankdays/bigslick`,
+then install `bigslick`. Type `/` in a chat to see the skills. You're done — the rest of this
+page is for Claude Code.
+
+**Claude Code — carry on below.** The downloadable installers drive the Claude Code CLI and
+cannot add skills to the desktop app.
+
+---
+
 ## Step 1 — Get Claude Code
 
 Big Slick is a set of skills *for* Claude, so Claude has to be there first.

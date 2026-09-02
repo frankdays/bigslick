@@ -51,13 +51,66 @@ LOG="$DEST/install-log.txt"
 
   if command -v claude >/dev/null 2>&1; then
     bash install.sh && echo "install.sh completed"
+    touch "$DEST/.registered"
   else
-    echo "claude not found — skills copied, plugin not registered"
+    echo "claude CLI not found — skills copied, plugin NOT registered"
   fi
 } > "$LOG" 2>&1
 
-# Leave the user somewhere useful rather than silently finishing.
-open "$DEST" 2>/dev/null || true
+# Installer.app reports "Installation Successful" whichever way the above went,
+# so a failure to register is invisible unless we put it in front of the user.
+# This is exactly how a tester ended up with files on disk and no skills in Claude.
+if [ -f "$DEST/.registered" ]; then
+  rm -f "$DEST/.registered" "$DEST/FINISH SETUP.txt"
+  open "$DEST" 2>/dev/null || true
+else
+  cat > "$DEST/FINISH SETUP.txt" << 'NOTE'
+BIG SLICK IS NOT FINISHED INSTALLING
+====================================
+
+The files copied across fine, but the skills were NOT added to Claude.
+
+The installer looks for Claude Code's command-line tool, and it isn't on this
+Mac. That is completely normal if you use Claude in the desktop app — the app
+and the command-line tool are separate things.
+
+Pick whichever describes you.
+
+
+IF YOU USE THE CLAUDE DESKTOP APP
+---------------------------------
+You do not need this installer at all, and you can delete this folder when
+you are done. Add Big Slick inside the app instead:
+
+  1. Open the Claude desktop app
+  2. Click "Customize" in the left sidebar
+  3. Open the "Plugins" tab
+  4. Under "Personal plugins", click the "+" button
+  5. Choose "Add marketplace", then "Add from a repository"
+  6. Paste this:
+
+         https://github.com/frankdays/bigslick
+
+  7. Install "bigslick" from the marketplace that appears
+
+Then type "/" in a chat to see the new skills.
+
+
+IF YOU USE CLAUDE CODE IN THE TERMINAL
+--------------------------------------
+The command-line tool isn't installed yet. Get it from:
+
+    https://claude.com/claude-code
+
+Then open this folder and double-click INSTALL.command to finish.
+
+
+WHAT WENT WRONG EXACTLY
+-----------------------
+install-log.txt in this folder has the details.
+NOTE
+  open "$DEST/FINISH SETUP.txt" 2>/dev/null || open "$DEST" 2>/dev/null || true
+fi
 exit 0
 POST
 chmod +x "$BUILD/scripts/postinstall"
@@ -85,16 +138,26 @@ mkdir -p "$BUILD/resources"
 cat > "$BUILD/resources/welcome.txt" << 'TXT'
 Big Slick installs a library of marketing skills for Claude.
 
-It will be placed in your Documents folder, and registered with Claude Code
-automatically. No admin password is needed.
+BEFORE YOU CONTINUE — this installer is for Claude Code, the command-line
+tool. If you use Claude in the DESKTOP APP, you don't need it: add Big Slick
+inside the app under Customize > Plugins > "+" > Add marketplace > Add from a
+repository, and paste https://github.com/frankdays/bigslick
 
-You need Claude Code installed first. If it isn't, the files are still copied
-and you can finish later by opening the folder and running install.sh.
+Carrying on is harmless either way. Files go in your Documents folder, no
+admin password is needed, and if the command-line tool isn't found the
+installer tells you what to do instead.
 
 Get Claude Code at https://claude.com/claude-code
 TXT
 cat > "$BUILD/resources/conclusion.txt" << 'TXT'
-Done. Big Slick is in your Documents folder.
+The files are in your Documents folder.
+
+CHECK THIS FIRST
+   If a file called "FINISH SETUP.txt" just opened, the skills were NOT
+   added to Claude and that file tells you how to finish. This is normal
+   if you use the Claude desktop app rather than the command-line tool.
+
+   If your Documents/bigslick folder opened instead, you're all set.
 
 TO START
    Open the Terminal app and paste this:
@@ -106,8 +169,7 @@ TO START
 Hansel AI is a sample company included for trying things out, so that
 works before you enter anything about a real business.
 
-Your Documents/bigslick folder has been opened for you. If something
-went wrong, install-log.txt in that folder says what.
+install-log.txt in the folder records exactly what happened.
 TXT
 
 rm -f "$PKG"
