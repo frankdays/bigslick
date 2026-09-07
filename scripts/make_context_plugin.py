@@ -83,18 +83,32 @@ def build_skill_md(company: str, pack: Path) -> tuple[str, int]:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("company")
-    ap.add_argument("--out", default="dist/context")
+    ap.add_argument("--pack", help="path to the pack, if it is not in core/clients/ "
+                                   "(desktop-app users have no repo checkout)")
+    ap.add_argument("--out", help="where to write; defaults beside the pack")
     a = ap.parse_args()
 
-    pack = CLIENTS / a.company
-    if not pack.is_dir():
-        sys.exit(f"No pack at core/clients/{a.company} — run company-onboarding first.")
+    if a.pack:
+        pack = Path(a.pack).expanduser().resolve()
+        if not pack.is_dir():
+            sys.exit(f"No pack directory at {pack}")
+    else:
+        pack = CLIENTS / a.company
+        if not pack.is_dir():
+            sys.exit(f"No pack at core/clients/{a.company} — run company-onboarding first, "
+                     f"or pass --pack <path> if your pack lives outside this repo.")
 
     skill_md, wrote = build_skill_md(a.company, pack)
     if wrote == 0:
         sys.exit(f"Pack at {pack} has no content yet. Fill it in, or re-run onboarding.")
 
-    out = ROOT / a.out / a.company
+    if a.out:
+        out = Path(a.out).expanduser()
+        out = (out if out.is_absolute() else ROOT / out) / a.company
+    elif a.pack:
+        out = pack.parent / f"{a.company}-context"   # stays with the user's own files
+    else:
+        out = ROOT / "dist" / "context" / a.company
     if out.exists():
         shutil.rmtree(out)
     skill_dir = out / "plugin" / "skills" / "company-context"

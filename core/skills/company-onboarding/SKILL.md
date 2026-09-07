@@ -10,20 +10,30 @@ until this has run.
 
 ## Where the pack goes — this is not optional
 
-Every tier writes the same files to `core/clients/<company>/` in this repo, using
-`core/clients/_template/` as the structure. Copy the template first, then fill it in:
+**First work out which setup you are in**, because it decides the path:
+
+**A. There is a Big Slick repo checkout** (the user runs Claude Code from it, or from the
+release download). Write to `core/clients/<company>/` in that repo, using
+`core/clients/_template/` as the structure:
 
 ```bash
 cp -r core/clients/_template core/clients/<company>
 ```
 
-Files: `product-marketing.md` (the master summary skills read — keep it under ~150 lines,
-depth goes in the topic files), `icp.md`, `messaging.md`, `competitors.md`, `voice.md`,
-`stack.md`, `metrics-baseline.md`, plus `skills-profile.md` and `team-map.md` from the later
-phases. Replace `{CLIENT NAME}` everywhere.
+**B. There is no checkout** — the usual case for someone using only the Claude desktop app,
+who installed from the plugin marketplace. Write to `~/Documents/bigslick/<company>/`
+instead. Do **not** write into `~/.claude/plugins/cache/...`: that directory is replaced
+whenever the plugin updates, and the user's context would silently disappear. Create the
+files directly; there is no template to copy from.
 
-Writing them anywhere else breaks the two steps that follow: `activate_client.sh` exits with
-"No such client pack" and `make_context_plugin.py` with "No pack at core/clients/<company>".
+Either way the file set is the same: `product-marketing.md` (the master summary skills read —
+keep it under ~150 lines, depth goes in the topic files), `icp.md`, `messaging.md`,
+`competitors.md`, `voice.md`, `stack.md`, `metrics-baseline.md`, plus `skills-profile.md` and
+`team-map.md` from the later phases. Replace `{CLIENT NAME}` everywhere if you copied the
+template.
+
+Tell the user where you wrote it. In setup B especially, they own that folder and need to
+know it exists.
 
 ## Pick a depth first — ask, don't assume
 
@@ -183,14 +193,26 @@ find no context just quietly ask more questions. Do not leave them there.
 bash scripts/activate_client.sh <company>
 ```
 
-**2. Build the portable context skill:**
+**2. Build the portable context skill.** From a repo checkout:
 
 ```bash
 python3 scripts/make_context_plugin.py <company>
 ```
 
-This packages the pack as a `company-context` skill that loads wherever Claude runs. The
-script prints the two install routes; give the user the one matching their app:
+With no checkout (setup B), point it at the pack — the script lives inside the installed
+plugin, and the path is printed by `claude plugin details bigslick@bigslick` if you need it:
+
+```bash
+python3 <plugin>/scripts/make_context_plugin.py <company> --pack ~/Documents/bigslick/<company>
+```
+
+If you cannot run scripts at all in this environment, do it by hand instead: write the same
+`SKILL.md` yourself — frontmatter with `name: company-context` and a **double-quoted**
+`description`, then the pack contents as sections — put it in a folder called
+`company-context/`, and tell the user to zip that folder. The quoting matters: an unquoted
+description containing a colon makes the file unparseable and the skill silently never loads.
+
+The script prints the two install routes; give the user the one matching their app:
 
 - **Claude Code:** `claude plugin marketplace add <printed path>` then `claude plugin install bigslick-context-<company>`
 - **Desktop app:** upload the printed `company-context.zip` under Settings → Capabilities → Skills
