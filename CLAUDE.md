@@ -12,11 +12,13 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 
 ## Build & release
 - System Python is PEP 668 externally-managed, so `pip3 install pyyaml` fails. Use a venv: `python3 -m venv .venv && .venv/bin/pip install pyyaml`, then run scripts with `.venv/bin` on PATH.
-- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `skills/` + `.claude-plugin/plugin.json` at the repo root (committed — this is the plugin itself). Expect **247** skills (245 upstream + 2 core).
+- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `skills/` + `.claude-plugin/plugin.json` at the repo root (committed — this is the plugin itself). Expect **247** skills (245 upstream + 2 core), 30 in the root plugin and 217 across 10 bundles.
 - `python3 scripts/gen_inventory.py` after any manifest change — `test.sh` T5 fails if a composed skill is missing from INVENTORY.md.
 - `bash scripts/test.sh` — release gate (T1 counts, T2 frontmatter, T3 exclusions, T4 provenance, T5 inventory, T6 manifests, F1 client lifecycle). Must print ALL TESTS PASS.
 - `bash scripts/package_release.sh` → `bigslick-<version>.zip`, the end-user download (dist/ prebuilt, installer, marketplace manifest, client packs). `scripts/package_dmg.sh` wraps it for macOS.
-- Client activation: `bash scripts/activate_client.sh <client>` (relative symlinks). New packs start as `cp -r core/clients/_template core/clients/<name>`.
+- Client activation: `bash scripts/activate_client.sh <client>` — symlinks `.agents/product-marketing.md` in the repo AND copies to `~/.claude/`. Both are working-directory dependent.
+- **Portable context: `python3 scripts/make_context_plugin.py <client>`.** Packages the pack as a `company-context` skill (plugin dir for the CLI, zip for the desktop app). This is the only route that reaches the desktop app, which has no working directory — without it the customisation layer silently does nothing there.
+- `bash scripts/check_client_pack.sh <client>` — did onboarding actually write a usable pack?
 - Quarterly: `bash scripts/update_upstreams.sh` → review add/removes → edit manifest → recompose → gen_inventory → test → bump `overlay/plugin/plugin.json` version.
 
 ## Working conventions
@@ -31,6 +33,9 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 - The 29 removed core skills (personas, staff-meeting, company-onboarding, resource-hub, pipeline-math, and the rest) are recoverable at **4373503**, the commit before the v0.2 merge.
 
 ## Known gaps
-- Nothing creates client packs any more — `company-onboarding` was removed in v0.2 and no upstream skill replaces it. Packs are a manual copy-and-fill from `_template`.
-- `resource-hub` is gone, so there is no capability-routing layer. No shipped skill references it (verified 0). Skills that need an external API name it directly or rely on connected MCPs.
+- **Company context is working-directory dependent.** 25 skills look for `.agents/product-marketing.md` and 17 for `.claude/product-marketing.md`, both relative to cwd. That resolves only when Claude runs from a directory holding one — not from the user's own project, and not at all in the desktop app. `scripts/make_context_plugin.py` packages the pack as a `company-context` skill, which is the only route that reaches everywhere; keep it in the onboarding flow.
+- **Skills fail silently without context.** They say "if the pack exists, read it" and otherwise just ask more questions, so a user cannot tell tailored work from generic. The generated context skill announces itself for this reason; the 245 upstream skills cannot be patched to do the same without 245 merge costs.
+- `resource-hub` governs first-party skills and user provider config only. The vendored skills name their own providers; `INVENTORY.md` records each one's env vars.
+- **Trigger collisions are unmeasured** at 247 skills. 13 skills mention positioning; `onboarding` (post-signup) and `company-onboarding` (context pack) are semantically adjacent but unrelated. No eval set exists.
+- `company-onboarding` has still never been executed end to end.
 - `DESIGN-SPEC.md` is referenced in older docs but has never existed in this repo.

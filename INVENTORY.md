@@ -201,7 +201,7 @@ Detected by static scan of each skill's files; treat it as a strong hint, not a 
 | `monetizing-innovation` | `bigslick-lifecycle` | wondelai/skills | MIT | none |
 | `newsletter` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | none |
 | `obviously-awesome` | `bigslick` | wondelai/skills | MIT | none |
-| `offers` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `offers` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
 | `okr-design` | `bigslick-strategy` | rampstackco/claude-skills | MIT | none |
 | `onboarding` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
 | `one-page-marketing` | `bigslick-strategy` | wondelai/skills | MIT | none |

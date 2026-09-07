@@ -126,7 +126,7 @@ Every upstream is MIT or Apache-2.0 and redistributable — original licence fil
 
 ## Claude.ai packaging — experimental, maintainer-only (decided 2026-08-22)
 
-`scripts/package_for_claude_ai.py` works, but the path covers the lean core: 31 of 247 skills have
+`scripts/package_for_claude_ai.py` works, but the path covers the lean core: 30 of 247 skills have
 hand-written short descriptions in `overlay/claude-ai/descriptions.yaml`, and 125 exceed
 Claude.ai's 200-character description cap. Because the description *is* the trigger logic,
 auto-compressed skills install but may never fire — a failure the user cannot see or diagnose.

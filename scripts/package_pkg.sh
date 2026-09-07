@@ -96,7 +96,7 @@ you are done. Add Big Slick inside the app instead:
      appears until you do
   9. Click "Browse" to see what's in it
  10. Go to "Personal"
- 11. Add the packages you want. Start with "bigslick" — the 31-skill core
+ 11. Add the packages you want. Start with "bigslick" — the 30-skill core
  12. Start a chat and say "Onboard my company" to tailor it to your business
 
 Type "/" in a chat at any point to see the skills you've added.

@@ -165,14 +165,17 @@ bundles:
       revops, sales-coaching, sales-enablement, sequence-performance, tam-builder,
       targeted-prospecting
       ]
+  # `offers` moved here from the lean core: its register is agency/coaching/info-product
+  # (grand-slam offers, high-ticket, bonus stacks), which reads wrong as a default for a
+  # B2B SaaS team. Still shipped, just opt-in.
   - name: lifecycle
     description: >-
       Post-signup revenue: activation, retention, churn, referrals, email/SMS sequences and monetisation.
     skills: [
       affiliate-marketing, churn-prevention, churn-risk-detector, co-marketing,
       email-deliverability, email-sequence, email-subject-lines, expansion-signal-spotter,
-      improve-retention, monetizing-innovation, onboarding, paywalls, popups, referrals,
-      retention, signup, sms
+      improve-retention, monetizing-innovation, offers, onboarding, paywalls, popups,
+      referrals, retention, signup, sms
       ]
   - name: strategy
     description: >-

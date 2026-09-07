@@ -21,7 +21,7 @@ prompt) are different products, and Big Slick installs differently in each.
 8. Click **Sync** — this pulls the marketplace down; nothing appears until you do
 9. Click **Browse** to see what's in it
 10. Go to **Personal**
-11. Add the packages you want — start with **bigslick**, the 31-skill core
+11. Add the packages you want — start with **bigslick**, the 30-skill core
 12. Start a chat and say **Onboard my company** to tailor it to your business
 
 Type `/` in a chat to see the skills you've added.

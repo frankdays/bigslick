@@ -3,7 +3,7 @@
 Marketing skills for Claude, curated from open-source upstreams and shipped as a
 lean core plus opt-in bundles.
 
-Installing `bigslick` gives you **31 broadly-useful skills** — planning, ICP,
+Installing `bigslick` gives you **30 broadly-useful skills** — planning, ICP,
 copywriting, landing pages, SEO audits, ads, CRO, pricing, attribution, reporting.
 Add a specialty only when you need it:
 

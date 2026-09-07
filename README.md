@@ -23,7 +23,7 @@ Marketing work you'd normally hire for — pipeline reviews, exec reporting, pro
 8. Click **Sync** — this pulls the marketplace down; nothing appears until you do
 9. Click **Browse** to see what's in it
 10. Go to **Personal**
-11. Add the packages you want — start with **bigslick**, the 31-skill core
+11. Add the packages you want — start with **bigslick**, the 30-skill core
 12. Start a chat and say **Onboard my company** to tailor it to your business
 
 Type `/` in a chat to see the skills you've added.
@@ -85,7 +85,7 @@ Big Slick runs in **Claude Code**, where it has full capability — API keys, MC
 
 Claude.ai takes one zip per skill, caps each description at **200 characters**, and has no filesystem, so repo-relative client-pack paths never resolve. `scripts/package_for_claude_ai.py` reconciles all three, bundling the active client pack into each zip and rewriting paths to match.
 
-**Status: 31 of 247 skills are ready for this path** — the full lean core, hand-written. The description *is* the trigger logic, and 125 skills run past the cap (median ~450 chars). Auto-compression drops the "Use when the user says…" phrases that make a skill fire, so a compressed skill installs but may never trigger. Hand-written short descriptions live in `overlay/claude-ai/descriptions.yaml`; write an entry before relying on a skill here.
+**Status: 30 of 247 skills are ready for this path** — the full lean core, hand-written. The description *is* the trigger logic, and 125 skills run past the cap (median ~450 chars). Auto-compression drops the "Use when the user says…" phrases that make a skill fire, so a compressed skill installs but may never trigger. Hand-written short descriptions live in `overlay/claude-ai/descriptions.yaml`; write an entry before relying on a skill here.
 
 This path is deliberately excluded from the end-user download — shipping skills that install but don't fire is worse than not shipping them. Generate on demand:
 
