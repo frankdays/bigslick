@@ -35,7 +35,7 @@ claude plugin marketplace add https://github.com/frankdays/bigslick
 claude plugin install bigslick@bigslick
 ```
 
-**Prefer a download?** Grab `bigslick-0.2.2.pkg` from [Releases](https://github.com/frankdays/bigslick/releases)
+**Prefer a download?** Grab `bigslick-0.2.3.pkg` from [Releases](https://github.com/frankdays/bigslick/releases)
 and double-click it. macOS blocks it the first time — it isn't signed with a paid Apple developer
 account — so go to **System Settings → Privacy & Security**, scroll to Security, and click **Open Anyway**.
 (The right-click → Open trick stopped working in macOS 15.) A `.dmg` and `.zip` are there too.
