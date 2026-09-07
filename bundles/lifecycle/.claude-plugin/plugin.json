@@ -1,6 +1,6 @@
 {
   "name": "bigslick-lifecycle",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Post-signup revenue: activation, retention, churn, referrals, email/SMS sequences and monetisation.",
   "author": {
     "name": "Frank Days"
