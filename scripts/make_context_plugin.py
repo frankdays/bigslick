@@ -87,9 +87,24 @@ def build_skill_md(company: str, pack: Path) -> tuple[str, int]:
         out += [body, ""]
         wrote += 1
 
-    out += ["## When something is missing", "",
-            "If the user asks for work that needs a fact this pack does not carry, say which",
-            "fact is missing and ask for it. Do not fall back to industry averages silently."]
+    out += ["## When something is missing — keep going", "",
+            "A missing fact, tool or API key is never a reason to refuse the work. Most of the",
+            "value here is judgement; the data is an input you can obtain another way.", "",
+            "1. Try a built-in substitute first — web search, reading the page, or reasoning",
+            "   from this pack.",
+            "2. If you still need something only they have, ask for exactly that, once, and",
+            "   specifically. \"Paste your top 10 keywords with volume and position\" gets",
+            "   answered; \"do you have Semrush?\" stalls the conversation.",
+            "3. Produce the deliverable anyway, marking which figures were supplied rather",
+            "   than measured, and flagging the gaps inside the deliverable so they can be",
+            "   filled later.", "",
+            "Never present an estimate as retrieved data, and never raise the same missing",
+            "credential more than once in a session — say the env var name and what it would",
+            "automate, then carry on.", "",
+            "Check *Tools and data* above before assuming anything is unavailable: a tool",
+            "listed as owned but not connected means they have the data and you simply cannot",
+            "fetch it, so ask. A tool they do not own means find another route, and put any",
+            "recommendation to buy it at the end of the deliverable rather than in its way."]
     return "\n".join(out) + "\n", wrote
 
 def main():

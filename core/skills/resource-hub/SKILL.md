@@ -44,7 +44,38 @@ python scripts/call_llm.py --capability research_synthesis --prompt "..."
 python scripts/call_llm.py --capability bulk_classification --prompt-file items.txt
 ```
 
-4. If the primary provider fails or its env var is missing, follow the `fallbacks` chain in the registry. If all fallbacks are exhausted, tell the user which env var or provider is missing rather than silently degrading.
+4. If the primary provider fails or its env var is missing, follow the `fallbacks` chain in the registry, then apply the rule below.
+
+## When a tool or key is missing — keep going
+
+**A missing dependency is not a reason to stop.** Most of what these skills do is judgement,
+and the API is a convenience that supplies inputs faster. A pricing analysis without a
+Semrush key is still a pricing analysis; it just runs on numbers the user gives you instead
+of numbers you fetched. Refusing to proceed until a credential exists is the single most
+annoying failure mode in this library, and it is never the right answer.
+
+Work down this ladder and stop at the first rung that works:
+
+1. **Substitute a built-in.** Web search, reading the page directly, or reasoning from the
+   client pack covers a surprising amount of what an API would have returned.
+2. **Ask for exactly what you need — once, and specifically.** Not "do you have Semrush?"
+   but "give me your top 10 keywords by volume and current position, or paste the export."
+   A short, concrete ask gets answered; a vague one stalls the session.
+3. **Proceed with what you have**, and say which figures were supplied rather than measured.
+4. **Produce the deliverable anyway.** Partial inputs give a caveated output, not no output.
+   Mark the gaps in the deliverable itself so the user can fill them later.
+
+Two things never to do:
+
+- **Never present an estimate as retrieved data.** If you did not call the API, do not write
+  as though you did. Say "you told me" or "industry typical" and mean it.
+- **Never nag.** Mention the missing key once, with the env var name and what it would
+  automate, then carry on. Repeating it every turn does not make anyone go and get it.
+
+Where the user has a client pack, `stack.md` records which tools they own and which are
+actually connected here. Owned-but-not-connected means rung 2: they have the data, you just
+cannot reach it. Not owned at all means rung 1, and any recommendation to buy the tool
+belongs at the end of the deliverable, not in the way of it.
 
 ## Capability routing
 
