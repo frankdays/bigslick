@@ -63,8 +63,13 @@ easier than answering from a blank page, and it is why this path actually gets f
 3. **Draft the whole pack from that**, marking every inference `(assumed)`.
 4. **Show them the summary and ask for corrections in one pass.** "Here's what I concluded.
    What's wrong?" Not a question list.
-5. **Ask only the two things a website never reveals:** what actually generates revenue today
-   (inbound/outbound/PLG/sales-led), and their single biggest marketing problem right now.
+5. **Ask only the three things a website never reveals:**
+   - What actually generates revenue today (inbound / outbound / PLG / sales-led)
+   - Their single biggest marketing problem right now
+   - **What tools they already use.** One question, in their words: *"What's in your stack —
+     CRM, analytics, SEO, ads, email?"* Take whatever they give you and write it into
+     `stack.md`. Don't interrogate; you can fill gaps later. Getting "HubSpot, GA4, Semrush"
+     is enough to stop every downstream skill recommending tools they already have.
 6. Write the pack to `core/clients/<company>/`, generate the context skill, done.
 
 ---
@@ -80,7 +85,14 @@ and confirm gaps. Time-box it: a working session, not a research project.
 4. **Positioning** — category claim, alternative the buyer would otherwise choose, top 3 value props with proof points, 1–2 sentences on why they win and why they lose.
 5. **Competitors** — 3–5 named, with one-line "how we beat them" and "where they beat us" each.
 6. **Voice** — 3 adjectives, 3 banned phrases/claims, one example of on-brand copy they love.
-7. **Stack & data** — CRM, analytics, SEO/ads tools + who pays for each, where pipeline numbers live, known data-quality problems.
+7. **Stack & data** — walk the categories in `stack.md` and fill the table. For each tool
+   capture three things, because skills behave differently on each: **do they own it**,
+   **is it connected in this Claude environment** (a credential that a skill could actually
+   call), and **who pays for it**. Owned-but-not-connected is the normal case and is not a
+   problem — it just means skills ask for the numbers instead of fetching them. Also record
+   what they evaluated and rejected, and any budget or procurement constraint on new tools;
+   without that, skills keep proposing vendors the company has already said no to. Then: where
+   pipeline numbers live, and known data-quality problems.
 8. **Funnel definitions & baselines** — agreed definitions of MQL/SQL/opp/sourced/influenced (get sales ops' version, note disputes), plus last 4 quarters of actuals: pipeline created, funnel conversion by stage, closed-won by source, new vs. expansion ARR split. Validate against CRM reality — treat unaudited CRM numbers as claims, not facts. Write to `metrics-baseline.md`; `pipeline-review`, `performance-report` and `revops` depend on this file.
 9. **Constraints** — budget band, sacred cows, compliance/legal review requirements, exec opinions that shape marketing whether right or wrong.
 

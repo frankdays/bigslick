@@ -96,10 +96,23 @@ def skill_dirs():
     return found
 
 def owned_tools(pack: Path):
-    """The company's stack.md, lowercased. Kept as raw text rather than a word set so
-    multi-word names like "google analytics" can still match."""
+    """(owned_text, rejected_text) from stack.md, lowercased.
+
+    Kept as raw text rather than a word set so multi-word names like "google analytics"
+    still match. The split matters: a tool named under "Deliberately not used" appears in
+    the file exactly like one they own, and recommending a vendor the company has already
+    evaluated and rejected is worse than staying quiet.
+    """
     f = pack / "stack.md"
-    return f.read_text().lower() if f.is_file() else ""
+    if not f.is_file():
+        return "", ""
+    txt = f.read_text().lower()
+    for marker in ("deliberately not used", "not used", "rejected"):
+        if marker in txt:
+            i = txt.index(marker)
+            end = txt.find("\n## ", i)
+            return txt[:i], txt[i:end if end != -1 else len(txt)]
+    return txt, ""
 
 def main():
     ap = argparse.ArgumentParser()
@@ -111,7 +124,7 @@ def main():
     if not skills:
         sys.exit("No skills found. In a source checkout, run scripts/compose.py first.")
 
-    owned = owned_tools(Path(a.pack).expanduser()) if a.pack else ""
+    owned, rejected = owned_tools(Path(a.pack).expanduser()) if a.pack else ("", "")
 
     services, mcps, considered = {}, {}, 0
     for d, owner in skills:
@@ -132,18 +145,31 @@ def main():
     print(f"Add-ons worth wiring up — {considered} skills scanned ({scope})\n")
 
     ranked = sorted(services.items(), key=lambda kv: (-len(kv[1]["skills"]), kv[0]))
+    def toks_for(name):
+        return MATCH.get(name) or (name.split()[0].lower(),)
+
     def is_owned(name):
-        toks = MATCH.get(name) or (name.split()[0].lower(),)
-        return any(tok in owned for tok in toks)
+        return any(tok in owned for tok in toks_for(name))
+
+    def is_rejected(name):
+        # Owned wins. A rejection note often names the tool that won ("Ahrefs - overlapped
+        # Semrush"), which would otherwise mark the incumbent as rejected too.
+        if is_owned(name):
+            return False
+        return any(tok in rejected for tok in toks_for(name))
 
     if owned:
-        ranked.sort(key=lambda kv: (not is_owned(kv[0]), -len(kv[1]["skills"])))
+        ranked.sort(key=lambda kv: (is_rejected(kv[0]), not is_owned(kv[0]), -len(kv[1]["skills"])))
         print("Tools your stack.md says you already use are listed first — those need a key,\n"
               "not a purchase decision.\n")
 
     for name, s in ranked:
         n = len(s["skills"])
-        have = " [you already use this]" if owned and is_owned(name) else ""
+        have = ""
+        if owned and is_owned(name):
+            have = " [you already use this]"
+        elif rejected and is_rejected(name):
+            have = " [you evaluated and rejected this — listed for completeness]"
         cost = f" · {s['cost']}" if s["cost"] != "unknown" else ""
         print(f"{name}{cost}{have}")
         if s["what"]:

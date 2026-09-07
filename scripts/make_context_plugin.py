@@ -27,15 +27,24 @@ CLIENTS = ROOT / "core" / "clients"
 
 # Order matters: the master summary first, then depth. Claude reads top-down.
 SECTIONS = [
-    ("product-marketing.md", "Company summary"),
-    ("icp.md",               "Ideal customer profile"),
-    ("messaging.md",         "Positioning and messaging"),
-    ("competitors.md",       "Competitors"),
-    ("voice.md",             "Voice and tone"),
-    ("stack.md",             "Tools and data"),
-    ("metrics-baseline.md",  "Funnel definitions and baselines"),
-    ("skills-profile.md",    "Which skills matter here"),
-    ("team-map.md",          "Who holds which seat"),
+    ("product-marketing.md", "Company summary", ""),
+    ("icp.md",               "Ideal customer profile", ""),
+    ("messaging.md",         "Positioning and messaging", ""),
+    ("competitors.md",       "Competitors", ""),
+    ("voice.md",             "Voice and tone", ""),
+    ("stack.md",             "Tools and data",
+     "**Act on this, don't just read it.** Recommend workflows around the tools listed as "
+     "owned; if something genuinely needs a tool they lack, say so explicitly and price the "
+     "switch rather than assuming it. Never suggest anything under *Deliberately not used* "
+     "without acknowledging they already rejected it. Where a tool is owned but **not "
+     "connected**, you cannot call its API — ask the user for the figures instead of "
+     "presenting an estimate as retrieved data. Respect the budget and procurement "
+     "constraints before proposing a new vendor."),
+    ("metrics-baseline.md",  "Funnel definitions and baselines",
+     "Use these definitions rather than generic ones, and these actuals rather than industry "
+     "benchmarks. If a number you need is missing, ask for it."),
+    ("skills-profile.md",    "Which skills matter here", ""),
+    ("team-map.md",          "Who holds which seat", ""),
 ]
 
 def build_skill_md(company: str, pack: Path) -> tuple[str, int]:
@@ -59,7 +68,7 @@ def build_skill_md(company: str, pack: Path) -> tuple[str, int]:
             "generic advice.", ""]
 
     wrote = 0
-    for fname, heading in SECTIONS:
+    for fname, heading, guidance in SECTIONS:
         f = pack / fname
         if not f.exists():
             continue
@@ -72,7 +81,10 @@ def build_skill_md(company: str, pack: Path) -> tuple[str, int]:
         body = "\n".join(lines).strip()
         if not body:
             continue
-        out += [f"## {heading}", "", body, ""]
+        out += [f"## {heading}", ""]
+        if guidance:
+            out += [guidance, ""]
+        out += [body, ""]
         wrote += 1
 
     out += ["## When something is missing", "",
