@@ -19,6 +19,7 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 - Client activation: `bash scripts/activate_client.sh <client>` — symlinks `.agents/product-marketing.md` in the repo AND copies to `~/.claude/`. Both are working-directory dependent.
 - **Portable context: `python3 scripts/make_context_plugin.py <client>`.** Packages the pack as a `company-context` skill (plugin dir for the CLI, zip for the desktop app). This is the only route that reaches the desktop app, which has no working directory — without it the customisation layer silently does nothing there.
 - `bash scripts/check_client_pack.sh <client>` — did onboarding actually write a usable pack?
+- `python3 scripts/suggest_addons.py [--pack <path>] [--plugin bigslick]` — which third-party services to wire up, ranked by skills unlocked. Reuses `gen_inventory.scan`, so it cannot drift from INVENTORY.md. Onboarding Phase B runs it.
 - Quarterly: `bash scripts/update_upstreams.sh` → review add/removes → edit manifest → recompose → gen_inventory → test → bump `overlay/plugin/plugin.json` version.
 
 ## Working conventions

@@ -37,7 +37,8 @@ cp install.sh INSTALL.command INSTALL.md README.md LICENSE LICENSING.md "$STAGE/
 # Everything company-onboarding tells Claude to run must be in the download, or the
 # portable-context step — the only route that reaches the desktop app — fails with
 # "No such file" for anyone who installed from the zip or .pkg.
-cp scripts/activate_client.sh scripts/make_context_plugin.py scripts/check_client_pack.sh "$STAGE/scripts/"
+cp scripts/activate_client.sh scripts/make_context_plugin.py scripts/check_client_pack.sh \
+   scripts/suggest_addons.py scripts/gen_inventory.py "$STAGE/scripts/"
 cp -R core/clients/_template "$STAGE/core/clients/"
 [ -d core/clients/hansel-ai ] && cp -R core/clients/hansel-ai "$STAGE/core/clients/"
 

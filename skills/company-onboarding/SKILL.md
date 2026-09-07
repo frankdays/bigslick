@@ -124,12 +124,36 @@ judged on.
 
 ---
 
-## Phase B — Resource wiring
+## Phase B — Add-ons worth wiring up
 
-From `stack.md`, produce `setup-checklist.md` in the client folder:
-- Which resource-hub capabilities route to the client's own subscriptions (their Ahrefs/Semrush seat, their ad accounts) vs. your defaults — list exact `registry.yaml` deltas but do NOT edit the global registry; per-client routing notes live in `stack.md`.
-- Required connections/env vars and who provides credentials.
-- MCP connectors to enable (CRM, analytics) and any that are unavailable in the current environment — flag, don't emulate.
+Produce `setup-checklist.md` in the client folder: which third-party services this company
+should connect, ranked by what each one actually unlocks. Don't guess at this — the answer is
+derivable, and guessing produces a wall of every credential in the library.
+
+Run the suggester, pointing it at the pack so it can read their `stack.md`:
+
+```bash
+python3 scripts/suggest_addons.py --pack <path-to-pack>
+```
+
+It reports, per service: what it's for, whether it's free/freemium/paid, how many skills it
+unlocks and which, which bundle those skills need, and the exact env vars to set. Tools the
+company already appears to own are listed first and marked — those need a key, not a purchase
+decision. Add `--plugin bigslick` to limit it to the lean core if they haven't installed
+bundles yet.
+
+Turn that output into a short checklist, and apply judgement the script can't:
+
+- **Lead with what they already pay for.** A Semrush seat they own and haven't connected is
+  the cheapest win available.
+- **Cut anything their priority skills don't need.** A service unlocking 11 skills is
+  irrelevant if none of those 11 are on their Phase C shortlist. Cross-check before listing it.
+- **Say who provides each credential** — often not the person you're talking to.
+- **Flag MCP connectors** (CRM, analytics) that are unavailable in the current environment.
+  Flag them; never emulate them.
+- **Be clear that none of it is required.** Every skill still works from what the user tells
+  it. Keys let it fetch numbers itself instead of asking. Presenting this as a prerequisite
+  is the fastest way to lose someone during onboarding.
 
 ## Phase C — Skills profile
 
