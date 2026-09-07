@@ -19,7 +19,7 @@ skill, and emits it two ways because the two apps install differently:
 Regenerate after editing the pack. Nothing here is client-specific in code; the
 company's data only ever lives in the generated output.
 """
-import argparse, json, shutil, sys, zipfile
+import argparse, json, re, shutil, sys, zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -38,17 +38,17 @@ SECTIONS = [
     ("team-map.md",          "Who holds which seat"),
 ]
 
-def build_skill_md(company: str, pack: Path) -> str:
+def build_skill_md(company: str, pack: Path) -> tuple[str, int]:
     desc = (
-        f"Company context for {company}: positioning, ICP, messaging, competitors, voice, "
-        f"tools and funnel baselines. Load this BEFORE any marketing work — planning, copy, "
-        f"campaigns, pricing, outreach, SEO, reporting — so the answer reflects this business "
+        f"Company context for {company} - positioning, ICP, messaging, competitors, voice, "
+        f"tools and funnel baselines. Load this BEFORE any marketing work: planning, copy, "
+        f"campaigns, pricing, outreach, SEO, reporting, so the answer reflects this business "
         f"rather than generic advice. Also use when the user asks what you know about them."
     )
-    if len(desc) > 1024:
-        desc = desc[:1020] + "..."
-
-    out = ["---", f"name: company-context", f"description: {desc}", "---", ""]
+    # The description MUST be a quoted YAML scalar. A bare scalar containing ": " makes the
+    # frontmatter unparseable, and a skill whose frontmatter will not parse simply never
+    # loads — silently, which is how the first version of this shipped broken.
+    out = ["---", "name: company-context", f"description: {json.dumps(desc)}", "---", ""]
     out += [f"# Company context — {company}", "",
             "You are working for the business described below. Treat this as fact and do not",
             "re-ask what it already answers. Where something is marked TBD, ask for it rather",
@@ -64,8 +64,11 @@ def build_skill_md(company: str, pack: Path) -> str:
         if not f.exists():
             continue
         body = f.read_text().strip()
-        # Drop the file's own H1; this document supplies the heading.
-        lines = [l for l in body.splitlines() if not l.startswith("# ")]
+        # Drop only a leading H1 — this document supplies the heading. Filtering every
+        # line starting with "# " would also eat comments inside fenced code blocks.
+        lines = body.splitlines()
+        if lines and lines[0].startswith("# "):
+            lines = lines[1:]
         body = "\n".join(lines).strip()
         if not body:
             continue
@@ -98,6 +101,29 @@ def main():
     skill_dir.mkdir(parents=True)
     (skill_dir / "SKILL.md").write_text(skill_md)
 
+    # Fail loudly rather than emit a skill that will never load. Deliberately does NOT use
+    # pyyaml: this script ships in the end-user download, where system Python is
+    # externally-managed and pyyaml is usually absent. The description is written with
+    # json.dumps, and a JSON string is a valid quoted YAML scalar, so round-tripping it
+    # through json.loads proves the exact property that broke the first version.
+    fm = re.match(r"^---\n(.*?)\n---\n", skill_md, re.S)
+    problem = None
+    if not fm:
+        problem = "no frontmatter block"
+    else:
+        keys = dict(l.split(": ", 1) for l in fm.group(1).splitlines() if ": " in l)
+        if keys.get("name") != "company-context":
+            problem = "name missing or wrong"
+        else:
+            try:
+                if not json.loads(keys.get("description", "")).strip():
+                    problem = "description empty"
+            except Exception:
+                problem = "description is not a quoted scalar — YAML would reject it"
+    if problem:
+        sys.exit(f"Generated frontmatter is invalid ({problem}). Refusing to emit a skill "
+                 f"that would silently fail to load.")
+
     cp = out / "plugin" / ".claude-plugin"
     cp.mkdir(parents=True)
     pname = f"bigslick-context-{a.company}"
@@ -119,13 +145,16 @@ def main():
     with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("company-context/SKILL.md", skill_md)
 
-    rel = out.relative_to(ROOT)
-    print(f"Built company context for {a.company} — {wrote} sections, {len(skill_md)} chars.\n")
+    try:
+        shown = out.relative_to(ROOT)
+    except ValueError:
+        shown = out            # --out pointed outside the repo; absolute path is still correct
+    print(f"Built company context for {a.company} - {wrote} sections, {len(skill_md)} chars.\n")
     print("Claude Code (terminal):")
-    print(f"  claude plugin marketplace add {ROOT/rel}/plugin")
+    print(f"  claude plugin marketplace add {out}/plugin")
     print(f"  claude plugin install bigslick-context-{a.company}\n")
     print("Claude desktop app:")
-    print(f"  upload {rel}/company-context.zip under Settings -> Capabilities -> Skills\n")
+    print(f"  upload {shown}/company-context.zip under Settings -> Capabilities -> Skills\n")
     print("Re-run this after any change to the pack.")
 
 if __name__ == "__main__":

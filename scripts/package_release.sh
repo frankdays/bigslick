@@ -34,7 +34,10 @@ cp .claude-plugin/plugin.json "$STAGE/.claude-plugin/"
 cp dist/PROVENANCE.txt "$STAGE/" 2>/dev/null || true
 cp .claude-plugin/marketplace.json "$STAGE/.claude-plugin/"
 cp install.sh INSTALL.command INSTALL.md README.md LICENSE LICENSING.md "$STAGE/"
-cp scripts/activate_client.sh "$STAGE/scripts/"
+# Everything company-onboarding tells Claude to run must be in the download, or the
+# portable-context step — the only route that reaches the desktop app — fails with
+# "No such file" for anyone who installed from the zip or .pkg.
+cp scripts/activate_client.sh scripts/make_context_plugin.py scripts/check_client_pack.sh "$STAGE/scripts/"
 cp -R core/clients/_template "$STAGE/core/clients/"
 [ -d core/clients/hansel-ai ] && cp -R core/clients/hansel-ai "$STAGE/core/clients/"
 

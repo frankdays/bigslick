@@ -8,6 +8,23 @@ description: Tailor the entire marketing skill system to a specific business. Us
 Configures the library for one business. Everything else in Big Slick gives generic advice
 until this has run.
 
+## Where the pack goes — this is not optional
+
+Every tier writes the same files to `core/clients/<company>/` in this repo, using
+`core/clients/_template/` as the structure. Copy the template first, then fill it in:
+
+```bash
+cp -r core/clients/_template core/clients/<company>
+```
+
+Files: `product-marketing.md` (the master summary skills read — keep it under ~150 lines,
+depth goes in the topic files), `icp.md`, `messaging.md`, `competitors.md`, `voice.md`,
+`stack.md`, `metrics-baseline.md`, plus `skills-profile.md` and `team-map.md` from the later
+phases. Replace `{CLIENT NAME}` everywhere.
+
+Writing them anywhere else breaks the two steps that follow: `activate_client.sh` exits with
+"No such client pack" and `make_context_plugin.py` with "No pack at core/clients/<company>".
+
 ## Pick a depth first — ask, don't assume
 
 Say what the three cost and let the user choose. Most people should start at Express; a
@@ -38,7 +55,7 @@ easier than answering from a blank page, and it is why this path actually gets f
    What's wrong?" Not a question list.
 5. **Ask only the two things a website never reveals:** what actually generates revenue today
    (inbound/outbound/PLG/sales-led), and their single biggest marketing problem right now.
-6. Write the pack, generate the context skill, done.
+6. Write the pack to `core/clients/<company>/`, generate the context skill, done.
 
 ---
 
