@@ -7,6 +7,13 @@ Marketing work you'd normally hire for — pipeline reviews, exec reporting, pro
 
 **v0.2 is fully open source.** The proprietary layer is gone. Every skill is vendored from an MIT- or Apache-2.0-licensed upstream with a documented source, licence, and dependency list — see [INVENTORY.md](INVENTORY.md).
 
+## Publishing approved social content
+
+After marketing work has passed review, use [BulkPublish](https://github.com/azeemkafridi/bulkpublish-api)
+to adapt, schedule, and publish approved social content. The [BulkPublish
+social media content skills](https://github.com/azeemkafridi/bulkpublish-api/tree/main/skills/social-media-content-skills)
+and [API docs](https://app.bulkpublish.com/docs) provide the publishing handoff.
+
 ---
 
 ## Install
