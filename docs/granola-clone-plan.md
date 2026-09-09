@@ -428,7 +428,91 @@ Roughly **four to five weekends** to daily-driver quality.
 
 ---
 
-## 12. Pitfalls worth knowing in advance
+## 12. Where the effort actually goes
+
+Effort and risk are not the same thing here, and conflating them leads to planning the
+wrong stage first. Three different kinds of hard show up in this project:
+
+| Feature | Effort | Kind of hard | Can it kill the project? |
+|---|---|---|---|
+| Core Audio capture | **High** — 2–3 weekends cumulative | Unfamiliar API + real-time constraints | **Yes** |
+| Meeting-link extraction | **High** — a day, then a long tail | Endless real-world variety | No |
+| Alert state machine | Medium — a weekend, then corrections | Deceptively many edges | No |
+| Templates / summary quality | **Unbounded** — never finished | Slow, subjective feedback loop | It decides whether you use the app |
+| Transcription integration | Low — a weekend | Plumbing, one sharp edge | No |
+| Everything else | Low — hours each | Ordinary | No |
+
+### 1. Core Audio capture — the only thing that can stop you
+
+Highest risk, and higher effort than the AudioCap starting point suggests. AudioCap shows
+you the API dance; it is a demo, not a capture engine. What it doesn't hand you:
+
+- **Real-time thread discipline.** The `AudioDeviceCreateIOProcIDWithBlock` callback is a
+  real-time thread: no allocation, no locks, no ARC traffic. Getting samples out to the
+  rest of the app needs a lock-free ring buffer. This is the part that works in a demo and
+  glitches in a real meeting, which is also the worst way to find out.
+- **Format conversion.** Taps deliver the device's native format — often 48 kHz float,
+  multichannel. WhisperKit wants 16 kHz mono. Streaming resampling via `AVAudioConverter`,
+  done correctly, is real work.
+- **Two clocks.** The system tap and the microphone run on different hardware clocks and
+  will drift apart over a long meeting. Timestamp alignment for merging the two channels is
+  not free.
+- **Core Audio's failure style.** Opaque `OSStatus` codes, no exceptions, and failures that
+  manifest as silence rather than errors. Debugging is slow.
+
+The one-weekend spike gets you recording. Trusting it daily is more like two to three
+weekends of cumulative work spread across the project.
+
+### 2. Meeting-link extraction — the grind
+
+Not intellectually hard; just endless. Zoom links show up in `location`, in `notes`, as
+bare URLs, wrapped in Outlook safelinks, with the passcode inline or on its own line. Meet
+is in `event.url` sometimes and buried in the body other times. Teams links are enormous
+and URL-encoded. An invite forwarded through three people accumulates cruft from all three.
+
+This is the classic "90% in a day, the last 10% forever" feature. No amount of design
+avoids it — only real invites do. Collect a dozen off your own calendar before writing the
+parser, and expect to keep patching it for months.
+
+### 3. The alert state machine — the one that gets underestimated
+
+The notification API is easy. The state around it is not: events move and get cancelled
+(cancel and re-register), recurring events need per-occurrence handling, the same meeting
+appears on two calendars, the Mac was asleep, a recording is already running, meetings run
+back-to-back, timezones change, you declined after the alert was scheduled.
+
+Each edge is small. Together they're a real state machine, and the bugs are the kind you
+discover a week later when a meeting quietly wasn't recorded.
+
+### 4. Templates and summary quality — the one with no finish line
+
+This is not engineering effort, it's iteration against a slow, subjective feedback loop.
+You can only evaluate a template on real meetings, one meeting at a time, and "is this
+summary good?" has no test suite. There is no done state.
+
+It is also, since dropping typed notes, carrying the app's entire quality burden. This is
+where the project either becomes something you use daily or becomes another notetaker whose
+output you stop opening — and it's the one part no library shortcuts.
+
+Front-load one genuinely good template rather than four mediocre ones.
+
+### What's deceptively easy, and deceptively hard
+
+**Looks hard, isn't:** transcription (WhisperKit is an `import`), notifications
+(`UserNotifications` is straightforward), calendar access (EventKit removes an entire OAuth
+subsystem), storage (files on disk), the Claude call (one HTTP request).
+
+**Looks easy, isn't:** the real-time audio callback, and the alert state machine. Both look
+like a day's work and aren't.
+
+**The summary:** one feature can stall the project (capture), one will consume more hours
+than any other (link extraction), one will be underestimated (the alert loop), and one
+never ends (templates). Everything else is genuinely small — which is the reason a project
+like this is feasible for one person at all.
+
+---
+
+## 13. Pitfalls worth knowing in advance
 
 1. **Core Audio taps stall the project.** The most likely failure mode. Mitigated by
    starting there and by AudioCap existing. Hold yourself to the one-weekend box.
@@ -451,7 +535,7 @@ Roughly **four to five weekends** to daily-driver quality.
 
 ---
 
-## 13. Open decisions
+## 14. Open decisions
 
 1. **How early should the alert fire?** T-1 is Granola-like and keeps it actionable. T-2 or
    T-5 gives room to prepare but drifts toward being another calendar reminder you ignore.
