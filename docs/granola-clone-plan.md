@@ -1,7 +1,7 @@
 # Personal Meeting Notetaker — Build Plan
 
-A single-user macOS app that records meetings, transcribes them on-device, and writes the
-summary. No note-taking, no interaction during the call.
+A single-user macOS app that alerts you before a meeting, joins the call, records it,
+transcribes on-device, and writes the summary.
 
 **Scope:** one user, one Mac, no distribution, no accounts, no backend, no sync.
 **Status:** planning. No code written.
@@ -26,20 +26,19 @@ this document assumes you decided to build.
 
 ## 2. What it does
 
-**The app is invisible until the meeting is over.**
-
-1. **A meeting starts.** It notices — a calendar event is live, or a call app started
-   producing audio — and begins recording. A global hotkey does the same manually. The only
-   visible sign is a menu-bar indicator.
-2. **It records and transcribes in the background.** System audio (them) and microphone
-   (you) as separate streams, transcribed on-device. You do nothing.
-3. **The meeting ends.** The transcript goes to Claude with the meeting's template, and a
+1. **A minute before your meeting, a notification appears.** Meeting name, time,
+   attendees, and three buttons: **Join & Record**, **Record only**, **Skip**.
+2. **You click Join & Record.** Zoom launches straight into the call, and recording arms
+   at the same moment. One click, from a notification, before the meeting.
+3. **It records and transcribes in the background.** System audio (them) and microphone
+   (you) as separate streams, transcribed on-device. Nothing to do during the call.
+4. **The meeting ends.** The transcript goes to Claude with the meeting's template, and a
    structured summary comes back.
-4. **It files itself.** Bound to the calendar event, with title, time and attendees. Lands
+5. **It files itself.** Bound to the calendar event, with title, time and attendees. Lands
    in a searchable library on disk as markdown.
 
-There is no editor, no during-meeting UI, and nothing to remember to do. You go to a
-meeting; afterwards the note exists.
+No editor, no during-meeting UI. The only interaction in the whole flow is one click on a
+notification you were about to act on anyway.
 
 ### Feature set, prioritised
 
@@ -47,26 +46,28 @@ meeting; afterwards the note exists.
 
 | Feature | Notes |
 |---|---|
-| No bot joins the call | Nothing appears in the meeting. Works on Zoom, Meet, Teams, a phone on speaker, or in person. This is the whole thesis |
+| Pre-meeting alert with Join & Record | The entry point to everything else (see §7) |
+| Launches the call app directly | Zoom deep link, or the meeting URL for Meet/Teams (see §7) |
+| No bot joins the call | Nothing appears in the meeting. Works on Zoom, Meet, Teams, a phone on speaker, or in person |
 | Background dual-stream capture | System audio + mic, separately (see §4) |
 | On-device transcription | Free, private, no network (see §5) |
-| AI summary from the transcript | The output the app exists to produce (see §7) |
-| Templates per meeting type | Sales call, 1:1, interview, advisory. **The only steering signal you have** — see the design note below |
-| Calendar binding | Title, attendees, time, description pulled automatically (see §6) |
+| AI summary from the transcript | The output the app exists to produce (see §8) |
+| Templates per meeting type | Sales call, 1:1, interview, advisory. **The only steering signal you have** |
+| Calendar binding | Title, attendees, time, description, meeting link (see §6) |
 | Library + full-text search | Every meeting, findable |
 | Raw transcript retained and viewable | For when you need to check what was actually said |
-| Re-run summarisation | Change a template, regenerate old summaries. Cheap, and you will want it constantly |
+| Re-run summarisation | Change a template, regenerate old summaries. Cheap, and you will want it |
 
 **Worth having — add once it's a habit**
 
 | Feature | Notes |
 |---|---|
-| Moment marker hotkey | One keystroke during a call drops a timestamp — no typing. Gives the summariser a priority signal without any note-taking. Cheap to build, and the best available substitute for typed notes |
-| Ask questions across meeting history | "What did we agree with Acme in March?" — retrieval over the transcript corpus |
+| Moment marker hotkey | One keystroke during a call drops a timestamp — no typing. Gives the summariser a priority signal. The best available substitute for typed notes |
+| Ask questions across meeting history | Retrieval over the transcript corpus |
 | Action items extracted with owners | Falls out of the summarisation pass; worth its own view |
 | Export / copy as markdown | One keystroke to get it wherever it's going next |
 | Manual speaker naming | Map "them" to a real name once per recurring meeting |
-| Folders or tags | Only once the library is big enough to need them |
+| Folders or tags | Only once the library needs them |
 
 **Explicitly not building**
 
@@ -75,11 +76,14 @@ sync, mobile, Windows, accounts, billing.
 
 ### Design principles
 
-- **Zero interaction is the feature.** If something requires you to act during a meeting,
-  it doesn't belong. The app's whole value is that you forget it exists.
+- **One click, before the meeting. Zero during it.** The alert is the single point of
+  interaction. Once you're in the call the app is invisible.
+- **The alert must be trustworthy.** It fires for the right meetings and not the wrong
+  ones. An alert that cries wolf on declined invites and holiday calendars gets dismissed
+  reflexively, and then it silently stops working. Filtering (§7) is not a detail.
 - **Templates carry all the steering.** Without typed notes, nothing tells the summariser
-  what mattered to *you* — it only knows what was said. Template quality is therefore the
-  entire quality lever, not a nicety. Expect to iterate on them, and build for that (§7).
+  what mattered to *you* — only what was said. Template quality is the entire quality
+  lever. Expect to iterate, and build for that (§8).
 - **Never lose a meeting.** Write audio and partial transcript to disk continuously. A
   crash at minute 50 should cost seconds, not the meeting.
 
@@ -87,21 +91,20 @@ sync, mobile, Windows, accounts, billing.
 
 ## 3. Architecture
 
-One Swift app. One process. macOS 14.4+, Apple Silicon.
+One Swift app. One process. macOS 14.4+, Apple Silicon. Runs as a menu-bar agent at login.
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  SwiftUI menu-bar app                                     │
+│  SwiftUI menu-bar agent (LSUIElement, launch at login)    │
 │                                                           │
 │  ┌──────────────────┐   ┌────────────────────────────┐   │
 │  │ Library + search │   │ Settings / templates       │   │
 │  └──────────────────┘   └────────────────────────────┘   │
-│         (no during-meeting UI beyond a status icon)       │
 │                                                           │
+│  Alerts     EventKit → UserNotifications → NSWorkspace    │
 │  Capture    Core Audio process tap   → system audio       │
 │             AVAudioEngine            → microphone         │
 │  ASR        WhisperKit (CoreML, streaming, VAD)           │
-│  Calendar   EventKit                                      │
 │  Store      markdown + JSONL on disk                      │
 │  Summarise  Anthropic API via URLSession                  │
 └──────────────────────────────────────────────────────────┘
@@ -110,8 +113,10 @@ One Swift app. One process. macOS 14.4+, Apple Silicon.
 No Electron, no sidecar, no IPC, no server, no database daemon, no auth. Every dependency
 is an OS framework or a single Swift package — one Xcode project.
 
-Dropping the editor removes the only part of the UI that needed to be good. What remains is
-a menu-bar item, a list, and a settings pane.
+**The alert makes always-running a hard requirement.** Mark the app `LSUIElement` (menu bar
+only, no Dock icon) and register it as a login item with
+`SMAppService.mainApp.register()`. An app you have to remember to launch cannot alert you
+about a meeting you forgot.
 
 ---
 
@@ -135,17 +140,21 @@ This makes the hard part a reading exercise rather than a research project.
 
 **Capture mic and system audio as two separate streams.** The most important structural
 decision in the app. You get "me vs. them" attribution for free — perfect accuracy on the
-speaker boundary that matters most, with zero diarization, no ML, no cost. Diarizing
-multiple remote speakers becomes an optional refinement rather than a dependency.
-Retrofitting this is a re-plumb of the whole pipeline, so do it on day one.
+speaker boundary that matters most, with zero diarization, no ML, no cost. Retrofitting it
+is a re-plumb of the whole pipeline, so do it on day one.
+
+**Arming vs. starting.** "Join & Record" arms the tap; it should start capturing when the
+call app actually produces audio, not the instant you click. Clicking the alert, waiting
+through the Zoom splash screen, and picking an audio device can take twenty seconds — and
+a recording that starts on click captures that silence, which is exactly the input Whisper
+hallucinates against (§5).
 
 **Write to disk continuously.** Rolling audio chunks plus append-only partial transcript.
 Never hold a whole meeting in memory.
 
 **Edge cases you can ignore at personal scope:** headphone switching mid-call, Bluetooth
 dropping to 8/16 kHz HFP, mute-state detection, simultaneous audio sessions, multi-hour
-recordings. Handle each only when it actually bites you. Skipping them is most of why this
-is weekends rather than months.
+recordings. Handle each only when it bites you.
 
 ---
 
@@ -167,9 +176,8 @@ sentences from nothing. This is the most common way local transcription looks br
 will not announce itself. WhisperKit ships VAD, so this is configuration rather than code,
 but it is not the default-safe path. Test against a meeting with long quiet stretches early.
 
-**This matters more now.** With no typed notes to cross-check against, the transcript is the
-*only* input to the summary. A hallucinated passage goes straight into the note with nothing
-to contradict it. Getting VAD right is not optional polish here.
+**This matters more without notes.** The transcript is the *only* input to the summary. A
+hallucinated passage goes straight into the note with nothing to contradict it.
 
 Run ASR on both channels independently and merge by timestamp into one labelled transcript.
 
@@ -185,26 +193,115 @@ This deletes an entire subsystem. The alternative (Google Calendar API) means a 
 Cloud project, an OAuth consent screen, scope review, and app verification — weeks of
 process for data already sitting on your Mac.
 
-You get event title, time, attendees and description: enough to auto-file the summary, fill
-the note header, select a template by meeting type, and offer real names for the "them"
-channel.
+You get event title, time, attendees, description and URL: enough to fire the alert, launch
+the call, file the summary, select a template, and offer real names for the "them" channel.
 
 **Known limitation:** EventKit reflects Calendar.app's sync state, so an event created in
-Google seconds ago may take minutes to appear. Irrelevant for scheduled meetings,
-occasionally annoying for ad-hoc ones — the manual hotkey covers it.
-
-**Meeting detection matters more without a notepad.** In the previous design, opening the
-notepad *was* the start signal. Now detection is the only thing standing between you and a
-missed meeting. Combine two signals: a calendar event is currently active, *and* a known
-process (`zoom.us`, Teams, a browser on a Meet/Webex URL) is producing audio. Ship the
-manual hotkey first — it's ten lines and makes auto-detection a refinement rather than a
-blocker.
+Google seconds ago may take minutes to appear. Irrelevant for scheduled meetings — which is
+what the alert is for — and the manual hotkey covers the rest.
 
 ---
 
-## 7. The summarisation pass
+## 7. Pre-meeting alert and auto-join
 
-One Claude call. Cheapest component, and now the entire perceived value of the app.
+The entry point to the whole app. Four pieces: schedule, alert, extract, launch.
+
+### 7.1 Scheduling the alert
+
+Watch EventKit for changes (`NSNotification.Name.EKEventStoreChanged`) and re-scan on a
+timer as well — EventKit's sync lag means change notifications alone will miss things.
+Query events in the next few hours and register a `UNNotificationRequest` per meeting with
+a `UNCalendarNotificationTrigger` at **T-1 minute** (configurable; T-2 if you like a moment
+to breathe).
+
+Cancel and re-register pending requests whenever the store changes — meetings get moved and
+cancelled constantly, and a notification for a meeting that no longer exists is exactly the
+kind of thing that trains you to ignore alerts.
+
+### 7.2 Which meetings get an alert
+
+This filtering is what makes the feature trustworthy rather than annoying. Skip:
+
+- All-day events
+- Events you declined (check your own participant status in `event.attendees`)
+- Events with no other attendees (usually blocks and reminders, not meetings)
+- Calendars you didn't opt in — a per-calendar allowlist in settings. Holiday and birthday
+  calendars must never fire an alert
+- Duplicates: the same meeting present on both a personal and a work calendar, deduped on
+  title + start time
+
+Optionally skip events under a few minutes, and events already in progress when the app
+launches.
+
+### 7.3 The notification
+
+`UNUserNotificationCenter` with a `UNNotificationCategory` carrying three
+`UNNotificationAction`s, handled in `userNotificationCenter(_:didReceive:)`:
+
+| Action | Behaviour |
+|---|---|
+| **Join & Record** | Open the meeting link (§7.4) *and* arm recording |
+| **Record only** | Arm recording without launching anything — for dial-ins, in-person meetings, or when you'll join yourself |
+| **Skip** | Dismiss; no recording for this event, and don't re-alert |
+
+Requires notification permission — `UNUserNotificationCenter.current().requestAuthorization([.alert, .sound])`
+— which is one more prompt to handle in onboarding.
+
+**If you don't click anything,** fall back to the audio-activity detection from §7.5 rather
+than doing nothing. The alert is the fast path, not the only path.
+
+### 7.4 Extracting and launching the meeting link
+
+**There is no reliable structured field for this.** `EKVirtualConferenceProvider` and
+`EKVirtualConferenceDescriptor` exist for apps that *offer* conference rooms to Calendar —
+they are not a way to read a third-party Zoom or Meet link off someone else's invite. So
+you parse, in priority order:
+
+1. `event.url` — Google Calendar often populates this with the Meet link
+2. `event.location` — where Zoom invites frequently put the join URL
+3. `event.notes` — the invite body, where everything else ends up
+
+Match per platform, first hit wins, and store what you found on the meeting record so you
+can see why a launch failed.
+
+**Launching:**
+
+- **Zoom** — rewrite the web URL to the app's deep link so it opens the client directly
+  instead of bouncing through a browser launch page:
+  `https://<sub>.zoom.us/j/<id>?pwd=<pwd>` → `zoommtg://zoom.us/join?confno=<id>&pwd=<pwd>`,
+  opened with `NSWorkspace.shared.open`. The `zoommtg://` scheme does nothing if the Zoom
+  client isn't installed, so check with `NSWorkspace.shared.urlForApplication(toOpen:)`
+  first and fall back to the original https URL.
+- **Google Meet, Teams, Webex** — just open the https URL; the browser or the native
+  handler takes it from there. Teams also registers `msteams://` if you want the app
+  specifically.
+- **No link found** — degrade to Record only, and say so in the notification rather than
+  silently doing nothing.
+
+### 7.5 Fallback detection
+
+Keep the audio-activity path from the earlier design as a safety net: if a calendar event
+is currently active *and* a known process (`zoom.us`, Teams, a browser on a Meet/Webex URL)
+is producing audio, offer to record even though the alert wasn't clicked. This catches the
+meeting you joined from your phone, the one that started early, and the one whose alert you
+missed because the Mac was asleep.
+
+### 7.6 Edge cases
+
+- **Mac asleep at meeting time.** The notification fires on wake, possibly well after the
+  meeting started. Check the event's end time before offering to join.
+- **Recurring meetings.** Schedule per occurrence, not per series.
+- **Already recording.** Never double-start; the alert should reflect that a recording is
+  already running.
+- **Back-to-back meetings.** Close out the previous recording before arming the next.
+- **Zoom passcode as text in the notes** rather than in the URL — common with copy-pasted
+  invites. Parse it if it's adjacent; otherwise let Zoom prompt.
+
+---
+
+## 8. The summarisation pass
+
+One Claude call. Cheapest component, and the entire perceived value of the app.
 
 **Model:** `claude-opus-5` ($5 / $25 per MTok, 1M context). Adaptive thinking
 (`thinking: {type: "adaptive"}`), streamed.
@@ -237,11 +334,11 @@ regenerating your entire history after a template change costs less than lunch.
 them; the transcript is volatile and goes last. Verify via `usage.cache_read_input_tokens`
 rather than assuming.
 
-**Templates are the product.** This is the consequence of dropping typed notes. A generic
-"summarise this meeting" prompt produces the same bland output as every other tool. What
-makes the summary yours is a template that knows a discovery call needs budget signals,
-objections and next steps, while a 1:1 needs commitments and blockers. Budget real time
-here — it is where the quality is, and it is the only lever you have left.
+**Templates are the product.** A generic "summarise this meeting" prompt produces the same
+bland output as every other tool. What makes the summary yours is a template that knows a
+discovery call needs budget signals, objections and next steps, while a 1:1 needs
+commitments and blockers. The calendar event can select the template automatically — by
+title pattern, attendee domain, or which calendar it's on.
 
 **Treat the summary as derived.** Raw transcript is the source of truth and kept forever;
 the summary can always be regenerated. This is what makes template iteration safe, and
@@ -249,7 +346,7 @@ template iteration is how the app gets good.
 
 ---
 
-## 8. Storage
+## 9. Storage
 
 **Markdown files on disk. Not a database.**
 
@@ -262,7 +359,8 @@ summaries don't.
   2026-09-09-acme-discovery/
     summary.md         ← generated note (regenerable)
     transcript.jsonl   ← [{t_start, t_end, channel, text, confidence}]
-    meeting.json       ← title, attendees, times, template, markers, event id
+    meeting.json       ← title, attendees, times, template, markers,
+                          event id, join link, how it was started
     audio/             ← optional, deleted after transcription by default
 ```
 
@@ -271,34 +369,38 @@ sensitive artifact, the transcript is what you actually use, and keeping it is a
 always-on liability for no benefit. Make it a setting; default it off.
 
 Add a SQLite index only when search gets slow — at personal volume, ripgrep over the
-directory is genuinely fine for years. When you do, index for search and keep the files as
-truth. For "ask questions across history", embeddings in `sqlite-vec` alongside that index.
+directory is fine for years. For "ask questions across history", embeddings in
+`sqlite-vec` alongside that index.
 
 ---
 
-## 9. Prerequisites
+## 10. Prerequisites
 
 1. **Anthropic API key with billing.** A Claude subscription is not an inference budget for
    a separate app — this needs its own key with its own spend limit. ~$2/month.
 2. **Xcode and an Apple ID.** Free, and enough to build and run locally.
-3. **Apple Developer Program, $99/yr — optional.** The real tradeoff: macOS TCC identifies
-   ad-hoc-signed apps by their code hash, which **changes on every build**, and it does not
-   honour self-signed team IDs. With free signing you re-approve microphone and
-   audio-capture permission after every rebuild. Fine while developing, corrosive to a
-   daily habit — and worse here, because an app you never interact with is one whose
-   silently-revoked permission you won't notice until a meeting is already lost. Defer it,
-   then buy it without hesitating.
+3. **Apple Developer Program, $99/yr — optional, but more compelling now.** macOS TCC
+   identifies ad-hoc-signed apps by their code hash, which **changes on every build**, and
+   it does not honour self-signed team IDs. With free signing you re-approve microphone and
+   audio-capture permission after every rebuild — and notification permission and login-item
+   registration are in the same boat. An app that alerts you is one whose silently-revoked
+   permissions you won't notice until a meeting is already missed. Defer it, then buy it
+   without hesitating.
 4. **Swift and Core Audio familiarity**, or willingness to acquire it. The only real skill
    gap, and the only thing that can genuinely stall the project.
 
+**Permissions to handle in onboarding:** microphone, audio capture, calendar (EventKit),
+notifications, and login-item registration. Five prompts. Worth a real first-run screen
+that explains each one, because a half-granted set fails in confusing ways.
+
 **One non-technical prerequisite:** recording consent. Two-party-consent jurisdictions
-apply to individuals recording their own calls — personal use is not an exemption. This
-design makes it easier to forget you're recording at all, which makes the habit of
-disclosing more important, not less.
+apply to individuals recording their own calls — personal use is not an exemption. A
+one-click join-and-record makes it easier than ever to record without thinking about it,
+which makes the habit of disclosing more important, not less.
 
 ---
 
-## 10. Build order
+## 11. Build order
 
 Sequenced so the riskiest thing is answered first and every stage is independently useful.
 
@@ -307,49 +409,57 @@ from a real Zoom call written to disk. No UI. This is the project's entire techn
 deliberately front-loaded. Give it one weekend; if it fails, revisit §1.
 
 **Stage 2 — transcript pipeline.** WhisperKit over both channels, merged by timestamp into
-one labelled `transcript.jsonl`. Menu-bar start/stop only. At the end of this stage you
-have a working local transcriber, useful on its own.
+one labelled `transcript.jsonl`. Menu-bar start/stop only. You now have a working local
+transcriber, useful on its own.
 
 **Stage 3 — the summary.** The Claude call, one template, markdown written to disk. This is
 where it becomes the thing you wanted, and where you start using it daily.
 
-**Stage 4 — make it disappear.** EventKit binding and auto-detection, global hotkey,
-library view and search. Turns a tool you have to remember into one that just runs — which
-in this design is the entire point.
+**Stage 4 — the alert loop.** EventKit scanning and filtering, scheduled notifications with
+actions, link extraction, Zoom deep-linking, login item. This is the stage that turns it
+from a tool you run into one that runs itself — and it's the largest of the four. Budget
+two weekends: one for scheduling and filtering, one for extraction and launching, which is
+where the real-world mess lives.
 
-**Stage 5 — templates, driven by use.** More templates, refined from real output. Marker
-hotkey, transcript viewer, speaker naming, export.
+**Stage 5 — refinement, driven by use.** More templates, automatic template selection,
+audio-activity fallback, marker hotkey, transcript viewer, speaker naming, export.
 
-Roughly **three weekends** to daily-driver quality — one fewer than the notepad design,
-since stage 3 is now an API call and a file write rather than an editor.
+Roughly **four to five weekends** to daily-driver quality.
 
 ---
 
-## 11. Pitfalls worth knowing in advance
+## 12. Pitfalls worth knowing in advance
 
 1. **Core Audio taps stall the project.** The most likely failure mode. Mitigated by
    starting there and by AudioCap existing. Hold yourself to the one-weekend box.
-2. **Whisper hallucination during silence.** Fluent, plausible, invented text — and with no
+2. **Link extraction is messier than it looks.** Every calendar invite formats its join
+   link differently, and the same platform varies by who sent it. This is regex-and-real-
+   invites work, not design work — collect a dozen actual invites from your own calendar
+   before writing the parser, and expect to keep patching it.
+3. **A noisy alert gets trained away.** Fire on declined invites or a holiday calendar a
+   few times and you'll dismiss every alert reflexively, at which point the feature is
+   worse than nothing. Filtering (§7.2) deserves more care than it seems to.
+4. **Whisper hallucination during silence.** Fluent, plausible, invented text — and with no
    typed notes to contradict it, it lands in the summary unchallenged. Test a low-talk
-   meeting early.
-3. **Generic summaries.** The predictable failure mode of this design: without your notes
-   as a signal, a weak template produces the same output as every other AI notetaker, and
-   you stop reading them. The fix is template work, not model work.
-4. **Silent misses.** An app with no UI fails silently — a missed detection, a revoked
-   permission, a crashed capture. Add a cheap daily check: if a calendar meeting had no
-   recording, say so.
-5. **TCC reapproval kills the habit.** Either buy the $99 certificate or stop rebuilding
-   once it works.
+   meeting early. Arming rather than starting on click (§4) avoids the worst case.
+5. **Generic summaries.** The predictable failure mode of a no-notes design: a weak
+   template produces the same output as every other AI notetaker, and you stop reading
+   them. The fix is template work, not model work.
+6. **Silent misses.** An app that runs itself fails silently — a missed detection, a
+   revoked permission, a crashed capture. Add a cheap daily check: if a calendar meeting
+   had no recording, say so.
 
 ---
 
-## 12. Open decisions
+## 13. Open decisions
 
-1. **Summarise automatically on meeting end, or on demand?** Automatic fits this design —
-   the app is meant to be invisible — and costs $0.10 a time. Probably automatic, with a
-   setting.
-2. **Marker hotkey: build it or not?** It's the only way to give the summariser a priority
-   signal without typing. Cheap, and it recovers some of what dropping notes gave up.
-   Worth trying once templates are stable enough to judge the difference.
-3. **How many templates to start?** One, used properly, beats four half-written. Start with
-   whichever meeting type you have most of this month.
+1. **How early should the alert fire?** T-1 is Granola-like and keeps it actionable. T-2 or
+   T-5 gives room to prepare but drifts toward being another calendar reminder you ignore.
+2. **Auto-join without a click, for meetings you always attend?** Tempting for recurring
+   1:1s. Also the fastest way to launch Zoom into a room you didn't mean to enter. If
+   built, restrict it to an explicit per-meeting opt-in.
+3. **Summarise automatically on meeting end, or on demand?** Automatic fits the design and
+   costs $0.10 a time. Probably automatic, with a setting.
+4. **Marker hotkey: build it or not?** The only way to give the summariser a priority
+   signal without typing. Worth trying once templates are stable enough to judge.
+5. **How many templates to start?** One, used properly, beats four half-written.
