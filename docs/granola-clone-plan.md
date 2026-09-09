@@ -1,417 +1,298 @@
-# Granola Clone — Desktop Application Build Plan
+# Granola Clone — Personal macOS Desktop App
 
 Status: planning document. No code written yet.
+Scope: **personal use, single user, macOS (Apple Silicon), no distribution.**
 Date: 2026-09-09.
 
-> **Repo note:** this document is scoped work for a *separate* product, not for Big Slick.
-> Big Slick's architecture rules (vendored `upstream/`, curation-first, no new authoring)
-> do not apply to it. If this project proceeds past planning, it wants its own repository.
+> **Repo note:** this is a separate personal project, not Big Slick. None of Big Slick's
+> architecture rules apply. If it proceeds, it wants its own repository.
 
 ---
 
-## 1. What you are actually cloning
+## 0. The scope change, and why it matters
 
-Granola is not "Whisper plus a summariser". It is six subsystems, and the difficulty is
-concentrated in exactly one of them. Decomposed:
+A commercial Granola clone is a 5–7 month project whose difficulty lives in distribution,
+compliance, sync, and unit economics. A **personal** one deletes all four. What is left is
+small enough to build in a few weekends, entirely in Swift, with no backend, no accounts,
+no OAuth, and no per-meeting cost beyond about **$2/month** of Claude tokens.
 
-| # | Subsystem | Difficulty | Why |
-|---|-----------|-----------|-----|
-| 1 | **Capture** — record both sides of a call without joining as a bot | **Hard** | Native OS audio APIs, per-platform, permission-gated, signing-gated |
-| 2 | **Transcription** — streaming ASR + speaker attribution | Medium | Solved problem; the choice is cost/privacy, not feasibility |
-| 3 | **Enhancement** — merge sparse human notes + full transcript into a clean note | Easy | One well-designed LLM call. This is the *perceived* magic and the *cheapest* part |
-| 4 | **Library** — local-first store, calendar binding, search, folders, sharing | Medium | Ordinary app engineering, but it is most of the code |
-| 5 | **Distribution** — signed, notarised, auto-updating desktop binaries | Medium | No technical risk, but hard cost/time gates (see §9) |
-| 6 | **Downstream** — push notes into Slack / CRM / email / docs | Easy | And this is where *you* already have an unfair advantage (see §8) |
-
-The strategic read: **#1 is the moat, #3 is the demo.** Most Granola clones fail at #1 and
-most clone *plans* over-invest in #3.
-
-The "no bot in the meeting" property is the whole product thesis. It is why Granola feels
-native and why bot-based competitors feel intrusive. Preserving it means capture must be
-solved locally, on-device — you cannot outsource it to a meeting-platform API.
+Everything below is scoped to that. The single most important consequence: **you do not
+need any of the commercial infrastructure** — no Recall.ai, no cloud ASR, no Google Cloud
+project, no CASA assessment, no Stripe, no Sentry, no SOC 2. See §6 for the full list of
+what got deleted.
 
 ---
 
-## 2. Reference architecture
+## 1. First decision: fork, don't build
+
+Before writing anything, evaluate **[anarlog](https://github.com/fastrepl/anarlog)** (MIT;
+the project previously known as Hyprnote). It is already, almost exactly, the thing:
+
+- Local-first, records and transcribes **on-device**, audio never leaves the machine
+- Saves every meeting as **markdown on disk**
+- **Bring-your-own LLM** — Anthropic is a supported provider, so it points at Claude directly
+- macOS Apple Silicon, MIT licensed, forkable
+
+For personal use this is very likely the correct answer. A weekend spent forking it,
+pointing it at `claude-opus-5`, and writing your own enhancement templates gets you
+further than a month of building capture from scratch — and you skip the single hardest
+subsystem entirely (§3).
+
+**Build from scratch only if** one of these is true: you want the build itself as the
+exercise; anarlog's note model fights the way you actually take notes; or you want the
+Big Slick context loop (§7) wired in deeply enough that grafting it on is worse than
+owning the codebase.
+
+The rest of this plan assumes you decided to build. Read §1 again first.
+
+---
+
+## 2. Architecture — one Swift app, one process
+
+The commercial plan called for Electron plus a native capture sidecar plus a backend. At
+personal scope, collapse all of it:
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Desktop shell (Electron or Tauri)                           │
-│  ├── Notepad UI (TipTap/ProseMirror) — user types sparse notes│
-│  ├── Meeting list / library / search                          │
-│  └── Settings, permissions onboarding                         │
-└───────────────┬──────────────────────────────────────────────┘
-                │ IPC
-┌───────────────▼──────────────────────────────────────────────┐
-│  Native capture helper  (Swift on macOS / C++ on Windows)     │
-│  ├── System audio  → Core Audio process tap (macOS 14.2+)     │
-│  ├── Microphone    → AVAudioEngine / WASAPI                   │
-│  └── Emits 2 separate PCM streams (them / me)                 │
-└───────────────┬──────────────────────────────────────────────┘
-                │ 16kHz mono PCM x2
-┌───────────────▼──────────────────────────────────────────────┐
-│  ASR worker  (local model, or cloud streaming socket)         │
-│  └── Timestamped, channel-labelled transcript segments        │
-└───────────────┬──────────────────────────────────────────────┘
-                │
-┌───────────────▼──────────────────────────────────────────────┐
-│  Local store — SQLite (+ sqlite-vec for embeddings)           │
-│  meetings, transcript_segments, notes, templates, entities    │
-└───────────────┬──────────────────────────────────────────────┘
-                │
-┌───────────────▼──────────────────────────────────────────────┐
-│  Enhancement + chat  → Claude API (claude-opus-5)             │
-└───────────────┬──────────────────────────────────────────────┘
-                │
-┌───────────────▼──────────────────────────────────────────────┐
-│  Sync + share backend (Postgres + object storage + auth)      │
-│  Integrations: Slack, HubSpot, Gmail, Drive, Notion           │
-└──────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────┐
+│  SwiftUI menu-bar app (macOS 14.4+, Apple Silicon)        │
+│                                                            │
+│  Capture   → Core Audio process tap  (system audio)        │
+│              AVAudioEngine           (microphone)          │
+│  ASR       → WhisperKit  (on-device, streaming, VAD)       │
+│  Calendar  → EventKit    (no OAuth — see §5)               │
+│  Store     → markdown files on disk + SQLite index         │
+│  Enhance   → Anthropic API via URLSession (claude-opus-5)  │
+└───────────────────────────────────────────────────────────┘
 ```
 
-**Shell choice:** Electron. Tauri produces a smaller binary, but you will be writing a
-native sidecar for capture either way, and Electron's ecosystem (auto-update, crash
-reporting, editor components) is materially deeper. The binary-size argument loses to the
-schedule argument here. Granola itself is Electron.
+No Electron. No IPC. No sidecar. No server. No database server. No auth. Every dependency
+is a Swift package or an OS framework, and the whole thing is one Xcode project.
 
-**Sidecar boundary matters:** keep capture in a separate process, not in-process native
-modules. Audio drivers crash. A crashed helper should lose one meeting's tail, not the
-user's unsaved notes.
-
----
-
-## 3. The hard part: audio capture
-
-### macOS
-
-Two viable APIs, and the right choice changed recently:
-
-- **Core Audio process taps** (`AudioHardwareCreateProcessTap` + `CATapDescription`),
-  macOS 14.2+. This is the correct path. It is audio-only, it can be scoped to *specific
-  processes* (tap Zoom and Meet, leave Spotify alone), and it avoids the Screen Recording
-  permission prompt and menu-bar recording indicator that make an audio product feel like
-  spyware.
-- **ScreenCaptureKit** (macOS 13+). Fallback for 13.x only. Audio capture is bolted onto
-  screen-recording infrastructure, so it demands the Screen Recording TCC permission for a
-  product that never touches the screen. Bad conversion at onboarding.
-- **Virtual audio driver** (BlackHole-style). Avoid. DriverKit signing, install friction,
-  and it hijacks the user's default output device.
-
-Mic is separate (`AVAudioEngine`, `NSMicrophoneUsageDescription`).
-
-**The two-stream trick:** capture system audio and microphone as *separate* streams rather
-than a pre-mixed one. You get "me vs. them" attribution for free, with zero diarization
-cost and perfect accuracy on the most important speaker boundary. Diarization within the
-remote stream is then a nice-to-have, not a dependency. Do this from day one — retrofitting
-it means re-plumbing the whole pipeline.
-
-### Windows
-
-WASAPI loopback (`IAudioClient` with `AUDCLNT_STREAMFLAGS_LOOPBACK`). For per-process
-capture, `ActivateAudioInterfaceAsync` with `AUDIOCLIENT_ACTIVATION_PARAMS` (Windows 10
-20H1+). Same two-stream design.
-
-### Edge cases that will eat weeks
-
-These are not exotic; they are every meeting. Budget for them explicitly:
-
-- User switches headphones mid-call (device change → stream teardown/rebuild)
-- User mutes — detecting mute state so the note does not claim silence was speech
-- Bluetooth switches to HFP and samples drop to 8/16kHz mono, tanking accuracy
-- Sleep/wake, screen lock, and battery-saver throttling mid-recording
-- Multiple audio sessions (a call plus a YouTube tab)
-- Permission revoked between sessions
-- The 3-hour meeting that must not hold a 3-hour buffer in RAM
-
-**Buy-vs-build flag:** [Recall.ai's Desktop Recording SDK](https://www.recall.ai/product/desktop-recording-sdk)
-handles exactly this list — mac + Windows, system + mic audio, mute detection, device
-switching — at $0.50/recording hour. That is expensive as permanent COGS but cheap as a
-way to reach a working product before committing to native work. See §9.
+**Storage: markdown files on disk, not a database.** For one user this is strictly better —
+greppable, diffable, Git-versionable, readable by every other tool you own, and readable by
+Claude Code directly. Add a SQLite index later only if search gets slow, which at personal
+volume it will not for years.
 
 ---
 
-## 4. Transcription
+## 3. Capture — still the hard part, but it is sample code now
 
-Three options, and the choice is a business decision, not a technical one:
+This remains the one subsystem with real difficulty, but at personal scope you get to crib
+rather than engineer.
 
-| Path | Cost/meeting-hour | Latency | Privacy story | Accuracy |
-|------|------------------|---------|---------------|----------|
-| **Local** (whisper.cpp / WhisperKit / Parakeet TDT via MLX) | **$0** | Good on Apple Silicon | "Audio never leaves your Mac" — strongest possible | Near-cloud on clean audio; degrades on accents/crosstalk |
-| **Deepgram Nova-3 streaming** | ~$0.46 + ~$0.12 diarization ≈ **$0.58** | Excellent | Weakest | Excellent |
-| **AssemblyAI streaming** | ~$0.45 + ~$0.12 diarization ≈ **$0.57** | Excellent | Weakest | Excellent |
+**Use Core Audio process taps** (`AudioHardwareCreateProcessTap` + `CATapDescription`,
+macOS 14.2+/14.4+). Not ScreenCaptureKit — taps are audio-only, can be scoped to specific
+processes (tap Zoom, ignore Spotify), and avoid the Screen Recording permission and
+menu-bar recording indicator.
 
-Recommendation: **local by default, cloud as an opt-in accuracy upgrade.** Three reasons.
-It makes gross margin structural rather than a per-meeting tax (§10). It gives you the one
-marketing claim incumbents cannot copy without re-architecting. And on Apple Silicon,
-whisper.cpp on Metal runs large-v3 at roughly 2–3× realtime, which is comfortably enough
-headroom for live transcription.
+**Start from [insidegui/AudioCap](https://github.com/insidegui/AudioCap)** — Guilherme
+Rambo's sample code for exactly this, recording system audio on macOS 14.4+. It covers tap
+creation, the aggregate-device dance, and the permission handling.
+[AudioTee](https://stronglytyped.uk/articles/audiotee-capture-system-audio-output-macos)
+is a second reference implementation as a CLI tool. Apple also documents the API directly.
 
-Caveat to design around: Whisper hallucinates during silence, which is a live-transcription
-liability specifically. Gate on voice activity detection (VAD) before feeding segments to
-the model, and never render a segment whose audio was below the VAD threshold. Parakeet TDT
-is faster and purpose-built for low-latency English but ranks lower on general accuracy and
-is English-only — reasonable as the "fast mode", not as the only engine.
+**Capture mic and system audio as two separate streams.** This is the one design decision
+to get right on day one. You get "me vs. them" attribution for free — perfect accuracy on
+the most important speaker boundary, zero diarization cost, no ML involved. Retrofitting it
+is a re-plumb.
 
-Windows local inference is materially worse than Apple Silicon (no unified memory, variable
-GPU). Plan for Windows to lean cloud even if macOS is local.
+**Edge cases you can safely ignore at personal scope** (and must not, commercially):
+headphone switching mid-call, Bluetooth HFP sample-rate collapse, mute-state detection,
+multiple simultaneous audio sessions, 3-hour meetings. Handle them if they bite you.
+Personally, they mostly will not, and each one you skip is a week saved.
 
 ---
 
-## 5. The enhancement pass
+## 4. Transcription — local, free, and now a Swift package
 
-This is one Claude call, and it is the least risky part of the build. Shape it as:
+**Use [WhisperKit](https://github.com/argmaxinc/argmax-oss-swift)** (MIT; as of v1.0.0 the
+repo is `argmaxinc/argmax-oss-swift`, shipping WhisperKit + SpeakerKit + TTSKit). It is a
+Swift Package with CoreML-compiled models running on the Neural Engine, with **real-time
+streaming and voice activity detection built in**, and 27+ pre-converted model variants.
+
+This is a near-perfect fit: it is the one dependency that turns "ship an ML pipeline inside
+a desktop app" into `import WhisperKit`.
+
+Cost: **$0**. Privacy: audio never leaves the Mac. Both matter more at personal scope than
+commercially, because there is no accuracy-vs-margin tradeoff left to make — cloud ASR buys
+you a few WER points for ~$0.58/hour, and you do not need them.
+
+whisper.cpp is the alternative if you want Metal/GGML directly rather than CoreML. Either
+works; WhisperKit is less assembly.
+
+**One thing to get right:** Whisper hallucinates during silence — it will confidently
+transcribe nothing into plausible sentences. Gate segments on VAD before they reach the
+model. WhisperKit ships VAD, so this is configuration rather than code, but it is not the
+default-safe path and it is the single most common way local transcription looks broken.
+
+---
+
+## 5. Calendar — EventKit, and no OAuth at all
+
+This is the biggest deletion in the plan. The commercial version needed a Google Cloud
+project, a verified consent screen, sensitive-scope review, and a Microsoft Entra app
+registration.
+
+**Personally, you need none of it.** [EventKit](https://developer.apple.com/documentation/eventkit)
+reads whatever calendars are already configured in Calendar.app — including Google,
+Exchange, and iCloud accounts — with a single local permission prompt and no in-app
+authentication whatsoever. Your Google Calendar is already synced there.
+
+You get event titles, times, attendees, and descriptions, which is everything needed to
+auto-file notes and pre-seed speaker names.
+
+Known limitation: EventKit reflects Calendar.app's sync state, so a just-created Google
+event can take a few minutes to appear. Irrelevant for meetings scheduled in advance;
+occasionally annoying for ad-hoc ones. Offer a manual "start recording" button and it stops
+mattering.
+
+**Meeting detection:** combine calendar (an event is happening now) with audio activity (a
+known process — zoom.us, Teams, a browser on meet.google.com — is producing output). Either
+signal alone over- or under-triggers; together they are reliable enough. At personal scope
+a menu-bar button plus a notification is a perfectly good fallback, and much less code.
+
+---
+
+## 6. What got deleted from the commercial plan
+
+Everything in this list was a hard requirement for a product and is **not needed** here:
+
+| Dropped | Why it is gone |
+|---|---|
+| Recall.ai Desktop SDK ($0.50/hr) | Capture is sample code you can crib (§3) |
+| Cloud ASR (Deepgram/AssemblyAI, ~$0.58/hr) | WhisperKit is free and local (§4) |
+| Google Cloud project, OAuth consent screen, verification | EventKit needs none of it (§5) |
+| CASA security assessment (~$540–1,000/yr) | Only applies to restricted Gmail scopes |
+| Microsoft Entra registration | macOS-only, EventKit covers Exchange too |
+| Windows build (WASAPI, per-process loopback) | Not a target |
+| Hosting, Postgres, object storage | Markdown on local disk |
+| Clerk / WorkOS / Stripe | One user, no accounts, no billing |
+| Sync, CRDTs, multiplayer editing | One device, or iCloud Drive if two |
+| Sentry / PostHog | You are the crash reporter |
+| Notarisation pipeline, auto-update, Windows cert | Not distributing |
+| SOC 2, DPA, sub-processor list, privacy policy | No customers |
+| 50-meeting eval corpus | You can eyeball whether notes are good |
+| Electron, sidecar IPC, process supervision | One Swift process |
+
+That is roughly 80% of the commercial plan's cost and schedule, removed by the scope change
+alone.
+
+---
+
+## 7. The one thing worth over-building
+
+The Big Slick angle survives the scope change and gets *better*, because personally you do
+not need it to be a product — you just need it to work once.
+
+`CLAUDE.md` records that `company-onboarding` has never been executed end to end, and that
+company context is the distribution's known gap: 247 skills that all want a client pack,
+and packs that have to be written by hand. **Meeting transcripts are the richest source of
+that context that exists.**
+
+So: after enhancement, add a second pass that appends to `core/clients/<client>/` — new
+facts about the account, objections heard, competitor mentions, language the customer
+actually used. Then `scripts/make_context_plugin.py <client>` carries it into the desktop
+app and the CLI.
+
+That closes a loop nothing else in your stack closes, it is maybe 100 lines of Swift plus a
+prompt, and it is the reason to build rather than just install Granola.
+
+---
+
+## 8. Enhancement pass
+
+One Claude call. `claude-opus-5` ($5/$25 per MTok, 1M context), adaptive thinking, streamed.
 
 ```
-system: <template — "sales call", "1:1", "standup", "user interview">
-input:  - the user's sparse typed notes (high signal, low volume)
-        - the full transcript with speaker labels and timestamps
-        - meeting metadata (title, attendees, calendar description)
-output: structured note — summary, decisions, action items w/ owners, open questions
+system: <template — "sales call", "1:1", "user interview", "advisory call">
+input:  - your sparse typed notes      (high signal, low volume)
+        - full transcript, channel-labelled (me / them), timestamped
+        - meeting metadata from EventKit (title, attendees, description)
+output: summary, decisions, action items with owners, open questions
 ```
 
-Model: `claude-opus-5` ($5/$25 per MTok, 1M context). A one-hour meeting is roughly
-9,000–10,000 words ≈ 12–13K input tokens, with ~1.5K tokens out. That is **~$0.10 per
-meeting** — an order of magnitude below the transcription cost on the cloud path, and
-therefore not worth optimising first. Use adaptive thinking (`thinking: {type: "adaptive"}`)
-and stream the response.
+Two design notes that matter more than prompt wording:
 
-Design notes that matter more than the prompt:
-
-- **User notes are the anchor, not an addendum.** Granola's insight is that what the user
-  bothered to type marks what mattered. The transcript is context for expanding those
-  anchors, not the primary source. A summariser that ignores the typed notes is a
-  commodity; one that treats them as an outline is the product.
-- **Prompt caching:** cache the system prompt + template prefix; the transcript is volatile
-  and goes after the last cache breakpoint. Verify with `usage.cache_read_input_tokens`.
-- **Templates are the retention surface.** Per-meeting-type output structures are what make
-  users configure the tool, and configured tools do not churn.
-- **Enhancement must be re-runnable.** Users will change templates and expect old meetings
-  to re-render. Store the raw transcript forever; treat the enhanced note as derived.
-
-For chat-with-your-meetings (§7), the same store plus embeddings; `claude-opus-5` for the
-answer, retrieval over `sqlite-vec` locally or `pgvector` server-side.
+- **Your typed notes are the anchor, not an addendum.** What you bothered to type marks what
+  mattered; the transcript is context for expanding those anchors. A summariser that ignores
+  the typed notes is a commodity — that inversion is the whole Granola insight.
+- **Enhancement must be re-runnable.** You will change templates and want old meetings
+  re-rendered. Keep the raw transcript forever; treat the enhanced note as derived. Cheap
+  insurance, and at $0.10 a re-run you can regenerate your whole history on a whim.
 
 ---
 
-## 6. Data model and sync
+## 9. What you still need
 
-Local-first, SQLite as source of truth on device:
+The list is now four items long.
 
-```
-meetings(id, calendar_event_id, title, started_at, ended_at, template_id, source)
-attendees(meeting_id, name, email, role)
-transcript_segments(meeting_id, channel[me|them|spk_n], t_start, t_end, text, confidence)
-notes(meeting_id, raw_markdown, enhanced_markdown, enhanced_at, model, template_id)
-action_items(meeting_id, text, owner, due, status, pushed_to)
-embeddings(segment_id, vector)
-```
+1. **An Anthropic API key with billing.** Your Claude Code subscription is not an inference
+   budget for a separate app. At ~20 meeting-hours/month this costs about **$2/month**
+   (~13K input / 1.5K output tokens per meeting-hour at Opus 5 rates ≈ $0.10 each).
+2. **Xcode + an Apple ID.** Free. Enough to build and run locally.
+3. **Apple Developer Program, $99/yr — optional, quality-of-life.** Here is the real
+   tradeoff: macOS TCC identifies ad-hoc-signed apps by their code hash, which **changes on
+   every build**, and it does not honour self-signed team IDs. So with free signing you
+   re-grant microphone and audio-capture permission after every rebuild. Tolerable while
+   developing, irritating forever. A Developer ID certificate gives a stable team
+   identifier and the grants persist. Skip it until the rebuild-reapprove loop annoys you.
+4. **Swift + Core Audio familiarity**, or the willingness to acquire it. This is the only
+   genuine skill gap. AudioCap makes it a reading exercise rather than a research one, but
+   it is still the part of the project that can actually stall. It is also the strongest
+   argument for §1.
 
-Sync is a v2 problem, but the *decision* is v1: if two devices can edit the same note, you
-need CRDTs (Automerge/Yjs) and you should adopt them at the editor layer immediately —
-retrofitting collaborative editing onto plain-text notes is a rewrite. If notes are
-single-writer, last-write-wins over a plain REST sync is fine and much cheaper. **Pick
-single-writer for v1.** Multiplayer editing is not why anyone buys a notetaker.
+Nothing else. No accounts to create, no vendors to sign up with, no compliance.
 
-Retention: raw audio is the largest and most sensitive asset. Default to discarding audio
-once transcription completes, keeping only the transcript. It shrinks storage costs,
-shrinks breach blast radius, and is a defensible privacy claim. Make retention explicit and
-user-configurable.
-
----
-
-## 7. Calendar binding and meeting detection
-
-Two signals, combined:
-
-1. **Calendar** — Google Calendar API and Microsoft Graph. Gives you the title, attendees,
-   agenda, and conferencing link before the meeting starts. This is what makes notes
-   auto-file themselves, which is most of the "it just works" feeling.
-2. **Audio activity** — a call app holding an audio session, or a known process
-   (zoom.us, Teams, a browser tab on meet.google.com) producing output.
-
-Calendar alone over-triggers (declined meetings, holds). Audio alone under-attributes (no
-title, no attendees). Together they are reliable: prompt to record when both fire, offer a
-one-tap manual start when only audio fires.
-
-Attendee list from calendar also gives you free speaker-name candidates to map onto
-diarized channels — much better than "Speaker 2".
+**One non-technical item:** recording consent. Two-party-consent jurisdictions apply to
+individuals recording their own calls, not just to companies. Personal use is not an
+exemption. Decide how you will disclose, and build the habit rather than the feature.
 
 ---
 
-## 8. Where your existing toolset is an actual advantage
+## 10. Realistic phasing
 
-You already have live, authenticated integrations that Granola charges for or does not have:
+**Weekend 1 — settle the fork question.** Install anarlog, run it against three real
+meetings, point it at Claude. If it is good enough, you are done and §11 is moot. This is
+the highest-expected-value weekend in the plan.
 
-- **Slack** — post the note to the deal channel
-- **HubSpot** — write the meeting summary to the deal/contact record, create tasks from
-  action items. This is the single highest-value B2B integration in the category
-- **Gmail** — draft the follow-up email from the action items
-- **Google Calendar / Drive** — binding and archival
-- **LinkedIn (ConnectSafely)** — enrich unknown attendees before the call
+**Weekend 2 — capture spike.** Build AudioCap, get two separate PCM streams (system + mic)
+writing to disk from a real Zoom call. This is the whole technical risk of the project,
+front-loaded. If this weekend fails, go back to §1.
 
-And the strategic one: **Big Slick is 247 marketing skills that all need company context,
-and meeting transcripts are the richest source of company context that exists.** A
-notetaker that feeds `core/clients/<client>/` packs closes the loop that
-`BUILD-BIGSLICK.md` currently asks the user to fill in by hand via `company-onboarding` —
-a skill that, per `CLAUDE.md`, has never been executed end to end.
+**Weekend 3 — pipeline.** WhisperKit over both streams → channel-labelled transcript →
+markdown on disk. No UI beyond a menu-bar toggle.
 
-That is a genuinely differentiated wedge: not "another AI notetaker", but "the notetaker
-that makes your marketing skills know your customers". Worth deciding early whether that is
-the product or a later integration, because it changes the ICP.
+**Weekend 4 — the note.** Notepad UI, the enhancement call, one template. This is the
+weekend where it becomes the thing you actually wanted.
 
----
+**Weekend 5 — glue.** EventKit auto-detection and auto-filing, a second template, and the
+Big Slick context pass (§7).
 
-## 9. Build vs. buy
-
-| Component | Recommendation |
-|-----------|---------------|
-| Audio capture | **Buy first (Recall.ai Desktop SDK), build second.** Ship in weeks, replace when unit economics demand it. The $0.50/hr is a real tax; treat it as a deliberate loan against schedule, with a planned repayment |
-| Transcription | **Build (local models).** This is where the margin lives, and whisper.cpp/WhisperKit make it a packaging problem, not an ML problem |
-| Enhancement | **Build.** It is one API call; buying it makes no sense |
-| Auth / billing | **Buy** (Clerk or WorkOS; Stripe) |
-| Sync backend | **Buy managed** (Supabase or Neon + R2/S3) |
-| Auto-update | **Buy** (electron-updater / Sparkle) |
-| Crash + analytics | **Buy** (Sentry, PostHog) |
-
-The general rule: buy everything that is not capture, local ASR, or the note itself.
+Roughly **a month of weekends** to something you use daily — against 5–7 months for the
+commercial version, and possibly one weekend if §1 resolves in anarlog's favour.
 
 ---
 
-## 10. Unit economics
+## 11. Risks, honestly
 
-Per meeting-hour, at the two extremes:
-
-| Line item | Fully cloud | Local-first |
-|-----------|------------|-------------|
-| Recording (Recall.ai) | $0.50 | $0 (native capture) |
-| Transcription | $0.15–0.58 | $0 |
-| Enhancement (`claude-opus-5`, ~13K in / 1.5K out) | ~$0.10 | ~$0.10 |
-| **Total** | **~$0.75–1.18** | **~$0.10** |
-
-A heavy user does ~20 meeting-hours/month. That is **$15–24/user/month of COGS on the cloud
-path** — against category pricing around $18–20/user/month. The cloud path has *negative*
-gross margin on power users; the local path runs ~90%+.
-
-This is the single most important number in the plan. It says: cloud capture and cloud ASR
-are acceptable to *launch* on and unacceptable to *scale* on. Build the native capture and
-local ASR migration into the roadmap as a funded milestone, not as a someday.
+1. **Core Audio taps stall you.** The mitigation is §1 — fork instead. Give the capture
+   spike one weekend and hold yourself to it.
+2. **Whisper hallucination makes notes untrustworthy.** VAD gating fixes this, but you have
+   to know to look for it, and it will not announce itself — it produces fluent, plausible,
+   entirely invented sentences during silence. Check a low-talk meeting early.
+3. **You build a worse Granola.** The honest personal-use question is whether this beats
+   paying for the real thing. It does if — and probably only if — you want local-only
+   audio, your own templates, or the Big Slick loop (§7). If none of those is the actual
+   motivation, that is worth knowing before weekend 2.
+4. **TCC re-prompting kills the habit.** A tool you have to re-authorise constantly is one
+   you stop opening. Either buy the $99 cert or stop rebuilding once it works.
 
 ---
 
-## 11. Phasing
+## 12. The one decision that matters
 
-**P0 — Prove the magic (4–6 weeks).** macOS only. Recall.ai SDK for capture, cloud ASR,
-Claude enhancement, local SQLite, no accounts, no sync. One template. Goal: the moment
-where sparse notes become a good document. If that moment does not land, nothing else
-matters.
+**Fork anarlog, or build in Swift?**
 
-**P1 — Make it a daily tool (6–8 weeks).** Google Calendar binding + auto-detection.
-Meeting library, search, folders. Multiple templates. Local ASR path behind a flag. Signed
-+ notarised builds, auto-update. Onboarding for the permission prompts.
-
-**P2 — Make it defensible (8–10 weeks).** Native capture replacing Recall.ai on macOS.
-Local ASR as default. Accounts, sync, sharing links. Slack + HubSpot + Gmail push. Windows
-capture.
-
-**P3 — Make it sticky.** Chat over meeting history (RAG). Cross-meeting entity tracking
-(people, accounts, commitments). Team/shared workspaces. An MCP server so Claude can query
-the corpus. The Big Slick context-pack loop (§8).
-
-Rough total to a defensible v1: **5–7 months** for a small team, assuming capture is bought
-in P0.
-
----
-
-## 12. Gap analysis — what is missing from your toolset
-
-You have: Claude API access, GitHub, Google Calendar/Gmail/Drive, Slack, HubSpot, LinkedIn,
-and Granola itself (as a *consumer* — useful for studying the data model, not for building).
-
-You have **none** of the following, and each is a hard dependency:
-
-### A. Must acquire — capture and ASR (the critical path)
-
-1. **Native audio capture code.** Nothing in your toolset touches this. Swift
-   (Core Audio process taps) + C++ (WASAPI). This is the one part that cannot be
-   delegated to an API, an MCP server, or a skill. Either hire/learn it or buy Recall.ai.
-2. **A speech-to-text provider or local model pipeline.** No ASR anywhere in your stack.
-   Either a Deepgram/AssemblyAI account, or whisper.cpp/WhisperKit weights plus the
-   packaging work to ship inference inside a desktop app.
-3. **Speaker diarization**, if you go beyond the two-stream trick — pyannote (self-hosted,
-   gated model downloads) or the cloud add-on.
-4. **A corpus of real recorded meetings for evaluation.** You have no eval set — the same
-   gap `CLAUDE.md` already flags for Big Slick's skills. Note quality is unmeasurable
-   without ~50 recorded meetings with human-written reference notes. Start collecting from
-   day one; this is the slowest-to-acquire asset on the list and cannot be bought.
-
-### B. Must acquire — shipping a desktop app
-
-5. **Apple Developer Program** — $99/yr, plus a Developer ID certificate and a notarisation
-   pipeline. Without it macOS refuses to launch the app.
-6. **Windows code-signing certificate** — OV/EV, roughly $200–500/yr. Without it,
-   SmartScreen suppresses downloads.
-7. **Auto-update infrastructure** — electron-updater or Sparkle plus a release feed host.
-8. **Crash reporting and product analytics** — Sentry, PostHog. Desktop crashes are
-   invisible without them.
-
-### C. Must acquire — backend and accounts
-
-9. **Your own OAuth app registrations.** Critical distinction: your Google Calendar/Gmail
-   access here is *Frank's own account via MCP*. A shipped product needs its own Google
-   Cloud project and Microsoft Entra app registration, with consent screens and
-   verification. Calendar and `gmail.send` are **sensitive** scopes — Google verification
-   required, no security assessment. `gmail.readonly`/`gmail.modify` are **restricted** —
-   these add an annual CASA third-party security assessment (self-serve path roughly
-   $540–1,000 as of 2026). **Design the product to need only sensitive scopes.** Reading
-   mailboxes is not worth the compliance tail.
-10. **An Anthropic API key with a billing account.** A Claude Code subscription is not a
-    production inference budget. Separate key, separate spend limits, separate monitoring.
-11. **Hosting, database, object storage** — none present. Supabase/Neon + Fly/Render + R2/S3.
-12. **Auth and billing** — Clerk or WorkOS, and Stripe. None present.
-13. **Vector storage / embeddings** for chat-over-meetings — `sqlite-vec` locally,
-    `pgvector` server-side, plus an embedding provider.
-
-### D. Must acquire — legal and trust
-
-14. **Recording-consent handling.** Two-party consent jurisdictions make silent recording
-    unlawful. You need in-product consent UX, not just a ToS clause. This is a product
-    requirement, not a legal footnote.
-15. **Privacy policy, DPA, sub-processor list, retention policy.** Enterprise buyers ask on
-    the first call. GDPR posture required for any EU user.
-16. **SOC 2** eventually, for any deal above SMB.
-
-### What you notably do *not* need
-
-Zoom/Meet/Teams meeting-platform APIs. The whole point of the desktop-capture approach is
-that it works on any call, in any app, including in-person conversations — without
-per-platform bot integrations. Skipping those APIs is a feature.
-
----
-
-## 13. Top risks
-
-1. **Capture engineering is underestimated.** It always is. The edge-case list in §3 is the
-   real schedule, not the happy path. Mitigation: buy it in P0, build it with eyes open.
-2. **Cloud unit economics quietly go negative** (§10) if local ASR slips. Mitigation: treat
-   the local-ASR milestone as a funded deliverable with a date.
-3. **The category is crowded and well-funded.** Granola, Otter, Fireflies, Fathom, plus
-   first-party notetakers now shipping inside Zoom, Meet, and Teams for free. A generic
-   clone has no wedge. Mitigation: the marketing-context loop in §8 is the differentiated
-   angle available to *you specifically* — commit to it or find another.
-4. **Trust is the buying criterion**, not accuracy. An always-listening app on a work
-   laptop is a security review. Local-first processing is the strongest answer, which is a
-   second reason it is an architectural decision rather than an optimisation.
-5. **Note quality is unmeasurable without an eval set** (§12.A.4), so quality regressions
-   ship silently. Same failure mode `CLAUDE.md` records for Big Slick's 247 skills.
-
----
-
-## 14. First three decisions
-
-Everything else follows from these:
-
-1. **Buy or build capture for P0?** Determines whether you have a demo in 4 weeks or 4 months.
-2. **Local-first or cloud-first ASR?** Determines gross margin, privacy positioning, and
-   whether Windows is a first-class target.
-3. **Generic notetaker, or the marketing-context notetaker (§8)?** Determines ICP, pricing,
-   and whether Big Slick and this product are one company or two.
+Everything else follows. Spend the first weekend answering it empirically rather than
+deciding it now — the whole point of §10 is that the answer is cheap to obtain and
+expensive to guess wrong.
