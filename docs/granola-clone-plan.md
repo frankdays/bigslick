@@ -580,9 +580,30 @@ which makes the habit of disclosing more important, not less.
 
 Sequenced so the riskiest thing is answered first and every stage is independently useful.
 
-**Stage 1 — capture spike.** Build AudioCap. Get two separate PCM streams (system + mic)
-from a real Zoom call written to disk. No UI. This is the project's entire technical risk,
-deliberately front-loaded. Give it one weekend; if it fails, revisit §1.
+**Stage 0 — the half-day reproduction test.** Before building anything, try to trigger the
+all-zero buffer bug (§4.2) on *your* Mac. Run AudioCap unmodified and deliberately provoke
+the suspected causes: change the output device mid-capture, switch sample rate, connect and
+disconnect AirPods, then leave it running for an hour. Watch for the buffer going silent
+while audio is still audible.
+
+This is the highest-leverage half-day in the plan, because **that one unknown dominates the
+whole estimate's variance.** Can't reproduce it in a deliberate hour of trying → the long
+tail mostly evaporates and capture is ordinary engineering. Reproduce it in ten minutes →
+you know to budget the rebuild machinery up front, and the case for forking anarlog (§1)
+gets considerably stronger, since its authors have presumably already paid this cost.
+
+**Stage 1 — capture engine.** Two separate PCM streams from a real Zoom call, written to
+disk, meeting the §4.10 exit criteria. This is the project's entire technical risk,
+deliberately front-loaded. It splits into three milestones with very different confidence:
+
+| Milestone | Focused time | Confidence |
+|---|---|---|
+| First recording — tap creates, callbacks fire, non-zero samples on both channels | 1–2 days | **High.** The three silent foot-guns (§4.1) are now documented; blind, each could have eaten a weekend on its own |
+| Robust capture — lock-free ring buffer, streaming resample to 16 kHz mono, HAL listeners, teardown/rebuild, boundary instrumentation | 1–2 weekends | Medium. Real engineering, but no unknowns |
+| Trusted daily — survives whatever your hardware actually does over weeks | Unbounded tail | **Low, and not fully in your control.** §4.2 is an unfixed Apple bug |
+
+If the first milestone isn't reached in a weekend, that's the signal to revisit §1 rather
+than to push harder.
 
 **Stage 2 — transcript pipeline.** WhisperKit over both channels, merged by timestamp into
 one labelled `transcript.jsonl`. Menu-bar start/stop only. You now have a working local
@@ -600,7 +621,14 @@ where the real-world mess lives.
 **Stage 5 — refinement, driven by use.** More templates, automatic template selection,
 audio-activity fallback, marker hotkey, transcript viewer, speaker naming, export.
 
-Roughly **four to five weekends** to daily-driver quality.
+Roughly **five to seven weekends** to daily-driver quality — revised up from the earlier
+estimate, entirely because of what §4 turned up. The research did not add work so much as
+relocate it: it shortened the "get it recording" phase by naming the silent foot-guns in
+advance, and lengthened the "trust it" phase by revealing a bug that has no clean fix.
+
+Worth being clear about the shape of that number: stages 2–5 are predictable, and if
+anything the estimates there are slightly conservative. Essentially all the variance sits
+in stage 1, and stage 0 is how you resolve most of it for half a day's work.
 
 ---
 
@@ -611,7 +639,7 @@ wrong stage first. Three different kinds of hard show up in this project:
 
 | Feature | Effort | Kind of hard | Can it kill the project? |
 |---|---|---|---|
-| Core Audio capture | **High** — 2–3 weekends cumulative | Unfamiliar API + real-time constraints | **Yes** |
+| Core Audio capture | **High** — 2–3 weekends, plus an open-ended tail | Unfamiliar API, real-time constraints, and one unfixed OS bug | **Yes** |
 | Meeting-link extraction | **High** — a day, then a long tail | Endless real-world variety | No |
 | Alert state machine | Medium — a weekend, then corrections | Deceptively many edges | No |
 | Templates / summary quality | **Unbounded** — never finished | Slow, subjective feedback loop | It decides whether you use the app |
