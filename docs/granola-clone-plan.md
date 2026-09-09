@@ -716,7 +716,104 @@ like this is feasible for one person at all.
 
 ---
 
-## 13. Pitfalls worth knowing in advance
+## 13. Cutting the build down
+
+The full plan is five to seven weekends. Roughly half of that can come out — and a
+surprising amount of it costs nothing at all, because the no-notes, no-during-meeting-UI
+decision already removed the reasons those parts were complicated.
+
+### Free — no functionality lost
+
+**Batch-transcribe after the meeting instead of streaming during it.** The largest free win.
+Nothing in this app shows a live transcript, so there is no reason to produce one. Dump raw
+audio to disk during the call and run WhisperKit over the file afterwards — a one-hour
+recording takes a few minutes on Apple Silicon, and the summary isn't wanted until the
+meeting is over anyway.
+
+This deletes an entire class of difficulty: the lock-free ring buffer, low-latency
+constraints, streaming resampling, and live channel merging all go away. The audio callback
+still can't block, but a generous buffer and a plain file write is a far lower bar than
+real-time streaming — and it removes the "works in a demo, glitches in a real meeting"
+failure mode described in §4.3. **Saves roughly a weekend and the hardest debugging in the
+project.**
+
+**Hardcode one prompt instead of building a template system.** No selection logic, no
+per-meeting-type routing, no UI. Put the prompt in a text file and edit it. Template
+infrastructure is worth building only once you know what your templates should say, which
+you won't for a month. **Saves several days.**
+
+**Skip the library UI and search.** The notes are markdown in a folder. Finder opens it,
+`rg` searches it, your editor reads it, Spotlight indexes it. A list view is a nicety, not a
+feature. **Saves several days.**
+
+### Real tradeoffs — you give something up
+
+**Alert, but no auto-join.** Keep the pre-meeting notification with Record / Skip, and drop
+the Join button. This removes meeting-link extraction — the endless one from §12 — along
+with Zoom deep-linking and the whole per-platform parsing tail. You still get the thing that
+actually matters (never forgetting to record), and you join the call the way you already do.
+**Saves a weekend plus an open-ended tail, for one click you were making anyway.** Probably
+the best value on this list.
+
+**No alert at all — just a global hotkey.** Drops EventKit scheduling, the alert state
+machine, notification permissions, and the login item on top of the above. Cost: you have to
+remember. **Saves two weekends**, but "remember to start it" is exactly the habit that
+software is supposed to replace, so this one genuinely degrades the product.
+
+**Microphone only, no system audio.** The nuclear option: `AVAudioEngine` alone is ordinary,
+well-documented, low-risk code, and it deletes §4 entirely — the taps, the foot-guns, the
+all-zero bug, the whole highest-risk subsystem. **Saves 3–5 days plus the unbounded tail and
+the project's only real failure mode.**
+
+The cost is severe though: with headphones on you capture only your own voice, which is
+useless. It works only with speakers on, at worse quality, with echo, and no "me vs. them"
+channel separation. Genuinely good for in-person meetings; poor for the call recording this
+app is mostly for. Worth knowing as the floor, not as a recommendation.
+
+**Buy the capture.** [Recall.ai's Desktop Recording SDK](https://www.recall.ai/product/desktop-recording-sdk)
+handles all of §4 — both streams, device changes, mute detection — at $0.50/recording hour,
+about $10/month at 20 hours. Deletes the project's hardest part outright.
+
+Be honest about where that lands, though: paying $10/month for capture, on top of the API
+cost, to avoid building the one part that makes this yours, invites the obvious question of
+why not pay $18 for Granola and skip the whole thing. Reasonable as a temporary bridge to
+get running; poor as a destination.
+
+### What is *not* a shortcut
+
+**Switching to ScreenCaptureKit.** Tempting — it's older and more widely used — but the
+consensus for audio-only capture still favours Core Audio taps, and ScreenCaptureKit adds
+the broader Screen & System Audio Recording permission while not clearly reducing the
+implementation difficulty. It trades a known set of problems for a different one, at no
+saving.
+
+### The recommended fast path
+
+Take every free simplification, plus alert-without-auto-join:
+
+| | Full plan | Fast path |
+|---|---|---|
+| Capture | Streaming, real-time-safe | Batch to disk |
+| Transcription | Live, merged | After the meeting |
+| Summary | Template system | One hardcoded prompt |
+| Alert | Alert + auto-join Zoom | Alert + Record |
+| Library | List view, search | A folder |
+| **Total** | **5–7 weekends** | **~3 weekends** |
+
+You lose one click before each meeting and a list view. Everything that made the app worth
+building survives — and stage 0 (§11) still comes first either way, because the capture
+risk is the one thing none of these cuts removes.
+
+### And the largest lever remains §1
+
+Forking [anarlog](https://github.com/fastrepl/anarlog) takes the whole thing to an evening.
+Three weekends is the price of owning the code; if that ownership isn't worth three
+weekends to you, that is a completely legitimate answer, and stage 0 is a cheap way to find
+out before committing.
+
+---
+
+## 14. Pitfalls worth knowing in advance
 
 1. **Core Audio taps stall the project.** The most likely failure mode, and §4 is the
    detailed register. The headline risks: three setup parameters that fail silently with
@@ -742,7 +839,7 @@ like this is feasible for one person at all.
 
 ---
 
-## 14. Open decisions
+## 15. Open decisions
 
 1. **How early should the alert fire?** T-1 is Granola-like and keeps it actionable. T-2 or
    T-5 gives room to prepare but drifts toward being another calendar reminder you ignore.
