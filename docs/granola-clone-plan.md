@@ -120,41 +120,217 @@ about a meeting you forgot.
 
 ---
 
-## 4. Capture
+## 4. Capture — risks and mitigations
 
-The one subsystem with real difficulty — and where to start, because if it doesn't work
-nothing else matters.
+The one subsystem with real difficulty, and where to start. This section is longer than the
+others because nearly every failure mode here is **silent**: the API returns `noErr`,
+callbacks fire at a normal cadence, buffer pointers are valid, and every sample is zero.
+Plan for diagnosis, not just implementation.
 
-**Use Core Audio process taps** — `AudioHardwareCreateProcessTap` with a `CATapDescription`,
-macOS 14.2+/14.4+. Not ScreenCaptureKit: taps are audio-only, can be scoped to specific
-processes (tap Zoom, ignore your music), and avoid demanding the Screen Recording permission
-and menu-bar recording indicator for an app that never touches the screen.
+**Use Core Audio process taps** — `AudioHardwareCreateProcessTap` with a `CATapDescription`.
+Not ScreenCaptureKit: taps are audio-only, scopeable to specific processes, and avoid
+demanding the Screen Recording permission for an app that never touches the screen.
 
-**Start from working sample code.** [insidegui/AudioCap](https://github.com/insidegui/AudioCap)
-is Guilherme Rambo's reference implementation of exactly this — tap creation, the
-aggregate-device setup, permission handling.
-[AudioTee](https://stronglytyped.uk/articles/audiotee-capture-system-audio-output-macos)
-is a second implementation as a CLI. Apple documents the API in
-[Capturing system audio with Core Audio taps](https://developer.apple.com/documentation/coreaudio/capturing-system-audio-with-core-audio-taps).
-This makes the hard part a reading exercise rather than a research project.
+Start from [insidegui/AudioCap](https://github.com/insidegui/AudioCap) (the reference
+implementation), with [AudioTee](https://github.com/makeusabrew/audiotee) as a second
+reading and [Apple's docs](https://developer.apple.com/documentation/coreaudio/capturing-system-audio-with-core-audio-taps)
+as the third. Documentation is sparse; **the SDK headers are the only authoritative source**
+and web summaries are actively misleading on at least one parameter (§4.1).
 
-**Capture mic and system audio as two separate streams.** The most important structural
-decision in the app. You get "me vs. them" attribution for free — perfect accuracy on the
-speaker boundary that matters most, with zero diarization, no ML, no cost. Retrofitting it
-is a re-plumb of the whole pipeline, so do it on day one.
+### 4.1 Three setup foot-guns that all return `noErr`
 
-**Arming vs. starting.** "Join & Record" arms the tap; it should start capturing when the
-call app actually produces audio, not the instant you click. Clicking the alert, waiting
-through the Zoom splash screen, and picking an audio device can take twenty seconds — and
-a recording that starts on click captures that silence, which is exactly the input Whisper
-hallucinates against (§5).
+Every one of these produces a working-looking tap that delivers pure silence.
 
-**Write to disk continuously.** Rolling audio chunks plus append-only partial transcript.
-Never hold a whole meeting in memory.
+**The `exclusive` flag is directional, not a lock.** This is the expensive one.
+`exclusive = true` means *tap everything except the listed PIDs*; `exclusive = false` means
+*tap only the listed PIDs*. Constructing with `init(stereoGlobalTapButExcludeProcesses:)`
+and then setting `isExclusive = false` silently inverts the meaning — the tap fires, the
+format reads correctly, callbacks arrive steadily, and every sample is zero. Read the
+header.
 
-**Edge cases you can ignore at personal scope:** headphone switching mid-call, Bluetooth
-dropping to 8/16 kHz HFP, mute-state detection, simultaneous audio sessions, multi-hour
-recordings. Handle each only when it bites you.
+**The aggregate device shape.** Attaching the tap as the main sub-device with an empty
+sub-device list produces zero samples, silently. The correct shape is: a *real output
+device* as `kAudioAggregateDeviceMainSubDeviceKey`, the tap attached via
+`kAudioAggregateDeviceTapListKey`, and `kAudioAggregateDeviceTapAutoStartKey: true` — which
+is mandatory, not optional.
+
+**`AVAudioEngine` cannot be retargeted to a tap-backed aggregate device.** Setting
+`kAudioOutputUnitProperty_CurrentDevice` returns `noErr` and the engine quietly goes on
+reading the default input instead. Use `AudioDeviceCreateIOProcIDWithBlock` directly on the
+aggregate. Its dispatch-queue parameter must be non-nil — passing nil silently fails to
+register the callback.
+
+**Teardown order matters** and reversing it leaves resources inconsistent:
+
+```
+AudioDeviceStop → AudioDeviceDestroyIOProcID
+                → AudioHardwareDestroyAggregateDevice
+                → AudioHardwareDestroyProcessTap
+```
+
+### 4.2 The all-zero buffer bug — the unsolved risk
+
+**This is the most serious risk in the project, and it has no clean fix.**
+
+There is an [open Apple Developer Forums report](https://developer.apple.com/forums/thread/825780),
+unanswered by Apple, of taps that run correctly for minutes and then begin delivering
+all-zero buffers while system audio remains plainly audible. The IOProc keeps firing at
+normal cadence, frame counts and timestamps look right, buffer pointers are valid, and
+every PCM sample is exactly `0.0`. It sometimes self-recovers and sometimes doesn't.
+
+Suspected triggers, none confirmed: sample-rate renegotiation (44.1 ↔ 48 kHz) when another
+app changes the output device; Bluetooth state changes where the device UID stays the same
+(AirPods sleeping and waking); long session uptime. Reported more often on MacBook Air than
+Pro.
+
+**Why this is worse for a meeting recorder than for most apps:** all-zero buffers are
+indistinguishable from legitimate silence, and a meeting is *full* of legitimate silence.
+There is no HAL property that reports whether a tapped process is actually producing
+non-zero audio — that was one of the five questions Apple didn't answer. So you cannot
+directly detect the failure.
+
+**Mitigations, in order of value:**
+
+1. **Use the microphone channel as a liveness oracle.** This is the strongest available
+   signal and it falls out of the two-stream design for free. If the mic has speech energy
+   while the system tap has been exactly zero for N seconds during an active call, the tap
+   is almost certainly broken — a real conversation does not have one party silent for a
+   minute while you talk. Rebuild on that signal, not on zeros alone.
+2. **Watch the triggers, not the symptom.** Subscribe to HAL property listeners for default
+   output device changes, sample-rate changes, and device list changes, and proactively
+   rebuild the tap when one fires. Cheaper and safer than reacting after the fact.
+3. **Make rebuild cheap and safe.** Full teardown and rebuild (§4.1 order, then recreate) is
+   the only known recovery. Because each channel is written to disk independently (§4.7), a
+   mid-meeting rebuild costs a short gap in one channel, not a corrupted recording.
+4. **Never rebuild blindly on silence alone.** Tearing down a healthy tap because a meeting
+   went quiet trades a rare bug for a common one.
+5. **Log every rebuild.** If this fires often on your hardware, you'll want to know before
+   you trust the app with something important.
+
+Budget real time for this. It is the difference between a demo and something you rely on.
+
+### 4.3 Real-time thread discipline
+
+The `AudioDeviceCreateIOProcIDWithBlock` callback runs on a real-time thread. Inside it you
+must not allocate, take a lock, do file or network I/O, or make Objective-C/ARC calls that
+might do any of those. **The Swift runtime itself is not real-time safe** — retain/release
+traffic can allocate, so the callback body needs to be written with that in mind rather than
+as ordinary Swift.
+
+The standard structure: the IOProc copies samples into a **lock-free ring buffer** using
+atomic read/write indices, and a normal-priority consumer thread drains it, resamples,
+writes to disk, and feeds the ASR. Nothing else happens on the audio thread.
+
+This is the part that works in a demo and glitches in a real meeting — and glitches are how
+you discover you got it wrong, which is a bad way to find out. Get the ring buffer right
+before building anything on top of it.
+
+**Also:** zero the ring buffer on stop, or stale samples from the previous session leak into
+the next one.
+
+### 4.4 Format, channels, and clock drift
+
+**Don't assume the buffer layout.** Taps deliver whatever the device is using — often 48 kHz
+float, sometimes 44.1, and channel layout varies. Walk the `AudioBufferList` and handle
+interleaved (channels ≥ 2 in `abl[0]`), separate-channel, and mono cases from what's
+actually there rather than from what you expect.
+
+**Resample to 16 kHz mono** for WhisperKit, streaming, via `AVAudioConverter`. Handle the
+sample rate changing mid-session — see §4.2, since that's also a suspected trigger for the
+zero-buffer bug.
+
+**Clock drift is real but mostly harmless here.** The tap and the microphone run on
+independent hardware clocks that are nominally identical and never exactly equal, so
+timestamps slowly diverge over a long meeting. For A/V sync that's fatal; **for transcript
+merging it is not.** You need the two channels aligned well enough to interleave utterances
+in the right order — a tolerance measured in hundreds of milliseconds, not samples. Stamp
+each buffer on arrival, merge by timestamp, and don't build drift compensation until you
+observe an actual ordering problem. This is a genuine "the commercial version needs it, you
+don't" saving.
+
+### 4.5 Signing and permissions — a development-time gate
+
+**Process taps require a stable signing identity to work at all.** Unsigned `xcodebuild`
+output compiles fine but the TCC prompt never fires and capture silently fails. Run via
+Xcode with a real Apple ID team selected, or `codesign` against a stable identifier. This
+will cost you an afternoon if you hit it without knowing.
+
+**`NSAudioCaptureUsageDescription` is its own TCC category**, separate from microphone
+access. The key isn't in Xcode's Info.plist dropdown — type it manually.
+
+**There is no public API to check or request audio-capture permission.** AudioCap does it
+through private TCC framework calls, behind a build flag; without that, permission is
+requested implicitly on the first capture attempt. For a personal app the private-API route
+is fine — you're not shipping to the App Store.
+
+**Testing the permission flow:** `tccutil reset SystemAudioCaptureRequests <bundle-id>`
+clears granted/denied state so you can iterate on the prompt copy and the denial path.
+
+### 4.6 Set the floor at macOS 14.4, and know the 26.x history
+
+Taps arrived in 14.2, but deployment targets below **14.4** land in a different permission
+category with different prompt copy. Pin 14.4 as the minimum for consistency.
+
+Recent regressions worth knowing, since they show this API still moves:
+
+- **macOS 26.0** broke capture from FaceTime and the Phone app, and broke capture whenever a
+  secondary output device had a different sample rate from the default output. **Both fixed
+  in 26.1.**
+- Tahoe has a separate reported issue where system audio quality degrades over hours or days
+  of uptime.
+
+If you're on 26.x, be on 26.1 or later before concluding your code is at fault.
+
+### 4.7 Defensive architecture
+
+Design so that failures are survivable rather than trying to eliminate them:
+
+- **Two independent streams, written independently.** The microphone path (`AVAudioEngine`)
+  is ordinary, well-trodden, and reliable; the tap is the fragile one. Keep them fully
+  separate all the way to disk so a tap failure or rebuild costs you their side of one
+  meeting, never yours and never the file.
+- **Write continuously.** Rolling audio chunks and append-only partial transcript. A crash
+  at minute 50 costs seconds.
+- **Instrument every boundary** — tap created, aggregate instantiated, IOProc registered,
+  `AudioDeviceStart` returned, first callback arrived, frame count and channel layout,
+  periodic peak level, ring buffer receiving non-zero peaks. When a layer says `noErr` and
+  the output is silent, the bug is a parameter semantics misunderstanding, and boundary
+  instrumentation is what tells you *which* layer. Build this before you need it.
+- **Surface failure to yourself.** A silent recorder that stops recording is worse than no
+  recorder. If a meeting produced a suspiciously empty channel, say so afterwards.
+
+### 4.8 Browser-based meetings need a global tap
+
+Google Meet in a browser doesn't play audio from the main browser process — it comes from a
+renderer or helper process, and *which* one varies by browser and by meeting platform.
+Per-process tapping is therefore unreliable for anything running in a tab.
+
+Simplest robust answer: tap globally (`exclusive = true` with an empty exclusion list) and
+accept that music and notifications land in the recording too. Refine to per-process only
+for native apps like Zoom, where the process is stable and identifiable — and even then,
+only if stray audio actually becomes a problem in the transcript.
+
+### 4.9 Edge cases you can skip at personal scope
+
+Headphone switching mid-call, Bluetooth dropping to 8/16 kHz HFP, mute-state detection,
+simultaneous audio sessions, echo cancellation, multi-hour recordings. Each is real, each
+would be mandatory commercially, and each can wait until it actually bites you. Skipping
+them is most of why this project is weekends rather than months — but note that a few of
+them (device changes, sample-rate changes) overlap with the §4.2 triggers, so the HAL
+listeners you add there earn their keep twice.
+
+### 4.10 What the spike must prove
+
+Stage 1 is done when, from a real Zoom call:
+
+1. Both streams write to disk as separate files
+2. Peak levels are non-zero on both, verified over several minutes
+3. The tap survives a deliberate output-device change (plug in headphones mid-call)
+4. The tap survives a sample-rate change
+5. A forced teardown/rebuild mid-recording produces a gap, not a corruption
+6. Boundary instrumentation prints something useful at every stage
+
+Items 3–5 are the ones that separate "it worked once" from "I can build on this."
 
 ---
 
@@ -514,8 +690,11 @@ like this is feasible for one person at all.
 
 ## 13. Pitfalls worth knowing in advance
 
-1. **Core Audio taps stall the project.** The most likely failure mode. Mitigated by
-   starting there and by AudioCap existing. Hold yourself to the one-weekend box.
+1. **Core Audio taps stall the project.** The most likely failure mode, and §4 is the
+   detailed register. The headline risks: three setup parameters that fail silently with
+   `noErr`, and an Apple-unconfirmed bug where a healthy tap starts returning all-zero
+   buffers indistinguishable from real silence. Mitigated by the mic-as-liveness-oracle
+   check (§4.2) and by AudioCap existing. Hold yourself to the one-weekend spike box.
 2. **Link extraction is messier than it looks.** Every calendar invite formats its join
    link differently, and the same platform varies by who sent it. This is regex-and-real-
    invites work, not design work — collect a dozen actual invites from your own calendar
