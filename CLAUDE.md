@@ -1,18 +1,18 @@
 # CLAUDE.md — Big Slick (read me first, every session)
 
 ## What this is
-Big Slick: a fully open-source marketing skills distribution for Claude ("Red Hat for Claude marketing skills"). 207 marketing skills are vendored from MIT/Apache-2.0 upstreams; 2 first-party infrastructure skills live in `core/skills/` under the repo's MIT licence. v0.2 removed the source-available proprietary layer and there is no private repo. Owner: Frank Days. Executable build: BUILD-BIGSLICK.md. Per-skill source/licence/deps: INVENTORY.md. Licensing map: LICENSING.md. Maintainer guide: MAINTAINERS.md.
+Big Slick: a fully open-source marketing skills distribution for Claude ("Red Hat for Claude marketing skills"). 207 marketing skills are vendored from MIT/Apache-2.0 upstreams; 3 first-party infrastructure skills live in `core/skills/` under the repo's MIT licence. v0.2 removed the source-available proprietary layer and there is no private repo. Owner: Frank Days. Executable build: BUILD-BIGSLICK.md. Per-skill source/licence/deps: INVENTORY.md. Licensing map: LICENSING.md. Maintainer guide: MAINTAINERS.md.
 
 ## Architecture (5 rules — never violate)
 1. `upstream/` is READ-ONLY vendored open source, pinned in `upstream/VERSIONS` (7 upstreams). Modify upstream skills only via `overlay/patches/<skill>/`.
-2. `overlay/manifest.yaml` is the merge (include/exclude per upstream). The `core:` key adds `core/skills/`, which wins every name collision. `core/` is for MIT **infrastructure** only — `company-onboarding` (writes client packs) and `resource-hub` (provider config). Marketing content belongs upstream.
+2. `overlay/manifest.yaml` is the merge (include/exclude per upstream). The `core:` key adds `core/skills/`, which wins every name collision. `core/` is for MIT **infrastructure** only — `company-onboarding` (writes client packs), `resource-hub` (provider config) and `client-context` (loads the active pack, or says there is none). Marketing content belongs upstream.
 3. Client specifics live ONLY in `core/clients/<client>/` packs. Never put a company name in a skill file. Client packs are the user's own data, not part of the distributed library.
 4. Everything shipped must be redistributable. `test.sh` T4 fails on unrecognised provenance **and** on any per-skill `LICENSE.md` in `core/skills/` — that file is how the removed Reserved Component License would creep back.
 5. Curation-first: no new marketing-skill authoring. Growth = admit open-source skills that clear the bar in INVENTORY.md — **≥500 GitHub stars and MIT or Apache-2.0** (reject GPL/AGPL/no-license). Record star count at vendoring time.
 
 ## Build & release
 - System Python is PEP 668 externally-managed, so `pip3 install pyyaml` fails. Use a venv: `python3 -m venv .venv && .venv/bin/pip install pyyaml`, then run scripts with `.venv/bin` on PATH.
-- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `skills/` + `.claude-plugin/plugin.json` at the repo root (committed — this is the plugin itself). Expect **247** skills (245 upstream + 2 core), 30 in the root plugin and 217 across 10 bundles.
+- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `skills/` + `.claude-plugin/plugin.json` at the repo root (committed — this is the plugin itself). Expect **248** skills (245 upstream + 3 core), 31 in the root plugin and 217 across 10 bundles.
 - `python3 scripts/gen_inventory.py` after any manifest change — `test.sh` T5 fails if a composed skill is missing from INVENTORY.md.
 - `bash scripts/test.sh` — release gate (T1 counts, T2 frontmatter, T3 exclusions, T4 provenance, T5 inventory, T6 manifests, F1 client lifecycle). Must print ALL TESTS PASS.
 - `bash scripts/package_release.sh` → `bigslick-<version>.zip`, the end-user download (dist/ prebuilt, installer, marketplace manifest, client packs). `scripts/package_dmg.sh` wraps it for macOS.
@@ -35,8 +35,8 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 
 ## Known gaps
 - **Company context is working-directory dependent.** 25 skills look for `.agents/product-marketing.md` and 17 for `.claude/product-marketing.md`, both relative to cwd. That resolves only when Claude runs from a directory holding one — not from the user's own project, and not at all in the desktop app. `scripts/make_context_plugin.py` packages the pack as a `company-context` skill, which is the only route that reaches everywhere; keep it in the onboarding flow.
-- **Skills fail silently without context.** They say "if the pack exists, read it" and otherwise just ask more questions, so a user cannot tell tailored work from generic. The generated context skill announces itself for this reason; the 245 upstream skills cannot be patched to do the same without 245 merge costs.
+- **Skills fail silently without context.** They say "if the pack exists, read it" and otherwise just ask more questions, so a user cannot tell tailored work from generic. The generated context skill announces itself for this reason, and `core/skills/client-context/` ships in the root plugin so an unconfigured install says so out loud; the 245 upstream skills cannot be patched to do the same without 245 merge costs.
 - `resource-hub` governs first-party skills and user provider config only. The vendored skills name their own providers; `INVENTORY.md` records each one's env vars.
-- **Trigger collisions are unmeasured** at 247 skills. 13 skills mention positioning; `onboarding` (post-signup) and `company-onboarding` (context pack) are semantically adjacent but unrelated. No eval set exists.
-- `company-onboarding` has still never been executed end to end.
+- **Trigger collisions are unmeasured** at 248 skills. 13 skills mention positioning; `onboarding` (post-signup) and `company-onboarding` (context pack) are semantically adjacent but unrelated. No eval set exists.
+- `company-onboarding` ran end to end for the first time on 2026-09-07 (client pack `qmenta`, Standard depth, `check_client_pack.sh` reported USABLE).
 - `DESIGN-SPEC.md` is referenced in older docs but has never existed in this repo.
