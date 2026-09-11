@@ -53,8 +53,12 @@ campaign-plan: >-
   Build a campaign brief: objectives, audience, messaging, channels, week-by-week calendar, metrics. Use for a product launch, lead-gen push, awareness campaign, or "plan this campaign".
 cold-email: >-
   Write B2B cold outreach emails and follow-up sequences. Use for "cold email", "prospecting email", "outbound email", "SDR email", "nobody's replying", subject lines, multi-touch sequences.
+client-context: >-
+  Loads the active company context before marketing work, and says plainly when there is none so you never mistake generic advice for tailored. Use for "what do you know about us".
+client-onboarding: >-
+  For consultants and agencies running several clients. Use for "onboard a new client", "add a client", "switch to X", "list my clients" - roster, safe switching, keeping clients apart.
 company-onboarding: >-
-  Set up a new company or client: interviews you, then writes the context pack every other skill reads. Use for "onboard my company", "set up a new client", "create a context pack". Run first.
+  Set up ONE business: interviews you, then writes the context pack every other skill reads. Use for "onboard my company", "create a context pack". Several clients? Use client-onboarding.
 content-strategy: >-
   Decide what content to create. Use for "content strategy", "what should I write about", "topic clusters", "content pillars", "editorial calendar", "blog topics", "content roadmap".
 copywriting: >-
