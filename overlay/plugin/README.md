@@ -13,7 +13,7 @@ claude plugin install bigslick-paid@bigslick
 ```
 
 Bundles: `seo`, `ai-search`, `paid`, `content`, `social`, `gtm`, `lifecycle`,
-`strategy`, `research`, `ops` — 247 skills in total across all of them.
+`strategy`, `research`, `ops` — 249 skills in total across all of them.
 
 This split is deliberate. Every skill's description loads into every session, so
 the full library costs ~28k tokens of context before you ask for anything. The
