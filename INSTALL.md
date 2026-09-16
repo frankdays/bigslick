@@ -67,7 +67,6 @@ A black window opens and prints what it's doing. When it finishes you'll see:
 
 ```
 Ready. 249 marketing skills installed and enabled.
-Sample company loaded: hansel-ai
 ```
 
 If it says something else, see **Troubleshooting** below. You can close the black window.
@@ -132,7 +131,7 @@ Big Slick keeps each company's facts in its own folder, and the skills read whic
 
 Or just ask Claude to switch to Acme; it knows how.
 
-A sample company called **hansel-ai** ships with it so you can try things before entering your own. It's fictional — every number in it is made up.
+Nothing is loaded until you onboard. Say **"onboard my company"** (or **"onboard a new client"** if you run marketing for several) and Claude builds your context pack. Until then every skill says plainly that it is giving general advice rather than advice about you.
 
 ---
 

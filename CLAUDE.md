@@ -24,8 +24,8 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 
 ## Working conventions
 - The repo root IS the plugin: `marketplace.json` says `"source": "."`, and `skills/` + `.claude-plugin/plugin.json` are committed, so `claude plugin marketplace add https://github.com/frankdays/bigslick` works. **Recompose and commit `skills/` whenever a skill changes** — T7 fails the gate if it drifts or goes untracked. The release `.zip`/`.dmg` ships the identical layout.
-- Execution finds what review misses: run any changed skill once against the Hansel AI sample client (`core/clients/hansel-ai`) before committing.
-- Commit messages: imperative, one line, what + why. Never commit `dist/`, `.agents/`, build zips, or real client packs (gitignored; only `_template` and `hansel-ai` are public). Do commit `skills/` — it is the published plugin, not a build artifact.
+- Execution finds what review misses: run any changed skill once against a real client pack before committing. No sample pack ships any more (removed 2026-09-15 — people should onboard themselves, not poke at fiction); `core/clients/_template` is the structure, not a runnable pack.
+- Commit messages: imperative, one line, what + why. Never commit `dist/`, `.agents/`, build zips, or real client packs (gitignored; only `_template` is public). Do commit `skills/` — it is the published plugin, not a build artifact.
 - Don't reformat or "improve" upstream skill content unasked. Patches go in `overlay/patches/`, and every patch is a merge-conflict cost at the next upstream refresh.
 
 ## Git

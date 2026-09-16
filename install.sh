@@ -25,7 +25,6 @@ fi
 claude plugin marketplace add "$(pwd)" >/dev/null 2>&1 || claude plugin marketplace update bigslick >/dev/null 2>&1 || true
 claude plugin install bigslick@bigslick >/dev/null 2>&1 || claude plugin update bigslick@bigslick >/dev/null 2>&1 || {
   echo "Plugin install hit a snag — run manually: claude plugin install bigslick@bigslick"; exit 1; }
-[ -d core/clients/hansel-ai ] && bash scripts/activate_client.sh hansel-ai >/dev/null 2>&1 || true
 
 # Verify rather than assume. "Done" printed over a failed install is worse than
 # an error, because the user only finds out when a skill silently never fires.

@@ -1,6 +1,5 @@
 core/clients/*
 !core/clients/_template/
-!core/clients/hansel-ai/
 core/clients/_active
 .agents/
 dist/

@@ -40,13 +40,12 @@ cp install.sh INSTALL.command INSTALL.md README.md LICENSE LICENSING.md "$STAGE/
 cp scripts/activate_client.sh scripts/make_context_plugin.py scripts/check_client_pack.sh \
    scripts/suggest_addons.py scripts/gen_inventory.py "$STAGE/scripts/"
 cp -R core/clients/_template "$STAGE/core/clients/"
-[ -d core/clients/hansel-ai ] && cp -R core/clients/hansel-ai "$STAGE/core/clients/"
 
 # Client packs are real customer data. The copies above are an explicit allowlist, but a
 # leak here ships a client's positioning and funnel numbers to everyone who downloads the
 # release, so assert rather than trust — this is cheap next to the failure it prevents.
 STAGED=$(ls "$STAGE/core/clients" 2>/dev/null | sort | tr '\n' ' ')
-EXPECTED="_template hansel-ai "
+EXPECTED="_template "
 if [ "$STAGED" != "$EXPECTED" ]; then
   echo "ABORT: unexpected client packs staged for release: $STAGED" >&2
   echo "Expected exactly: $EXPECTED" >&2

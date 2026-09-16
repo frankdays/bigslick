@@ -61,7 +61,7 @@ It walks you through your business and fills in a client pack. Every other skill
 
 That's what makes it work across a client roster: one library, many companies, no copy-pasted variants drifting apart.
 
-A fictional sample company (`hansel-ai`) ships with it, so you can try everything before entering your own numbers.
+No sample company ships with it. Say **"onboard my company"** and the express path reads your site, drafts the whole pack, and asks you to correct it — about ten minutes, and the answers are about your business from the first one.
 
 *Building on Big Slick or curious how the library is assembled? See [MAINTAINERS.md](MAINTAINERS.md) for the layer model, the compose step, and how upstream skills are vendored and patched.*
 

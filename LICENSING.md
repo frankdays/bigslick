@@ -31,7 +31,7 @@ holding provider configuration. They are open source on the same terms as the re
 
 `core/clients/` holds per-company context packs. Your own packs are your data — writing one
 does not put it under any licence here. The two sample packs that ship in the distribution,
-`_template` and `hansel-ai`, are MIT under the root `LICENSE` like everything else.
+`_template`, is MIT under the root `LICENSE` like everything else.
 
 A `core/clients/LICENSE.md` carrying the old Reserved Component terms survived the v0.2
 cleanup as an untracked local file. It never reached GitHub or any release asset (it was

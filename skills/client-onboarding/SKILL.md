@@ -30,8 +30,8 @@ Two rules prevent nearly all of it:
 
 ## 1. Build the roster
 
-One folder per client under `core/clients/`, plus `_template` and the `hansel-ai`
-sample. Use a short, lowercase, stable slug — it appears in paths, in the generated
+One folder per client under `core/clients/`, plus `_template` (the structure new
+packs are copied from, not a client). Use a short, lowercase, stable slug — it appears in paths, in the generated
 skill name, and in every switch command.
 
 ```bash
@@ -106,7 +106,7 @@ stays live and a reference if it is archived deliberately.
 - Uninstall or disable that client's context skill.
 - Keep the pack folder. It is the user's own record of the engagement, and a
   returning client is far cheaper to re-onboard from it than from scratch.
-- Client packs are gitignored except `_template` and `hansel-ai`. Never commit one,
+- Client packs are gitignored except `_template`. Never commit one,
   and never let one into a release — `package_release.sh` aborts if it finds one,
   and that guard exists because this data is a client's confidential positioning
   and funnel numbers.

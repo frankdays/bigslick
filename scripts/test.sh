@@ -99,5 +99,4 @@ PY
 cp -r core/clients/_template core/clients/__testco 2>/dev/null || true
 bash scripts/activate_client.sh __testco >/dev/null && [ -e .agents/product-marketing.md ] && echo "F1 client lifecycle PASS" || { echo "F1 FAIL"; exit 1; }
 rm -rf core/clients/__testco core/clients/_active .agents
-[ -d core/clients/hansel-ai ] && bash scripts/activate_client.sh hansel-ai >/dev/null || true
 echo "ALL TESTS PASS"
