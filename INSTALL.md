@@ -19,12 +19,16 @@ prompt) are different products, and Big Slick installs differently in each.
 6. Choose **Add from a repository**
 7. Paste in `https://github.com/frankdays/bigslick` and confirm
 8. Click **Sync** — this pulls the marketplace down; nothing appears until you do
-9. Click **Browse** to see what's in it
+9. The skill groupings appear on their own once the sync finishes — eleven entries: **bigslick** (the core) plus ten optional bundles. See a different number, or none? The sync didn't finish; click **Sync** again.
 10. Go to **Personal**
-11. Add the packages you want — start with **bigslick**, the 30-skill core
-12. Start a chat and say **Onboard my company** to tailor it to your business
+11. Add **bigslick** — the 32-skill core. Add bundles later, when you reach for something it doesn't have.
+12. Check the plugin is *enabled*, not just installed — anything switched off contributes no skills
+13. Start a chat and say **Onboard my company** (or **Onboard a new client** if you run marketing for several) to tailor everything to your business
 
-Type `/` in a chat to see the skills you've added.
+To confirm the skills are there, type `/` and look for the `bigslick:` prefix — it's
+`/bigslick:company-onboarding`, not `/company-onboarding`. Searching the bare name finds
+nothing and looks exactly like a failed install. You rarely need the slash though: skills
+match on what you describe, so plain words are the normal way in.
 
 **Claude Code — carry on below.** The downloadable installers drive the Claude Code CLI and
 cannot add skills to the desktop app.
@@ -43,7 +47,7 @@ You'll need a Claude account. A paid plan is required for real work — the skil
 
 ## Step 2 — Download Big Slick
 
-From the [Releases page](https://github.com/frankdays/bigslick/releases), download **`bigslick-0.1.0.dmg`**.
+From the [Releases page](https://github.com/frankdays/bigslick/releases), download the latest **`bigslick-<version>.dmg`** (currently `bigslick-0.2.7.dmg`).
 
 Double-click it. A window opens showing a folder called `bigslick` and a short note. **Drag the `bigslick` folder into Documents** — don't run it from the disk image, which is read-only and disappears when you eject it.
 
@@ -143,7 +147,7 @@ Nothing is loaded until you onboard. Say **"onboard my company"** (or **"onboard
 
 **"Installed with problems — the plugin did not register"** — the installer checked its own work and something didn't take. Open Terminal in the folder and run `claude plugin install bigslick@bigslick` to see the actual error.
 
-**A skill doesn't seem to fire** — say the skill's name directly: *"Use pipeline-math to model next year."* Skills are chosen from what you ask, so naming one removes the guesswork.
+**A skill doesn't seem to fire** — name it directly, with its plugin prefix: *"Use `bigslick:pipeline-review` to look at next year."* Skills are chosen from what you ask, so naming one removes the guesswork. The prefix matters: the bare name matches nothing.
 
 **Starting over** — `claude plugin uninstall bigslick@bigslick`, then run the installer again. Nothing you've written about your own company is touched; it lives in `core/clients/`.
 

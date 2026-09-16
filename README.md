@@ -21,12 +21,15 @@ Marketing work you'd normally hire for — pipeline reviews, exec reporting, pro
 6. Choose **Add from a repository**
 7. Paste in `https://github.com/frankdays/bigslick` and confirm
 8. Click **Sync** — this pulls the marketplace down; nothing appears until you do
-9. Click **Browse** to see what's in it
+9. The skill groupings appear on their own once the sync finishes — eleven entries: **bigslick** (the core) plus ten optional bundles. See a different number, or none? The sync didn't finish; click **Sync** again.
 10. Go to **Personal**
-11. Add the packages you want — start with **bigslick**, the 30-skill core
-12. Start a chat and say **Onboard my company** to tailor it to your business
+11. Add **bigslick** — the 32-skill core. Add bundles later, when you reach for something it doesn't have.
+12. Check the plugin is *enabled*, not just installed — anything switched off contributes no skills
+13. Start a chat and say **Onboard my company** (or **Onboard a new client** if you run marketing for several) to tailor everything to your business
 
-Type `/` in a chat to see the skills you've added.
+To confirm the skills are there, type `/` and look for the `bigslick:` prefix — it's
+`/bigslick:company-onboarding`, not `/company-onboarding`. Searching the bare name finds
+nothing and looks exactly like a failed install.
 
 **Using Claude Code in a terminal?**
 
