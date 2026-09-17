@@ -45,14 +45,17 @@ reads that pack. Switching companies is one command.
 
 ## Try it
 
-- `"Build a marketing plan for Hansel AI"` — sample company is pre-loaded
-- `"Run this past the marketing council"` — debates it through named marketing frameworks
-- `"Onboard my company"` — interviews you and generates a real context pack
+- `"What do you know about my business?"` — confirms the plugin is loaded; with no
+  context pack yet it says so plainly instead of guessing
+- `"Onboard my company"` — interviews you and generates your context pack. Do this
+  first; no sample company ships, so skills have nothing to work from until you do
+- `"Build me a marketing plan"` — then `"Run this past the marketing council"`, which
+  debates it through named marketing frameworks
 
 ## Licensing
 
-Fully open source, with nothing source-available or proprietary. 207 skills are
-vendored from MIT- or Apache-2.0-licensed upstreams; the 2 first-party
-infrastructure skills (`company-onboarding`, `resource-hub`) are MIT under the
-repository's root LICENSE. Upstream licence texts ship in `licenses/`. See
-`LICENSING.md`.
+Fully open source, with nothing source-available or proprietary. 245 skills are
+vendored from MIT- or Apache-2.0-licensed upstreams; the 4 first-party
+infrastructure skills (`company-onboarding`, `client-onboarding`, `client-context`,
+`resource-hub`) are MIT under the repository's root LICENSE. Upstream licence texts
+ship in `licenses/`. See `LICENSING.md`.

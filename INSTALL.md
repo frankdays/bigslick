@@ -67,11 +67,19 @@ Inside that folder is a file called **`INSTALL.command`**.
 >
 > *If you've read older instructions saying to right-click and choose Open — that stopped working in macOS 15 (Sequoia). Use System Settings instead.*
 
-A black window opens and prints what it's doing. When it finishes you'll see:
+A black window opens and prints what it's doing — registering the marketplace, then installing the plugin. When it finishes you'll see:
 
 ```
-Ready. 249 marketing skills installed and enabled.
+Ready. 32 core skills installed and enabled.
+217 more sit in optional bundles and are NOT installed yet — that is
+deliberate, so they cost you no context until you ask for them.
+Confirm any time with:  claude plugin list
 ```
+
+**32 is the right number, not a partial install.** Big Slick ships lean: the core plugin
+is what loads every session, and the other 217 skills wait in bundles you add when you
+need them. Adding them all up front would cost you around 28,000 tokens of context in
+every single conversation.
 
 If it says something else, see **Troubleshooting** below. You can close the black window.
 
@@ -85,28 +93,31 @@ Open the `bigslick` folder in Terminal and type `claude`. If that sentence meant
 2. Type `cd ` — with a space after it — then **drag the `bigslick` folder onto the Terminal window** and press Enter
 3. Type `claude` and press Enter
 
-Then paste this:
-
-```
-Build a marketing plan for Hansel AI
-```
-
-Hansel AI is the sample company that ships with Big Slick, so this works before
-you've entered anything about your own business.
-
-Two more worth trying:
-
-```
-Define the ICP for Hansel AI
-Run this plan past the marketing council
-```
-
-The last one convenes a simulated board of advisors — Seth Godin, David Ogilvy,
-April Dunford and others — and gives you their arguments about your plan.
-
-### Using your own company
+### First, confirm it's actually loaded
 
 Paste this:
+
+```
+What do you know about my business?
+```
+
+A working install tells you it has no context pack yet and points you at the skill
+that fixes it. If you instead get generic marketing advice with no mention of a
+context pack, the plugin isn't loaded — see **Troubleshooting**.
+
+You can also check from the command line at any time:
+
+```
+claude plugin list
+```
+
+That should show `bigslick@bigslick` with `Status: ✔ enabled`. Installed but *disabled*
+contributes no skills and is easy to miss.
+
+### Then set up your company
+
+No sample company ships with Big Slick, so the skills have nothing to work from until
+you tell them about your business. That takes one instruction. Paste this:
 
 ```
 Onboard my company
@@ -115,6 +126,17 @@ Onboard my company
 It interviews you about your business — positioning, ICP, competitors, funnel
 numbers, tooling — and writes it all down. Every other skill reads what it
 wrote, so you never edit files by hand.
+
+Once that's done, these are worth trying:
+
+```
+Build me a marketing plan
+Define our ICP
+Run this plan past the marketing council
+```
+
+The last one convenes a simulated board of advisors — Seth Godin, David Ogilvy,
+April Dunford and others — and gives you their arguments about your plan.
 
 If you would rather fill the files in yourself, copy the template instead:
 

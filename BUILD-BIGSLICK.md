@@ -235,10 +235,16 @@ if [ ! -d dist/skills ]; then
   fi
 fi
 
-claude plugin marketplace add "$(pwd)" >/dev/null 2>&1 || claude plugin marketplace update bigslick >/dev/null 2>&1 || true
-claude plugin install bigslick@bigslick >/dev/null 2>&1 || claude plugin update bigslick@bigslick >/dev/null 2>&1 || {
+# Let Claude Code's own output through — a silent installer is indistinguishable
+# from a hung one, and hiding stderr hides the reason a step failed.
+echo ""
+echo "${BOLD}Registering the marketplace...${NORM}"
+claude plugin marketplace add "$(pwd)" || claude plugin marketplace update bigslick || true
+
+echo ""
+echo "${BOLD}Installing the core plugin...${NORM}"
+claude plugin install bigslick@bigslick || claude plugin update bigslick@bigslick || {
   echo "Plugin install hit a snag — run manually: claude plugin install bigslick@bigslick"; exit 1; }
-[ -d core/clients/hansel-ai ] && bash scripts/activate_client.sh hansel-ai >/dev/null 2>&1 || true
 
 # Verify rather than assume. "Done" printed over a failed install is worse than
 # an error, because the user only finds out when a skill silently never fires.
@@ -259,7 +265,7 @@ echo ""
 echo "To start, open Claude in this folder and paste one of these:"
 echo ""
 echo "    Onboard my company"
-echo "    Build the pipeline model for Hansel AI's year"
+echo "    What do you know about my business?"
 echo "    Run this plan past the staff meeting"
 echo ""
 echo "\"Onboard my company\" is the one to run first — it interviews you and writes"
@@ -307,7 +313,6 @@ cp .claude-plugin/marketplace.json "$STAGE/.claude-plugin/"
 cp install.sh INSTALL.command INSTALL.md README.md LICENSE LICENSING.md "$STAGE/"
 cp scripts/activate_client.sh "$STAGE/scripts/"
 cp -R core/clients/_template "$STAGE/core/clients/"
-[ -d core/clients/hansel-ai ] && cp -R core/clients/hansel-ai "$STAGE/core/clients/"
 
 rm -f "$OUT"
 ( cd "$(dirname "$STAGE")" && zip -qr "$OLDPWD/$OUT" bigslick -x "*.DS_Store" "*/__pycache__/*" )
@@ -383,7 +388,6 @@ chmod +x scripts/package_dmg.sh
 cat > .gitignore << 'EOF'
 core/clients/*
 !core/clients/_template/
-!core/clients/hansel-ai/
 core/clients/_active
 .agents/
 dist/
@@ -485,7 +489,6 @@ PY
 cp -r core/clients/_template core/clients/__testco 2>/dev/null || true
 bash scripts/activate_client.sh __testco >/dev/null && [ -e .agents/product-marketing.md ] && echo "F1 client lifecycle PASS" || { echo "F1 FAIL"; exit 1; }
 rm -rf core/clients/__testco core/clients/_active .agents
-[ -d core/clients/hansel-ai ] && bash scripts/activate_client.sh hansel-ai >/dev/null || true
 echo "ALL TESTS PASS"
 EOF
 chmod +x scripts/test.sh

@@ -8,9 +8,9 @@
   removed. Big Slick is no longer open-core; it is fully open source.
 - The removed 29 are recoverable at commit **4373503**. `bigslick-pro` was never created and
   the split was deliberately abandoned, not deferred.
-- Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS). `bigslick-0.2.0.zip` builds
-  from `scripts/package_release.sh` (209 skills, 3.3M), which now aborts if any client pack
-  other than `_template`/`hansel-ai` is staged.
+- Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS). The release zip builds
+  from `scripts/package_release.sh`, which aborts if any client pack other than
+  `_template` is staged.
 - Docs reconciled to the v0.2 reality: CLAUDE.md, MAINTAINERS.md, INSTALL.md, install.sh.
 
 ## Open items

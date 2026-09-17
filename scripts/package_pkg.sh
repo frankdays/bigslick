@@ -170,10 +170,13 @@ TO START
 
        cd ~/Documents/bigslick && claude
 
-   Then type:  Build a marketing plan for Hansel AI
+   To check it loaded, type:  What do you know about my business?
 
-Hansel AI is a sample company included for trying things out, so that
-works before you enter anything about a real business.
+A working install says it has no context pack yet and names the skill that
+fixes it. Then type:  Onboard my company
+
+That interviews you and writes your context pack. No sample company ships,
+so the skills have nothing to work from until you do it.
 
 install-log.txt in the folder records exactly what happened.
 TXT
