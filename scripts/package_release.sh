@@ -20,13 +20,12 @@ mkdir -p "$STAGE"
 # What an end user needs, and nothing else. No upstream/, no overlay/, no
 # core/skills/ — those are build inputs, already composed.
 #
-# The extracted folder must have the same shape as the repo root, because
-# marketplace.json says `"source": "."` — so skills/ and .claude-plugin/ sit at
-# the top level here, exactly as they do in git. Shipping dist/ instead would
-# leave the marketplace pointing at a directory this zip does not contain.
+# The extracted folder must have the same shape as the repo root, because every
+# marketplace source is a path relative to it — the core at `./plugin`, each bundle at
+# `./bundles/<name>`. Shipping dist/ instead would leave the marketplace pointing at a
+# directory this zip does not contain.
 mkdir -p "$STAGE/.claude-plugin" "$STAGE/scripts" "$STAGE/core/clients"
-cp -R skills "$STAGE/skills"
-cp .claude-plugin/plugin.json "$STAGE/.claude-plugin/"
+cp -R plugin "$STAGE/plugin"
 # Bundles ship in the download too, so the offline installer can offer them without a
 # network round-trip. They cost nothing until the user installs one — an uninstalled
 # bundle contributes zero always-on tokens.
@@ -58,4 +57,4 @@ rm -rf "$(dirname "$STAGE")"
 
 echo "Built $OUT ($(du -h "$OUT" | cut -f1))"
 echo "Contains: $(unzip -l "$OUT" | grep -c 'SKILL.md') skills, installer, marketplace manifest, client packs."
-echo "Layout matches the repo root (skills/ + bundles/ + .claude-plugin/), so every source resolves."
+echo "Layout matches the repo root (plugin/ + bundles/ + .claude-plugin/), so every source resolves."

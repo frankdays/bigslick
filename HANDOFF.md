@@ -1,22 +1,28 @@
 # HANDOFF.md — state as of 2026-09-17
 
 ## Where things stand
-- Public repo `frankdays/bigslick`, **v0.2.8** (`overlay/plugin/plugin.json` is the source;
-  `compose.py` propagates it to the root plugin and all 10 bundles). Tags `v0.1` through
+- Public repo `frankdays/bigslick`, **v0.2.9** (`overlay/plugin/plugin.json` is the source;
+  `compose.py` propagates it to `plugin/` and all 10 bundles). Tags `v0.1` through
   `v0.2.7` are published.
 - **249 skills** — 245 vendored from 7 MIT/Apache-2.0 upstreams, plus 4 first-party MIT
   infrastructure skills in `core/skills/`: `company-onboarding` (one business),
   `client-onboarding` (a book of clients), `resource-hub` (provider config), and
   `client-context` (loads the active pack, or says out loud that there is none).
   Big Slick is fully open source; there is no proprietary layer and no private repo.
-- **Lean core + bundles.** The root plugin ships 32 skills (~5k always-on tokens); the other
+- **Lean core + bundles.** The core plugin (`plugin/`) ships 32 skills (~5k always-on tokens); the other
   217 live in 10 opt-in bundles — `seo` 43, `strategy` 34, `ai-search` 24, `gtm` 20,
   `ops` 19, `research` 19, `lifecycle` 18, `content` 17, `social` 14, `paid` 9. Shipping all
   249 cost ~28k tokens every session; skill descriptions are trigger logic and cannot be
   trimmed, so the only lever is shipping fewer by default.
-- **The repo root IS the plugin.** `skills/` + `bundles/` + `.claude-plugin/plugin.json` are
-  committed, `marketplace.json` says `"source": "."`, so
+- **Every plugin has its own directory.** `plugin/` (the core) and `bundles/<name>/` are
+  committed, each a `.claude-plugin/plugin.json` + `skills/` pair, and `marketplace.json`
+  points at `./plugin` and `./bundles/<name>`, so
   `claude plugin marketplace add https://github.com/frankdays/bigslick` works.
+  **Changed in 0.2.9.** The core used to be published at the repo root (`"source": "."`),
+  which made it the one entry that packaged the entire repository — `upstream/`, `bundles/`
+  and all, ~25MB and 2,243 files — instead of its own 32 skills. It was also the only entry
+  that never showed up in the desktop app's plugin browser, while all ten bundles listed
+  fine. T7 now fails if a root `skills/` or root `.claude-plugin/plugin.json` reappears.
 - The 29 removed proprietary core skills are recoverable at commit **4373503**.
   `bigslick-pro` was never created; the split was abandoned, not deferred.
 - Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS: T1–T7 plus F1).
@@ -51,7 +57,7 @@ on any branch. `scripts/package_release.sh` is the working packager; `BUILD-BIGS
 - System Python is PEP 668 externally-managed: `pip3 install pyyaml` fails. Use the venv —
   `python3 -m venv .venv && .venv/bin/pip install pyyaml`, then put `.venv/bin` on PATH.
   `scripts/test.sh` aborts with "pip install pyyaml first" if you forget.
-- **Recompose and commit `skills/` + `bundles/` after any skill or version change**, or T7
+- **Recompose and commit `plugin/` + `bundles/` after any skill or version change**, or T7
   fails. The version lives in `overlay/plugin/plugin.json`; editing the generated
   `.claude-plugin/plugin.json` by hand gets overwritten.
 - Regenerate `INVENTORY.md` (`scripts/gen_inventory.py`) after any manifest change or T5 fails.
@@ -63,7 +69,7 @@ on any branch. `scripts/package_release.sh` is the working packager; `BUILD-BIGS
 - **Check what is actually active before client work.** As of 2026-09-17,
   `~/.claude/product-marketing.md` was the empty `_template` — i.e. no client active. The 245
   upstream skills fail silently in that state, handing back generic advice with no signal it
-  is untailored. `client-context` in the root plugin exists to say so out loud; the upstream
+  is untailored. `client-context` in the core plugin exists to say so out loud; the upstream
   skills cannot be patched to do the same without 245 merge costs.
 - **A locally-installed plugin does not follow your commits.** The marketplace source is the
   directory `/Users/frank/bigslick`, but the installed copy is a pinned snapshot under

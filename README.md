@@ -142,7 +142,7 @@ all 249 are listed in **[INVENTORY.md](INVENTORY.md)**.
 **Brand**
 - `brand-archetype-system`, `brand-style-guide`, `creative-brief`, `brand-review`
 
-**Plus the full upstream library** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `skills/`; provenance per skill in `dist/PROVENANCE.txt` and `INVENTORY.md`.
+**Plus the full upstream library** — SEO, content, copywriting, paid channels, CRO, pricing, launch, analytics tooling, and more. Browse `plugin/skills/` and `bundles/*/skills/`; provenance per skill in `dist/PROVENANCE.txt` and `INVENTORY.md`.
 
 ---
 

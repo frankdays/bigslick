@@ -54,10 +54,16 @@ def main():
     rd = ROOT/"overlay"/"plugin"/"README.md"
     if rd.exists(): shutil.copy(rd, ROOT/"dist"/"README.md")
 
-    # Publish the repo root as the plugin itself, so `claude plugin marketplace add
-    # <github url>` resolves. dist/ is gitignored and never reaches GitHub, so a
-    # marketplace pointing at "./dist" can only ever install from a local checkout.
-    # These paths ARE committed; that is the whole point of mirroring them.
+    # Publish every plugin into its own subdirectory, the core included. dist/ is
+    # gitignored and never reaches GitHub, so a marketplace pointing at "./dist" could
+    # only ever install from a local checkout; these paths ARE committed, which is the
+    # whole point of mirroring them.
+    #
+    # The core lives in plugin/ rather than at the repo root. A root source ("." ) made
+    # the core the one entry that packaged the ENTIRE repository — upstream/, bundles/
+    # and all — instead of its own lean skill set, and it was the only entry that failed
+    # to appear in the desktop app's plugin browser while all ten bundles listed fine.
+    # Every plugin root is now the same shape: <dir>/.claude-plugin/plugin.json + skills/.
     #
     # The root plugin is deliberately LEAN: every skill's frontmatter description is
     # loaded into every session, so shipping all of them by default taxes people who
@@ -84,11 +90,18 @@ def main():
         (cp/"plugin.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n")
 
     core_names = sorted(n for n in plan if n not in assigned)
-    publish(ROOT, core_names, base_meta)
+    core_dir = ROOT/"plugin"
+    publish(core_dir, core_names, base_meta)
+
+    # Sweep the pre-0.2.9 root layout so a checkout that predates the move cannot leave a
+    # second, stale copy of the core sitting at the repo root for the marketplace to find.
+    legacy_skills, legacy_meta = ROOT/"skills", ROOT/".claude-plugin"/"plugin.json"
+    if legacy_skills.exists(): shutil.rmtree(legacy_skills)
+    if legacy_meta.exists(): legacy_meta.unlink()
 
     bundles_dir = ROOT/"bundles"
     if bundles_dir.exists(): shutil.rmtree(bundles_dir)
-    entries = [{"name": base_meta["name"], "source": ".",
+    entries = [{"name": base_meta["name"], "source": "./plugin",
                 "description": base_meta.get("description", "")}]
     for b in bundles:
         meta = {"name": f"bigslick-{b['name']}", "version": base_meta.get("version", "0.0.0"),
@@ -105,7 +118,7 @@ def main():
                                "plugins": entries}, indent=2, ensure_ascii=False) + "\n")
 
     print(f"Composed {len(plan)} skills into dist/skills/. "
-          f"Published {len(core_names)} in the root plugin + "
+          f"Published {len(core_names)} in plugin/ + "
           f"{len(bundles)} bundles ({len(assigned)} skills).")
 
 if __name__ == "__main__": main()

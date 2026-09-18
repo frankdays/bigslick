@@ -12,7 +12,7 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 
 ## Build & release
 - System Python is PEP 668 externally-managed, so `pip3 install pyyaml` fails. Use a venv: `python3 -m venv .venv && .venv/bin/pip install pyyaml`, then run scripts with `.venv/bin` on PATH.
-- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `skills/` + `.claude-plugin/plugin.json` at the repo root (committed — this is the plugin itself). Expect **249** skills (245 upstream + 4 core), 32 in the root plugin and 217 across 10 bundles.
+- `python3 scripts/compose.py` → `dist/skills/` (build output, gitignored) **and** `plugin/` + `bundles/*/` (committed — these are the installable plugins). Expect **249** skills (245 upstream + 4 core), 32 in `plugin/` and 217 across 10 bundles.
 - `python3 scripts/gen_inventory.py` after any manifest change — `test.sh` T5 fails if a composed skill is missing from INVENTORY.md.
 - `bash scripts/test.sh` — release gate (T1 counts, T2 frontmatter, T3 exclusions, T4 provenance, T5 inventory, T6 manifests, F1 client lifecycle). Must print ALL TESTS PASS.
 - `bash scripts/package_release.sh` → `bigslick-<version>.zip`, the end-user download (dist/ prebuilt, installer, marketplace manifest, client packs). `scripts/package_dmg.sh` wraps it for macOS.
@@ -23,9 +23,9 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 - Quarterly: `bash scripts/update_upstreams.sh` → review add/removes → edit manifest → recompose → gen_inventory → test → bump `overlay/plugin/plugin.json` version.
 
 ## Working conventions
-- The repo root IS the plugin: `marketplace.json` says `"source": "."`, and `skills/` + `.claude-plugin/plugin.json` are committed, so `claude plugin marketplace add https://github.com/frankdays/bigslick` works. **Recompose and commit `skills/` whenever a skill changes** — T7 fails the gate if it drifts or goes untracked. The release `.zip`/`.dmg` ships the identical layout.
+- Every plugin lives in its own directory, the core included: `marketplace.json` points the core at `./plugin` and each bundle at `./bundles/<name>`, all committed, so `claude plugin marketplace add https://github.com/frankdays/bigslick` works. **Recompose and commit `plugin/` + `bundles/` whenever a skill changes** — T7 fails the gate if either drifts or goes untracked. The release `.zip`/`.dmg` ships the identical layout. Before 0.2.9 the core was published at the repo root (`"source": "."`), which made it the one entry that packaged the whole repository — `upstream/`, `bundles/` and all — and the only entry that never appeared in the desktop app's plugin browser. T7 fails if that root layout comes back.
 - Execution finds what review misses: run any changed skill once against a real client pack before committing. No sample pack ships any more (removed 2026-09-15 — people should onboard themselves, not poke at fiction); `core/clients/_template` is the structure, not a runnable pack.
-- Commit messages: imperative, one line, what + why. Never commit `dist/`, `.agents/`, build zips, or real client packs (gitignored; only `_template` is public). Do commit `skills/` — it is the published plugin, not a build artifact.
+- Commit messages: imperative, one line, what + why. Never commit `dist/`, `.agents/`, build zips, or real client packs (gitignored; only `_template` is public). Do commit `plugin/` and `bundles/` — they are the published plugins, not build artifacts.
 - Don't reformat or "improve" upstream skill content unasked. Patches go in `overlay/patches/`, and every patch is a merge-conflict cost at the next upstream refresh.
 
 ## Git
@@ -35,7 +35,7 @@ Big Slick: a fully open-source marketing skills distribution for Claude ("Red Ha
 
 ## Known gaps
 - **Company context is working-directory dependent.** 25 skills look for `.agents/product-marketing.md` and 17 for `.claude/product-marketing.md`, both relative to cwd. That resolves only when Claude runs from a directory holding one — not from the user's own project, and not at all in the desktop app. `scripts/make_context_plugin.py` packages the pack as a `company-context` skill, which is the only route that reaches everywhere; keep it in the onboarding flow.
-- **Skills fail silently without context.** They say "if the pack exists, read it" and otherwise just ask more questions, so a user cannot tell tailored work from generic. The generated context skill announces itself for this reason, and `core/skills/client-context/` ships in the root plugin so an unconfigured install says so out loud; the 245 upstream skills cannot be patched to do the same without 245 merge costs.
+- **Skills fail silently without context.** They say "if the pack exists, read it" and otherwise just ask more questions, so a user cannot tell tailored work from generic. The generated context skill announces itself for this reason, and `core/skills/client-context/` ships in `plugin/` so an unconfigured install says so out loud; the 245 upstream skills cannot be patched to do the same without 245 merge costs.
 - `resource-hub` governs first-party skills and user provider config only. The vendored skills name their own providers; `INVENTORY.md` records each one's env vars.
 - **Trigger collisions are unmeasured** at 249 skills. 13 skills mention positioning; `onboarding` (post-signup), `company-onboarding` (one business) and `client-onboarding` (a book of clients) are three semantically adjacent names — the descriptions are the only thing separating them, and there is no eval set to prove they do.
 - `company-onboarding` ran end to end for the first time on 2026-09-07 (client pack `qmenta`, Standard depth, `check_client_pack.sh` reported USABLE).

@@ -28,7 +28,7 @@ bad_prov=sorted({n for n,src in prov.items() if src.replace("+patch","") not in 
 # ship. The earlier version only checked core/skills/*/LICENSE.md and missed a stray
 # core/clients/LICENSE.md sitting over the sample packs that DO ship in the release.
 reserved=[]
-for base in ["skills","bundles","core","."]:
+for base in ["plugin","bundles","core","."]:
     b=Path(base)
     if not b.exists(): continue
     for f in ([b] if b.is_file() else b.rglob("*")):
@@ -50,19 +50,24 @@ if inv.exists():
 else:
     print("T5 inventory coverage FAIL (INVENTORY.md missing)"); fails+=["T5"]
 p=json.load(open("dist/.claude-plugin/plugin.json")); mk=json.load(open(".claude-plugin/marketplace.json"))
-ok = p["name"]=="bigslick" and mk["plugins"][0]["source"]=="."
+ok = p["name"]=="bigslick" and mk["plugins"][0]["source"]=="./plugin"
 print("T6 manifests", "PASS" if ok else "FAIL"); fails+= [] if ok else ["T6"]
-# T7 — the repo root must be a valid plugin that is actually COMMITTED. dist/ is
-# gitignored, so a marketplace pointing into it installs from a local checkout and 404s
-# from GitHub. Checking the working tree is not enough: compose.py runs at the top of
-# this script and would recreate skills/ every time, so the assertion that matters is
-# what git tracks. Uncommitted skills/ is the exact state that breaks the public install.
+# T7 — every plugin root must be valid and actually COMMITTED. dist/ is gitignored, so a
+# marketplace pointing into it installs from a local checkout and 404s from GitHub.
+# Checking the working tree is not enough: compose.py runs at the top of this script and
+# would recreate the roots every time, so the assertion that matters is what git tracks.
+# An uncommitted plugin/ is the exact state that breaks the public install.
+#
+# The core lives in plugin/, not at the repo root. Fail if the old root layout comes back:
+# two copies of the core would both be installable, and they would drift.
 import subprocess
-rp=Path(".claude-plugin/plugin.json"); rs=Path("skills")
+rp=Path("plugin/.claude-plugin/plugin.json"); rs=Path("plugin/skills")
 mk_src={pl["name"]: pl["source"] for pl in mk["plugins"]}
 t7=[]
-if not rp.exists(): t7.append(".claude-plugin/plugin.json missing")
-if not rs.exists(): t7.append("skills/ missing")
+if not rp.exists(): t7.append("plugin/.claude-plugin/plugin.json missing")
+if not rs.exists(): t7.append("plugin/skills/ missing")
+if Path("skills").exists(): t7.append("legacy root skills/ is back — the core must live only in plugin/")
+if Path(".claude-plugin/plugin.json").exists(): t7.append("legacy root .claude-plugin/plugin.json is back")
 
 # Every published plugin root must exist, and together they must partition dist/ exactly:
 # no skill shipped twice (installing two bundles would register a duplicate name) and none
@@ -83,11 +88,11 @@ if missing: t7.append(f"{len(missing)} composed but unpublished e.g. {missing[:3
 if extra: t7.append(f"published but not composed: {extra[:3]}")
 
 try:
-    g=subprocess.run(["git","ls-files","skills","bundles"],capture_output=True,text=True,timeout=30)
+    g=subprocess.run(["git","ls-files","plugin","bundles"],capture_output=True,text=True,timeout=30)
     if g.returncode==0:
         tracked={l for l in g.stdout.splitlines()}
-        if not any(l.startswith("skills/") for l in tracked):
-            t7.append("skills/ is not committed — GitHub install would 404")
+        if not any(l.startswith("plugin/") for l in tracked):
+            t7.append("plugin/ is not committed — GitHub install would 404")
         if mk_src and not any(l.startswith("bundles/") for l in tracked):
             t7.append("bundles/ is not committed — bundle installs would 404")
 except Exception as e:
