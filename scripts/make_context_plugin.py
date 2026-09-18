@@ -234,25 +234,34 @@ def main():
     print("Claude Code (terminal):")
     print(f"  claude plugin marketplace add {out}/plugin")
     print(f"  claude plugin install bigslick-context-{a.company}\n")
-    # The zip lives under dist/, which nobody can be expected to find in a file dialog.
-    # On macOS, reveal it in Finder and put its path on the clipboard, so the upload is
-    # Cmd+Shift+G, Cmd+V, Enter instead of a hunt through a gitignored build directory.
+    # The canonical copy lives under dist/, which is gitignored build output and no
+    # place to send someone hunting from a file dialog. Drop a copy on the Desktop,
+    # named for the company so two clients cannot be confused for each other, and
+    # reveal it. The upload dialog then opens on something already visible.
+    desktop = Path.home() / "Desktop"
+    upload = zp
+    if desktop.is_dir():
+        try:
+            upload = desktop / f"company-context-{a.company}.zip"
+            shutil.copy2(zp, upload)
+        except Exception:
+            upload = zp         # read-only or missing Desktop: the dist/ copy still works
+
     revealed = False
     if sys.platform == "darwin":
         try:
-            subprocess.run(["open", "-R", str(zp)], check=True,
+            subprocess.run(["open", "-R", str(upload)], check=True,
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            subprocess.run(["pbcopy"], input=str(zp).encode(), check=True)
             revealed = True
         except Exception:
             pass                # a headless or non-mac box just gets the printed path
 
     print("Claude desktop app:")
     print("  Settings -> Capabilities -> Skills -> Upload skill, and pick:")
-    print(f"  {zp}\n")
+    print(f"  {upload}\n")
     if revealed:
-        print("  Finder is open on that file, and its path is on your clipboard —")
-        print("  in the upload dialog press Cmd+Shift+G, paste, Enter.\n")
+        print("  Finder is open on it.\n")
+    print("Cowork: Customize -> + -> Skills tab -> upload the same file.\n")
     print("Re-run this after any change to the pack.")
 
 if __name__ == "__main__":
