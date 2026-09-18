@@ -19,7 +19,7 @@ skill, and emits it two ways because the two apps install differently:
 Regenerate after editing the pack. Nothing here is client-specific in code; the
 company's data only ever lives in the generated output.
 """
-import argparse, json, re, shutil, sys, zipfile
+import argparse, json, re, shutil, subprocess, sys, zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -194,8 +194,25 @@ def main():
     print("Claude Code (terminal):")
     print(f"  claude plugin marketplace add {out}/plugin")
     print(f"  claude plugin install bigslick-context-{a.company}\n")
+    # The zip lives under dist/, which nobody can be expected to find in a file dialog.
+    # On macOS, reveal it in Finder and put its path on the clipboard, so the upload is
+    # Cmd+Shift+G, Cmd+V, Enter instead of a hunt through a gitignored build directory.
+    revealed = False
+    if sys.platform == "darwin":
+        try:
+            subprocess.run(["open", "-R", str(zp)], check=True,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["pbcopy"], input=str(zp).encode(), check=True)
+            revealed = True
+        except Exception:
+            pass                # a headless or non-mac box just gets the printed path
+
     print("Claude desktop app:")
-    print(f"  upload {shown}/company-context.zip under Settings -> Capabilities -> Skills\n")
+    print("  Settings -> Capabilities -> Skills -> Upload skill, and pick:")
+    print(f"  {zp}\n")
+    if revealed:
+        print("  Finder is open on that file, and its path is on your clipboard —")
+        print("  in the upload dialog press Cmd+Shift+G, paste, Enter.\n")
     print("Re-run this after any change to the pack.")
 
 if __name__ == "__main__":
