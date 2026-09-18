@@ -73,19 +73,40 @@ Say out loud which client was displaced.
 Because of that clobber, the shared file is the wrong mechanism for a book of
 clients. The right one is per-client skills.
 
-## 4. Give every client their own context skill
+## 4. Give every client their own context
+
+Two routes, and for a book of clients they are not equally good.
+
+**Desktop app — a Project per client. Prefer this.**
+
+```bash
+python3 scripts/make_context_plugin.py <client> --project
+```
+
+That puts the client's context on your clipboard. Paste it into that client's
+Project, under its knowledge or custom instructions. Switching clients is switching
+project, so the isolation is **structural**: one client's numbers cannot reach
+another's work, chat history stays with the client it belongs to, and there is
+nothing to remember to turn off.
+
+Uploaded skills do not give you that. Every enabled skill loads in every
+conversation, so five clients means five company contexts competing at once, and
+the only control is enabling and disabling them by hand before each piece of work.
+The first time you forget, you have briefed one client with another's numbers.
+
+**Claude Code — a plugin per client.**
 
 ```bash
 python3 scripts/make_context_plugin.py <client>
+claude plugin marketplace add dist/context/<client>/plugin
+claude plugin install bigslick-context-<client>
 ```
 
-This is the only route that works in the desktop app and from any folder, and —
-critically here — each client gets a **separate installable**. Enable one, disable
-the others. That is real isolation: no shared file to clobber, no ambiguity about
-who is loaded.
+Each client is a separate installable: enable one, disable the others. No shared
+file to clobber.
 
-Regenerate after any edit to a pack. Nothing watches for changes, so an edited pack
-and a stale installed skill will disagree, and the skill wins.
+Regenerate after any edit to a pack, on either route. Nothing watches for changes,
+so an edited pack and a stale copy will disagree — and the stale copy wins.
 
 ## 5. Verify before every engagement session
 

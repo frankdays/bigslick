@@ -15,6 +15,15 @@ skill, and emits it two ways because the two apps install differently:
 
   <out>/<company>/plugin/     a plugin root  -> claude plugin marketplace add <path>
   <out>/<company>/company-context.zip        -> desktop app, upload as a skill
+  <out>/<company>/company-context.md         -> --project: paste into a Project
+
+Which one you want depends on how you work. Someone at ONE company wants the skill:
+uploaded once, on in every conversation, never switched. A consultant with several
+clients wants --project instead, because uploaded skills are all loaded at once --
+five clients would mean five company contexts competing in every chat, with nothing
+but manual enabling and disabling between them. A Claude Project holds one client's
+context, and switching clients is switching project: the isolation is structural
+rather than remembered.
 
 Regenerate after editing the pack. Nothing here is client-specific in code; the
 company's data only ever lives in the generated output.
@@ -113,6 +122,11 @@ def main():
     ap.add_argument("--pack", help="path to the pack, if it is not in core/clients/ "
                                    "(desktop-app users have no repo checkout)")
     ap.add_argument("--out", help="where to write; defaults beside the pack")
+    ap.add_argument("--project", action="store_true",
+                    help="for a Claude Project instead of a skill: write "
+                         "company-context.md and copy its TEXT to the clipboard, "
+                         "ready to paste into the project. Nothing to find, "
+                         "nothing to upload.")
     a = ap.parse_args()
 
     if a.pack:
@@ -190,6 +204,32 @@ def main():
         shown = out.relative_to(ROOT)
     except ValueError:
         shown = out            # --out pointed outside the repo; absolute path is still correct
+    # --project: a Claude Project takes pasted text, not a file, so the useful output is
+    # the pack WITHOUT the skill frontmatter — that block is instructions to the skill
+    # loader, and pasted into a project it reads as noise. Clipboard carries the text
+    # itself, so there is nothing to locate and nothing to upload.
+    if a.project:
+        body = re.sub(r"^---\n.*?\n---\n", "", skill_md, count=1, flags=re.S).lstrip()
+        mp = out / "company-context.md"
+        mp.write_text(body)
+        copied = False
+        if sys.platform == "darwin":
+            try:
+                subprocess.run(["pbcopy"], input=body.encode(), check=True)
+                copied = True
+            except Exception:
+                pass
+        print(f"Built company context for {a.company} - {wrote} sections, {len(body)} chars.\n")
+        print("Claude Project (one client per project, so their numbers never mix):")
+        print("  Open the project -> Add knowledge (or its custom instructions) and paste.")
+        if copied:
+            print("  It is already on your clipboard — just paste.\n")
+        else:
+            print(f"  Text is in {mp}\n")
+        print("Switching clients is switching project; nothing to enable or disable.")
+        print("Re-run this after any change to the pack.")
+        return
+
     print(f"Built company context for {a.company} - {wrote} sections, {len(skill_md)} chars.\n")
     print("Claude Code (terminal):")
     print(f"  claude plugin marketplace add {out}/plugin")
