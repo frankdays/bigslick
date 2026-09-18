@@ -13,17 +13,21 @@ for most installs.
 A skill, by contrast, is loaded wherever Claude runs. This packages the pack AS a
 skill, and emits it two ways because the two apps install differently:
 
-  <out>/<company>/plugin/     a plugin root  -> claude plugin marketplace add <path>
-  <out>/<company>/company-context.zip        -> desktop app, upload as a skill
-  <out>/<company>/company-context.md         -> --project: paste into a Project
+  company-context-<company>.zip   on your Desktop -> upload as a global skill
+  company-context-<company>.md    on your Desktop -> attach to a Project
+  <out>/<company>/plugin/                         -> claude plugin marketplace add
 
-Which one you want depends on how you work. Someone at ONE company wants the skill:
+All three every run, from one body, because the destinations take different
+wrappers: the skill uploader requires a zip with the skill folder as its root and
+will not accept a bare .md, while a Project takes the markdown directly.
+
+Which you use depends on how you work. Someone at ONE company wants the skill:
 uploaded once, on in every conversation, never switched. A consultant with several
-clients wants --project instead, because uploaded skills are all loaded at once --
-five clients would mean five company contexts competing in every chat, with nothing
-but manual enabling and disabling between them. A Claude Project holds one client's
-context, and switching clients is switching project: the isolation is structural
-rather than remembered.
+clients wants the Project, because uploaded skills are all loaded at once -- five
+clients would mean five company contexts competing in every chat, with nothing but
+manual enabling and disabling between them. A Project holds one client's context,
+and switching clients is switching project: the isolation is structural rather
+than remembered.
 
 Regenerate after editing the pack. Nothing here is client-specific in code; the
 company's data only ever lives in the generated output.
@@ -122,11 +126,6 @@ def main():
     ap.add_argument("--pack", help="path to the pack, if it is not in core/clients/ "
                                    "(desktop-app users have no repo checkout)")
     ap.add_argument("--out", help="where to write; defaults beside the pack")
-    ap.add_argument("--project", action="store_true",
-                    help="for a Claude Project instead of a skill: write "
-                         "company-context.md and copy its TEXT to the clipboard, "
-                         "ready to paste into the project. Nothing to find, "
-                         "nothing to upload.")
     a = ap.parse_args()
 
     if a.pack:
@@ -195,73 +194,67 @@ def main():
         "plugins": [{"name": pname, "source": ".", "description": pdesc}],
     }, indent=2) + "\n")
 
-    # Desktop app takes one zip per skill, with the skill folder as the zip root.
+    # Two wrappers around one body, because the two destinations accept different
+    # things: a Project takes a markdown file (or pasted text), and the skill uploader
+    # requires a zip with the skill folder as its root — it will not take a bare .md.
+    # Emit both every run so nobody has to know which flag produces which.
     zp = out / "company-context.zip"
     with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("company-context/SKILL.md", skill_md)
 
-    try:
-        shown = out.relative_to(ROOT)
-    except ValueError:
-        shown = out            # --out pointed outside the repo; absolute path is still correct
-    # --project: a Claude Project takes pasted text, not a file, so the useful output is
-    # the pack WITHOUT the skill frontmatter — that block is instructions to the skill
-    # loader, and pasted into a project it reads as noise. Clipboard carries the text
-    # itself, so there is nothing to locate and nothing to upload.
-    if a.project:
-        body = re.sub(r"^---\n.*?\n---\n", "", skill_md, count=1, flags=re.S).lstrip()
-        mp = out / "company-context.md"
-        mp.write_text(body)
-        copied = False
-        if sys.platform == "darwin":
-            try:
-                subprocess.run(["pbcopy"], input=body.encode(), check=True)
-                copied = True
-            except Exception:
-                pass
-        print(f"Built company context for {a.company} - {wrote} sections, {len(body)} chars.\n")
-        print("Claude Project (one client per project, so their numbers never mix):")
-        print("  Open the project -> Add knowledge (or its custom instructions) and paste.")
-        if copied:
-            print("  It is already on your clipboard — just paste.\n")
-        else:
-            print(f"  Text is in {mp}\n")
-        print("Switching clients is switching project; nothing to enable or disable.")
-        print("Re-run this after any change to the pack.")
-        return
+    # The markdown drops the skill frontmatter: that block is addressed to the skill
+    # loader, and inside a Project it reads as noise.
+    body = re.sub(r"^---\n.*?\n---\n", "", skill_md, count=1, flags=re.S).lstrip()
+    mp = out / "company-context.md"
+    mp.write_text(body)
 
-    print(f"Built company context for {a.company} - {wrote} sections, {len(skill_md)} chars.\n")
-    print("Claude Code (terminal):")
-    print(f"  claude plugin marketplace add {out}/plugin")
-    print(f"  claude plugin install bigslick-context-{a.company}\n")
-    # The canonical copy lives under dist/, which is gitignored build output and no
-    # place to send someone hunting from a file dialog. Drop a copy on the Desktop,
-    # named for the company so two clients cannot be confused for each other, and
-    # reveal it. The upload dialog then opens on something already visible.
+    # dist/ is gitignored build output and no place to send someone hunting from a file
+    # dialog, so both land on the Desktop, named for the company to keep clients apart.
     desktop = Path.home() / "Desktop"
-    upload = zp
+    out_zip, out_md = zp, mp
     if desktop.is_dir():
         try:
-            upload = desktop / f"company-context-{a.company}.zip"
-            shutil.copy2(zp, upload)
+            out_zip = desktop / f"company-context-{a.company}.zip"
+            out_md = desktop / f"company-context-{a.company}.md"
+            shutil.copy2(zp, out_zip)
+            shutil.copy2(mp, out_md)
         except Exception:
-            upload = zp         # read-only or missing Desktop: the dist/ copy still works
+            out_zip, out_md = zp, mp      # read-only Desktop: the dist/ copies still work
 
-    revealed = False
+    copied = revealed = False
     if sys.platform == "darwin":
         try:
-            subprocess.run(["open", "-R", str(upload)], check=True,
+            subprocess.run(["pbcopy"], input=body.encode(), check=True)
+            copied = True
+        except Exception:
+            pass
+        try:
+            subprocess.run(["open", "-R", str(out_md)], check=True,
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             revealed = True
         except Exception:
-            pass                # a headless or non-mac box just gets the printed path
+            pass                          # headless or non-mac: the printed paths stand
 
-    print("Claude desktop app:")
-    print("  Settings -> Capabilities -> Skills -> Upload skill, and pick:")
-    print(f"  {upload}\n")
+    print(f"Built company context for {a.company} - {wrote} sections, {len(body)} chars.\n")
+
+    print("Work at ONE company? Install it globally, as a skill:")
+    print("  Settings -> Capabilities -> Skills -> Upload skill  (Cowork: Customize -> + -> Skills)")
+    print(f"  {out_zip}\n")
+
+    print("Several clients? Give each their own Project instead — uploaded skills all")
+    print("load at once, so five clients would be five contexts competing in every chat.")
+    print("  Add to the project's knowledge:")
+    print(f"  {out_md}")
+    if copied:
+        print("  (its text is also on your clipboard, if you would rather paste)")
+    print()
+
+    print("Claude Code (terminal):")
+    print(f"  claude plugin marketplace add {out}/plugin")
+    print(f"  claude plugin install bigslick-context-{a.company}\n")
+
     if revealed:
-        print("  Finder is open on it.\n")
-    print("Cowork: Customize -> + -> Skills tab -> upload the same file.\n")
+        print("Finder is open on both files.")
     print("Re-run this after any change to the pack.")
 
 if __name__ == "__main__":

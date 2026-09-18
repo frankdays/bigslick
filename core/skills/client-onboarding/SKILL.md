@@ -80,11 +80,12 @@ Two routes, and for a book of clients they are not equally good.
 **Desktop app — a Project per client. Prefer this.**
 
 ```bash
-python3 scripts/make_context_plugin.py <client> --project
+python3 scripts/make_context_plugin.py <client>
 ```
 
-That puts the client's context on your clipboard. Paste it into that client's
-Project, under its knowledge or custom instructions. Switching clients is switching
+That leaves `company-context-<client>.md` on your Desktop, and its text on your
+clipboard. Attach the file to that client's Project, or paste it into the project's
+knowledge. Switching clients is switching
 project, so the isolation is **structural**: one client's numbers cannot reach
 another's work, chat history stays with the client it belongs to, and there is
 nothing to remember to turn off.
