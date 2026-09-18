@@ -12,11 +12,12 @@ long version, including the macOS security prompt that trips most people up.
 
 **Customize** in the left sidebar → **Plugins** → **Add** → **Add marketplace** →
 **Add from a repository** → paste `https://github.com/frankdays/bigslick` → confirm →
-click **Sync**. Then install **bigslick** — the entry with **no suffix**.
+click **Sync**. Then go to **Yours** and install **bigslick** — the entry with **no suffix**.
 
 Sync is the step people skip; nothing appears until you click it. You should end up with
-eleven entries — **bigslick** plus ten optional `bigslick-*` bundles. A different number
-means the sync didn't finish, so click **Sync** again.
+eleven entries, the first being the core: **bigslick**, the only name without a suffix. The
+ten `bigslick-*` entries after it are the optional bundles. A different number means the
+sync didn't finish, so click **Sync** again.
 
 **Claude Code** (you type `claude` at a command prompt):
 
@@ -29,10 +30,11 @@ Add only **bigslick** for now. That's 32 skills, and it's the right number — t
 wait in bundles you add when you reach for something the core doesn't have. Installing all
 249 up front would cost you about 28,000 tokens of context in every conversation.
 
-**The core is not optional.** `company-onboarding`, `client-onboarding`, `client-context`
-and `resource-hub` live in `bigslick` alone, and so do `copywriting`, `pricing`, `cro` and
-`marketing-plan`. Bundles without the core is a library that cannot build a context pack
-or tell you when one is missing — the bundles layer specialties on top of it, not beside it.
+**Without the core, nothing can be customised to your business.** `bigslick` is what makes
+onboarding possible: `company-onboarding`, `client-onboarding`, `client-context` and
+`resource-hub` live in it alone, and so do `copywriting`, `pricing`, `cro` and
+`marketing-plan`. Bundles without it cannot build a context pack, cannot load one, and
+cannot tell you when one is missing — every answer stays generic and nothing says so.
 
 ---
 
