@@ -1,1 +1,5 @@
-{"enabledPlugins":{"bigslick@bigslick":true}}
+{
+  "enabledPlugins": {
+    "bigslick@bigslick": true
+  }
+}
