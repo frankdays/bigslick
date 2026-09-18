@@ -13,12 +13,12 @@ for most installs.
 A skill, by contrast, is loaded wherever Claude runs. This packages the pack AS a
 skill, and emits it two ways because the two apps install differently:
 
-  company-context-<company>.zip   on your Desktop -> upload as a skill
-  client-context-<company>.md     on your Desktop -> add to a Project
-  <out>/<company>/plugin/                         -> claude plugin marketplace add
+  company-context-<company>-upload-as-skill.zip   on your Desktop
+  client-context-<company>-add-to-project.md      on your Desktop
+  <out>/<company>/plugin/    -> claude plugin marketplace add
 
-The names say where each one goes, because the two are otherwise identical content
-in different wrappers and the wrong upload fails in a confusing way.
+Each filename carries its own instruction, because the two are identical content in
+different wrappers and the wrong upload fails in a way that does not explain itself.
 
 All three every run, from one body, because the destinations take different
 wrappers: the skill uploader requires a zip with the skill folder as its root and
@@ -217,8 +217,8 @@ def main():
     out_zip, out_md = zp, mp
     if desktop.is_dir():
         try:
-            out_zip = desktop / f"company-context-{a.company}.zip"
-            out_md = desktop / f"client-context-{a.company}.md"
+            out_zip = desktop / f"company-context-{a.company}-upload-as-skill.zip"
+            out_md = desktop / f"client-context-{a.company}-add-to-project.md"
             shutil.copy2(zp, out_zip)
             shutil.copy2(mp, out_md)
         except Exception:
