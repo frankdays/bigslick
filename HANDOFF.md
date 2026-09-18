@@ -64,7 +64,9 @@ on any branch. `scripts/package_release.sh` is the working packager; `BUILD-BIGS
 - **Company context is working-directory dependent.** 25 skills read
   `.agents/product-marketing.md` and 17 read `.claude/product-marketing.md`, both relative to
   cwd — which resolves nowhere in the desktop app. `scripts/make_context_plugin.py <client>`
-  packages a pack as a `company-context` skill and is the only route that reaches everywhere.
+  wraps a pack as a skill (global; for someone at one company) or a Project file (per
+  client; for a consultant, since uploaded skills all load at once). Both land on the
+  Desktop every run. One of them is the only route that reaches everywhere.
   Keep it in the onboarding flow.
 - **Check what is actually active before client work.** As of 2026-09-17,
   `~/.claude/product-marketing.md` was the empty `_template` — i.e. no client active. The 245
