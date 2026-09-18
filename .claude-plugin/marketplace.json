@@ -7,7 +7,7 @@
     {
       "name": "bigslick",
       "source": "./plugin",
-      "description": "Big Slick: the open-source marketing distribution for Claude. 249 skills spanning strategy and positioning frameworks, SEO and content, paid channels, CRO, GTM and prospecting, pipeline and exec reporting, and an AI-visibility (GEO) system — with swappable per-company context packs. 245 skills are vendored from MIT/Apache-2.0 upstreams; 4 first-party infrastructure skills are MIT."
+      "description": "START HERE — the required 32-skill core of Big Slick, the open-source marketing distribution for Claude: positioning, ICP, copy, SEO, ads, CRO, pricing, attribution and reporting, plus the onboarding and context machinery every other Big Slick plugin depends on. The ten optional bigslick-* bundles add 217 more skills on top of this one; install them only when you need a specialty. All MIT or Apache-2.0 and redistributable."
     },
     {
       "name": "bigslick-seo",

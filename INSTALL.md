@@ -20,10 +20,16 @@ prompt) are different products, and Big Slick installs differently in each.
 7. Paste in `https://github.com/frankdays/bigslick` and confirm
 8. Click **Sync** — this pulls the marketplace down; nothing appears until you do
 9. The skill groupings appear on their own once the sync finishes — eleven entries: **bigslick** (the core) plus ten optional bundles. See a different number, or none? The sync didn't finish; click **Sync** again.
-10. Go to **Personal**
-11. Add **bigslick** — the 32-skill core. Add bundles later, when you reach for something it doesn't have.
-12. Check the plugin is *enabled*, not just installed — anything switched off contributes no skills
-13. Start a chat and say **Onboard my company** (or **Onboard a new client** if you run marketing for several) to tailor everything to your business
+10. Install **bigslick** — the entry with **no suffix**. That is the 32-skill core, and it is the one you need: the ten `bigslick-*` entries are optional add-ons that sit on top of it. Install the core alone for now.
+11. Check the plugin is *enabled*, not just installed — anything switched off contributes no skills
+12. Start a chat and say **Onboard my company** (or **Onboard a new client** if you run marketing for several) to tailor everything to your business
+
+> **Install the core, not the bundles.** `company-onboarding`, `client-onboarding`,
+> `client-context` and `resource-hub` all live in `bigslick` alone — so do `copywriting`,
+> `pricing`, `cro`, `icp-builder` and `marketing-plan`. Ten bundles without the core is
+> 217 skills that cannot build a context pack or tell you when one is missing. Add a
+> bundle when you reach for something the core doesn't have, not before: all 249 at once
+> costs ~28k tokens of context every session.
 
 To confirm the skills are there, type `/` and look for the `bigslick:` prefix — it's
 `/bigslick:company-onboarding`, not `/company-onboarding`. Searching the bare name finds
