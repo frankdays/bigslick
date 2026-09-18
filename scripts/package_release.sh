@@ -32,7 +32,7 @@ cp -R plugin "$STAGE/plugin"
 [ -d bundles ] && cp -R bundles "$STAGE/bundles"
 cp dist/PROVENANCE.txt "$STAGE/" 2>/dev/null || true
 cp .claude-plugin/marketplace.json "$STAGE/.claude-plugin/"
-cp install.sh INSTALL.command INSTALL.md README.md LICENSE LICENSING.md "$STAGE/"
+cp install.sh INSTALL.command INSTALL.md QUICKSTART.md README.md LICENSE LICENSING.md "$STAGE/"
 # Everything company-onboarding tells Claude to run must be in the download, or the
 # portable-context step — the only route that reaches the desktop app — fails with
 # "No such file" for anyone who installed from the zip or .pkg.
