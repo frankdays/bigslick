@@ -1,5 +1,12 @@
 {
   "enabledPlugins": {
     "bigslick@bigslick": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(rm *)",
+      "Bash(rm -rf *)",
+      "Bash(git worktree remove *)"
+    ]
   }
 }
