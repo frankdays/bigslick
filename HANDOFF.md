@@ -1,9 +1,9 @@
 # HANDOFF.md — state as of 2026-09-30
 
 ## Where things stand
-- Public repo `frankdays/bigslick`, **v0.2.10 in the tree, unreleased** (`overlay/plugin/plugin.json`
-  is the source; `compose.py` propagates it to `plugin/` and all 10 bundles). Tags `v0.1` through
-  `v0.2.9` are published as GitHub releases; v0.2.9 (2026-09-18) is Latest.
+- Public repo `frankdays/bigslick`, **v0.2.11** (`overlay/plugin/plugin.json` is the source;
+  `compose.py` propagates it to `plugin/` and all 10 bundles). Tags `v0.1` through `v0.2.11`
+  are published as GitHub releases; v0.2.11 (2026-09-30) is Latest.
 - **249 skills** — 245 vendored from 9 MIT/Apache-2.0 upstreams, plus 4 first-party MIT
   infrastructure skills in `core/skills/`: `company-onboarding` (one business),
   `client-onboarding` (a book of clients), `resource-hub` (provider config), and
@@ -34,22 +34,23 @@
 - The 29 removed proprietary core skills are recoverable at commit **4373503**.
   `bigslick-pro` was never created; the split was abandoned, not deferred.
 - Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS: T1–T9 plus F1).
-- **Licences travel with every install.** Each plugin root (`plugin/`, `bundles/<name>/`)
+  `scripts/package_release.sh` builds the download and aborts if any client pack other
+  than `_template` is staged.
+- **Licences travel with every install (new in 0.2.11).** Each plugin root (`plugin/`, `bundles/<name>/`)
   carries `LICENSES/` and `NOTICE.md`, written by compose. Before this, a marketplace install
   got no upstream licence text at all — only the release zip had `licenses/` — which fell
   short of MIT's notice condition. T9 gates it.
-  `scripts/package_release.sh` builds the download and aborts if any client pack other
-  than `_template` is staged.
 - **No sample client ships.** `hansel-ai` was removed 2026-09-15 (`e132b6a`); the last
   references to it in docs and installer copy went with `5d4aa1b`. `core/clients/_template`
   is the structure, not a runnable pack. Skills have nothing to work from until the user
   onboards.
 
 ## Open items
-1. **Publish v0.2.10.** It carries source attribution plus the context-route work since v0.2.9
-   (both Desktop wrappers from `make_context_plugin.py`, the Project route for consultants).
-   Tag it, run `scripts/package_release.sh` and `scripts/package_dmg.sh`, and attach the
-   artifacts. `v0.1` stays where it is — don't move a published tag.
+1. **Dangling skill references.** 25 bundle skills' descriptions point at skills Big Slick
+   doesn't ship (upstream siblings we excluded, e.g. `design-sprint`, `hundred-million-offers`),
+   and 11 core skills point at bundle-only skills (e.g. `ads` → `ad-creative`), a dead end on a
+   core-only install. Fixing the first set costs 25 patches; a QUICKSTART line covers the second.
+   Client names also remain in git history (5 commits before 2026-09-30); a rewrite was not done.
 2. **Pilot client not yet chosen** — still the highest-value open business item. Real client
    packs exist locally, all gitignored — never name them in tracked files.
 3. **Trigger-eval set never built.** At 249 skills, collisions are unmeasured. `onboarding`
