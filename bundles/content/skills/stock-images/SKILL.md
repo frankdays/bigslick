@@ -1,6 +1,6 @@
 ---
 name: unsplash-image
-description: Search for images on Unsplash and download them. Optionally add text overlay (title/subtitle) to the image. Use when the user asks to find a stock photo, search for an image, get an Unsplash image, or download a photo with text.
+description: "Search for images on Unsplash and download them. Optionally add text overlay (title/subtitle) to the image. Use when the user asks to find a stock photo, search for an image, get an Unsplash image, or download a photo with text. Source: OpenClaudia/openclaudia-skills (MIT)."
 argument-hint: [search query]
 allowed-tools: Bash(*), Read, Write
 ---

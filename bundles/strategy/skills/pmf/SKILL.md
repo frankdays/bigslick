@@ -1,6 +1,6 @@
 ---
 name: pmf-strategy
-description: When the user wants to validate product-market fit, measure PMF, or plan before scaling. Also use when the user mentions "PMF," "product-market fit," "product market fit," "Sean Ellis test," "very disappointed," "vitamin vs painkiller," "PMF validation," "premature scaling," or "validate before scale." For GTM after validation, use gtm-strategy.
+description: "When the user wants to validate product-market fit, measure PMF, or plan before scaling. Also use when the user mentions \"PMF,\" \"product-market fit,\" \"product market fit,\" \"Sean Ellis test,\" \"very disappointed,\" \"vitamin vs painkiller,\" \"PMF validation,\" \"premature scaling,\" or \"validate before scale.\" For GTM after validation, use gtm-strategy. Source: kostja94/marketing-skills (MIT)."
 metadata:
   version: 1.1.1
 ---

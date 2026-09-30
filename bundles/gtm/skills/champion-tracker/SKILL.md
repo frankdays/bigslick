@@ -1,11 +1,6 @@
 ---
 name: champion-tracker
-description: >
-  Track product champions for job changes and qualify their new companies against ICP.
-  Takes a CSV of known champions (with LinkedIn URLs), creates a baseline snapshot via
-  Apify enrichment, then detects when champions move to new companies. Scores new
-  companies on a 0-4 ICP fit scale. Outputs a downloadable CSV of movers with
-  qualification verdicts.
+description: "Track product champions for job changes and qualify their new companies against ICP. Takes a CSV of known champions (with LinkedIn URLs), creates a baseline snapshot via Apify enrichment, then detects when champions move to new companies. Scores new companies on a 0-4 ICP fit scale. Outputs a downloadable CSV of movers with qualification verdicts. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [lead-generation]
 ---
 

@@ -1,11 +1,6 @@
 ---
 name: linkedin-post-research
-description: >
-  Search LinkedIn posts by keywords, sorted by engagement or date. Use when researching
-  what people are saying about a topic on LinkedIn, finding high-engagement content,
-  identifying thought leaders, or discovering warm leads through post engagement.
-  Returns author, post text, reactions, comments, shares, post URL, and date.
-  No LinkedIn cookies or login required.
+description: "Search LinkedIn posts by keywords, sorted by engagement or date. Use when researching what people are saying about a topic on LinkedIn, finding high-engagement content, identifying thought leaders, or discovering warm leads through post engagement. Returns author, post text, reactions, comments, shares, post URL, and date. No LinkedIn cookies or login required. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research, lead-generation]
 ---
 

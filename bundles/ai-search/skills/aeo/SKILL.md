@@ -1,9 +1,6 @@
 ---
 name: aeo
-description: >
-  Check and improve your brand's visibility across AI search engines (ChatGPT, Perplexity, Gemini, Grok, Claude, DeepSeek).
-  Set up tracking, run visibility analyses, audit your website for AI readability, and get actionable recommendations.
-  Uses the npx goose-aeo@latest CLI.
+description: "Check and improve your brand's visibility across AI search engines (ChatGPT, Perplexity, Gemini, Grok, Claude, DeepSeek). Set up tracking, run visibility analyses, audit your website for AI readability, and get actionable recommendations. Uses the npx goose-aeo@latest CLI. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [seo]
 ---
 

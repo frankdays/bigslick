@@ -1,6 +1,6 @@
 ---
 name: affiliate-marketing
-description: Build and manage an affiliate marketing program. Use when the user says "affiliate program", "affiliate marketing", "affiliate partners", "referral commissions", "affiliate network", "partner program", "affiliate tracking", or asks about creating, managing, or growing an affiliate or partner program.
+description: "Build and manage an affiliate marketing program. Use when the user says \"affiliate program\", \"affiliate marketing\", \"affiliate partners\", \"referral commissions\", \"affiliate network\", \"partner program\", \"affiliate tracking\", or asks about creating, managing, or growing an affiliate or partner program. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Affiliate Marketing Skill

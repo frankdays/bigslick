@@ -1,6 +1,6 @@
 ---
 name: reddit-marketing
-description: Market and engage on Reddit authentically. Use when the user says "Reddit marketing", "Reddit strategy", "promote on Reddit", "Reddit post", "subreddit strategy", "Reddit outreach", "Reddit ads", or asks about marketing or building presence on Reddit. ROUTING — to find the threads worth entering, use `reddit-post-finder`; to mine them for the audience's own language, use `comment-mining`; for paid, use `reddit-ads`. Use this skill for organic Reddit strategy and participation craft.
+description: "Market and engage on Reddit authentically. Use when the user says \"Reddit marketing\", \"Reddit strategy\", \"promote on Reddit\", \"Reddit post\", \"subreddit strategy\", \"Reddit outreach\", \"Reddit ads\", or asks about marketing or building presence on Reddit. ROUTING — to find the threads worth entering, use `reddit-post-finder`; to mine them for the audience's own language, use `comment-mining`; for paid, use `reddit-ads`. Use this skill for organic Reddit strategy and participation craft. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Reddit Marketing Skill

@@ -1,6 +1,6 @@
 ---
 name: google-reviews
-description: Fetch Google review ratings and review counts for businesses via DataForSEO API. Use when the user asks to check Google reviews, get review counts, compare business ratings, audit Google Maps presence, or analyze competitor reviews.
+description: "Fetch Google review ratings and review counts for businesses via DataForSEO API. Use when the user asks to check Google reviews, get review counts, compare business ratings, audit Google Maps presence, or analyze competitor reviews. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Google Reviews

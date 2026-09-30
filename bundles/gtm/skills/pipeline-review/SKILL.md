@@ -1,13 +1,7 @@
 ---
 name: pipeline-review
 version: 1.0.0
-description: >
-  Pipeline analysis composite. Pulls deal/meeting data from any CRM or tracking
-  system, analyzes the pipeline over a user-defined period (weekly, fortnightly,
-  monthly, quarterly), and produces both an executive summary and a detailed
-  diagnostic report. Covers volume, qualification rates, source effectiveness,
-  stage velocity, stuck deals, and actionable recommendations. Tool-agnostic —
-  works with any CRM (Salesforce, HubSpot, Pipedrive, Close, Supabase, CSV).
+description: "Pipeline analysis composite. Pulls deal/meeting data from any CRM or tracking system, analyzes the pipeline over a user-defined period (weekly, fortnightly, monthly, quarterly), and produces both an executive summary and a detailed diagnostic report. Covers volume, qualification rates, source effectiveness, stage velocity, stuck deals, and actionable recommendations. Tool-agnostic — works with any CRM (Salesforce, HubSpot, Pipedrive, Close, Supabase, CSV). Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research]
 ---
 

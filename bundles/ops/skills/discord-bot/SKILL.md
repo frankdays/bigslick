@@ -1,10 +1,6 @@
 ---
 name: discord-bot
-description: >
-  Send messages, embeds, and marketing content to Discord channels via webhooks or bot API.
-  Manage community engagement, announcements, and automated posting. Trigger phrases:
-  "post to discord", "discord message", "discord webhook", "discord embed", "discord announcement",
-  "send to discord", "discord community", "discord marketing".
+description: "Send messages, embeds, and marketing content to Discord channels via webhooks or bot API. Manage community engagement, announcements, and automated posting. Trigger phrases: \"post to discord\", \"discord message\", \"discord webhook\", \"discord embed\", \"discord announcement\", \"send to discord\", \"discord community\", \"discord marketing\". Source: OpenClaudia/openclaudia-skills (MIT)."
 allowed-tools:
   - Bash
   - WebFetch

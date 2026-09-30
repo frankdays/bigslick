@@ -1,6 +1,6 @@
 ---
 name: team-onboarding-playbook
-description: Design a structured onboarding experience that gets new team members productive in 30, 60, and 90 days. Use when a new hire is joining, when contractors or agency partners need to ramp up, when an existing team is restructuring and members are switching focus, or when current onboarding feels chaotic and slow. Also triggers when one person owns all the tribal knowledge and you need to capture it, when you keep losing people in their first 90 days, or when a new project has many fresh members joining at once. Useful for engineering, design, product, marketing, and operations roles.
+description: "Design a structured onboarding experience that gets new team members productive in 30, 60, and 90 days. Use when a new hire is joining, when contractors or agency partners need to ramp up, when an existing team is restructuring and members are switching focus, or when current onboarding feels chaotic and slow. Also triggers when one person owns all the tribal knowledge and you need to capture it, when you keep losing people in their first 90 days, or when a new project has many fresh members joining at once. Useful for engineering, design, product, marketing, and operations roles. Source: rampstackco/claude-skills (MIT)."
 category: process-and-team
 catalog_summary: "30-60-90 onboarding plans for new hires and contractors"
 display_order: 4

@@ -1,11 +1,6 @@
 ---
 name: competitor-intel
-description: >
-  Competitor intelligence system. Research competitors across web, Reddit, Twitter/X,
-  LinkedIn, and blogs. Build deep competitor profiles, monitor content and positioning
-  changes, track what gets traction, and identify competitive gaps. Covers data collection,
-  content tracking, and strategy analysis. Pure research skill — uses web search, web fetch,
-  and optionally Apify for social scraping. No scripts required.
+description: "Competitor intelligence system. Research competitors across web, Reddit, Twitter/X, LinkedIn, and blogs. Build deep competitor profiles, monitor content and positioning changes, track what gets traction, and identify competitive gaps. Covers data collection, content tracking, and strategy analysis. Pure research skill — uses web search, web fetch, and optionally Apify for social scraping. No scripts required. Source: gooseworks-ai/goose-skills (MIT)."
 ---
 
 # Competitor Intelligence

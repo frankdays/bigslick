@@ -1,6 +1,6 @@
 ---
 name: video-ad-analysis
-description: Deconstruct and analyze video ad creatives for marketing insights. Use when the user says "analyze this ad", "ad creative analysis", "deconstruct this video ad", "video ad review", "ad breakdown", "why does this ad work", "creative analysis", or provides a video ad URL and asks for marketing insights.
+description: "Deconstruct and analyze video ad creatives for marketing insights. Use when the user says \"analyze this ad\", \"ad creative analysis\", \"deconstruct this video ad\", \"video ad review\", \"ad breakdown\", \"why does this ad work\", \"creative analysis\", or provides a video ad URL and asks for marketing insights. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Video Ad Analysis Skill

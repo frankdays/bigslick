@@ -1,11 +1,6 @@
 ---
 name: review-intelligence-digest
-description: >
-  Scrape G2, Capterra, and Trustpilot reviews for your product and competitors, then
-  extract recurring themes, objections, proof points, and exact customer language for
-  use in messaging. Chains review-site-scraper with LLM analysis. Produces a weekly or monthly
-  digest that feeds directly into copywriting, positioning, and sales enablement.
-  Use when a marketing team needs to ground messaging in real customer language.
+description: "Scrape G2, Capterra, and Trustpilot reviews for your product and competitors, then extract recurring themes, objections, proof points, and exact customer language for use in messaging. Chains review-site-scraper with LLM analysis. Produces a weekly or monthly digest that feeds directly into copywriting, positioning, and sales enablement. Use when a marketing team needs to ground messaging in real customer language. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research]
 ---
 

@@ -1,10 +1,6 @@
 ---
 name: icp-identification
-description: >
-  Research a company or idea, define the Ideal Customer Profile, and route to
-  the right next step — either mapping the TAM or finding leads/prospects directly.
-  The entry point for any "find me leads", "map my market", or "who should I sell to" request.
-  Auto-loads when a user provides a company URL or idea and asks for leads or market mapping.
+description: "Research a company or idea, define the Ideal Customer Profile, and route to the right next step — either mapping the TAM or finding leads/prospects directly. The entry point for any \"find me leads\", \"map my market\", or \"who should I sell to\" request. Auto-loads when a user provides a company URL or idea and asks for leads or market mapping. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research]
 ---
 

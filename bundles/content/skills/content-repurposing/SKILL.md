@@ -1,6 +1,6 @@
 ---
 name: content-repurposing
-description: Repurpose and atomize content across platforms and formats. Use when the user says "repurpose this", "turn this into", "convert blog to", "make a thread from", "content atomization", "repurpose content", "turn this article into social posts", or asks about adapting content from one format to another.
+description: "Repurpose and atomize content across platforms and formats. Use when the user says \"repurpose this\", \"turn this into\", \"convert blog to\", \"make a thread from\", \"content atomization\", \"repurpose content\", \"turn this article into social posts\", or asks about adapting content from one format to another. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Content Repurposing Skill

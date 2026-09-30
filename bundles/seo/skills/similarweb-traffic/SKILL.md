@@ -1,6 +1,6 @@
 ---
 name: similarweb-traffic
-description: Fetch website traffic estimates (monthly visits, traffic sources, top countries, keywords, engagement, ranks) for any domain from SimilarWeb. Use when the user asks about a domain's traffic, monthly visits, traffic sources, audience countries, or wants to compare/benchmark sites against competitors.
+description: "Fetch website traffic estimates (monthly visits, traffic sources, top countries, keywords, engagement, ranks) for any domain from SimilarWeb. Use when the user asks about a domain's traffic, monthly visits, traffic sources, audience countries, or wants to compare/benchmark sites against competitors. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # SimilarWeb Traffic

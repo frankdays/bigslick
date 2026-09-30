@@ -1,11 +1,6 @@
 ---
 name: battlecard-generator
-description: >
-  Research a specific competitor across their website, reviews, ads, social presence,
-  and pricing — then produce a structured sales battlecard with positioning traps,
-  objection handlers, landmine questions, and win/loss themes. Chains web research,
-  review mining, and ad intelligence. Use when sales needs competitive ammo or when
-  entering a new market with established incumbents.
+description: "Research a specific competitor across their website, reviews, ads, social presence, and pricing — then produce a structured sales battlecard with positioning traps, objection handlers, landmine questions, and win/loss themes. Chains web research, review mining, and ad intelligence. Use when sales needs competitive ammo or when entering a new market with established incumbents. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [competitive-intel]
 ---
 

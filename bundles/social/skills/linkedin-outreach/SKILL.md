@@ -1,11 +1,6 @@
 ---
 name: linkedin-outreach
-description: >
-  End-to-end LinkedIn outreach campaign builder. Takes leads from Supabase,
-  upstream skills, or CSV. Aligns on campaign goal and tone, writes personalized
-  LinkedIn message sequences (connection request + follow-ups + optional InMail),
-  presents for review, and exports for the user's outreach tool (Dripify, Botdog,
-  Expandi, or manual CSV). Logs to Supabase outreach_log.
+description: "End-to-end LinkedIn outreach campaign builder. Takes leads from Supabase, upstream skills, or CSV. Aligns on campaign goal and tone, writes personalized LinkedIn message sequences (connection request + follow-ups + optional InMail), presents for review, and exports for the user's outreach tool (Dripify, Botdog, Expandi, or manual CSV). Logs to Supabase outreach_log. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [outreach]
 ---
 

@@ -1,9 +1,6 @@
 ---
 name: conference-speaker-scraper
-description: >
-  Extract speaker names, titles, companies, and bios from conference websites.
-  Supports direct HTML scraping and Apify web scraper fallback for JS-heavy sites.
-  Use for pre-event research and outreach targeting.
+description: "Extract speaker names, titles, companies, and bios from conference websites. Supports direct HTML scraping and Apify web scraper fallback for JS-heavy sites. Use for pre-event research and outreach targeting. Source: gooseworks-ai/goose-skills (MIT)."
 ---
 
 # Conference Speaker Scraper

@@ -1,11 +1,6 @@
 ---
 name: buyer-persona-generator
-description: >
-  Research a company's ideal customer profiles and build detailed synthetic buyer personas.
-  Identifies 4-6 distinct buyer segments through web research, then creates rich,
-  realistic personas with demographics, motivations, skepticism profiles, decision
-  criteria, and language patterns. Use when you need to understand who your buyers are
-  at a deep level — their motivations, objections, and how they evaluate solutions.
+description: "Research a company's ideal customer profiles and build detailed synthetic buyer personas. Identifies 4-6 distinct buyer segments through web research, then creates rich, realistic personas with demographics, motivations, skepticism profiles, decision criteria, and language patterns. Use when you need to understand who your buyers are at a deep level — their motivations, objections, and how they evaluate solutions. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research]
 ---
 

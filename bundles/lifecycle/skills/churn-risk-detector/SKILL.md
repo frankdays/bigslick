@@ -1,10 +1,6 @@
 ---
 name: churn-risk-detector
-description: >
-  Scan support tickets, Slack channels, NPS scores, and usage patterns to flag accounts
-  showing early churn indicators. Produces a weekly risk scorecard with severity tiers,
-  root cause hypotheses, and suggested save plays per account. Designed for seed/Series A
-  teams where the founder or a single CSM manages all accounts manually.
+description: "Scan support tickets, Slack channels, NPS scores, and usage patterns to flag accounts showing early churn indicators. Produces a weekly risk scorecard with severity tiers, root cause hypotheses, and suggested save plays per account. Designed for seed/Series A teams where the founder or a single CSM manages all accounts manually. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research]
 ---
 

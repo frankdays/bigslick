@@ -1,6 +1,6 @@
 ---
 name: backlink-audit
-description: Audit a domain's backlink profile using the SemRush API. Use when the user says "audit backlinks", "check my backlinks", "backlink analysis", "link profile", "toxic links", "disavow", "link building opportunities", "referring domains", "anchor text", or asks about a site's link authority.
+description: "Audit a domain's backlink profile using the SemRush API. Use when the user says \"audit backlinks\", \"check my backlinks\", \"backlink analysis\", \"link profile\", \"toxic links\", \"disavow\", \"link building opportunities\", \"referring domains\", \"anchor text\", or asks about a site's link authority. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Backlink Audit Skill

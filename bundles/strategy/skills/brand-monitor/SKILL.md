@@ -1,11 +1,6 @@
 ---
 name: brand-monitor
-description: >
-  Brand monitoring and mention tracking via the Brand.dev API. Use when asked to
-  monitor brand mentions, track sentiment, find PR opportunities, detect logo
-  usage, or analyze brand presence online. Trigger phrases: "brand monitoring",
-  "mention tracking", "brand sentiment", "PR opportunities", "logo detection",
-  "brand.dev", "brand mentions", "media monitoring".
+description: "Brand monitoring and mention tracking via the Brand.dev API. Use when asked to monitor brand mentions, track sentiment, find PR opportunities, detect logo usage, or analyze brand presence online. Trigger phrases: \"brand monitoring\", \"mention tracking\", \"brand sentiment\", \"PR opportunities\", \"logo detection\", \"brand.dev\", \"brand mentions\", \"media monitoring\". Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Brand Monitor

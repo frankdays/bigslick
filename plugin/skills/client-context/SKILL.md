@@ -1,6 +1,6 @@
 ---
 name: client-context
-description: "Load the active client's context pack before doing marketing work, and say plainly when there isn't one. Use at the start of any planning, copy, campaign, pricing, outreach, SEO or reporting task, and whenever the user asks what you know about their business. Ships with Big Slick so that an uncustomised install announces itself instead of quietly giving generic advice."
+description: "Load the active client's context pack before doing marketing work, and say plainly when there isn't one. Use at the start of any planning, copy, campaign, pricing, outreach, SEO or reporting task, and whenever the user asks what you know about their business. Ships with Big Slick so that an uncustomised install announces itself instead of quietly giving generic advice. Source: Big Slick (first-party, MIT)."
 ---
 
 # Client context

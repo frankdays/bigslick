@@ -1,11 +1,6 @@
 ---
 name: tech-stack-teardown
-description: >
-  Reverse-engineer a company's sales and marketing tech stack from public signals.
-  Detects CRMs, cold email tools, people databases, ad pixels, email delivery services,
-  and outbound sending domains via DNS records, website source inspection, Apify technology
-  profiling, blacklist checks, and public spam complaint searches. Works on single companies
-  or batches. Outputs a structured markdown report per company.
+description: "Reverse-engineer a company's sales and marketing tech stack from public signals. Detects CRMs, cold email tools, people databases, ad pixels, email delivery services, and outbound sending domains via DNS records, website source inspection, Apify technology profiling, blacklist checks, and public spam complaint searches. Works on single companies or batches. Outputs a structured markdown report per company. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [competitive-intel]
 ---
 

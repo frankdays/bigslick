@@ -14,6 +14,16 @@ for d in skills:
     try: fm = yaml.safe_load(m.group(1)); assert fm.get("description")
     except Exception: bad.append(d.name)
 print(f"T2 frontmatter invalid: {len(bad)}", "PASS" if not bad else f"FAIL {bad[:5]}"); fails+= [] if not bad else ["T2"]
+# T8 — every shipped description credits its source (compose.py appends it) and stays
+# within the 1024-character Agent Skills limit once it does.
+unattr, long_ = [], []
+for d in skills:
+    fm = yaml.safe_load(re.match(r"^---\n(.*?)\n---\n", (d/"SKILL.md").read_text(), re.S).group(1))
+    desc = str(fm.get("description", ""))
+    if not re.search(r"Source: .+ \((MIT|Apache-2\.0|first-party, MIT)\)\.$", desc): unattr.append(d.name)
+    if len(desc) > 1024: long_.append(f"{d.name}({len(desc)})")
+t8 = not unattr and not long_
+print(f"T8 source attribution + length", "PASS" if t8 else f"FAIL unattributed={unattr[:5]} over1024={long_[:5]}"); fails+= [] if t8 else ["T8"]
 leak=[e for e in ["task-banner","wechat-moments","feishu-lark","launch-strategy"] if (dist/e).exists()]
 print("T3 exclusions", "PASS" if not leak else f"FAIL {leak}"); fails+= [] if not leak else ["T3"]
 # T4 — everything shipped must be redistributable. Vendored upstreams are MIT/Apache-2.0;

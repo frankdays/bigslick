@@ -1,6 +1,6 @@
 ---
 name: seo-content-brief
-description: Create an SEO content brief for writers. Use when the user says "content brief", "SEO brief", "writing brief", "brief for", "writer brief", "outline for SEO", or asks about creating a structured brief to hand to a writer for producing search-optimized content.
+description: "Create an SEO content brief for writers. Use when the user says \"content brief\", \"SEO brief\", \"writing brief\", \"brief for\", \"writer brief\", \"outline for SEO\", or asks about creating a structured brief to hand to a writer for producing search-optimized content. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # SEO Content Brief Skill

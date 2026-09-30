@@ -1,6 +1,6 @@
 ---
 name: geo-difficulty
-description: "Score how hard a keyword is to rank for in the AI-search era — page-level URL Rating of real competitors (not just domain DR), Ahrefs keyword difficulty, and whether a given site already ranks or is cited in Google's AI Overview. Use when the user asks 'how hard is <keyword> to rank', 'geo difficulty for <keyword>', or 'keyword difficulty for <domain>'."
+description: "Score how hard a keyword is to rank for in the AI-search era — page-level URL Rating of real competitors (not just domain DR), Ahrefs keyword difficulty, and whether a given site already ranks or is cited in Google's AI Overview. Use when the user asks 'how hard is <keyword> to rank', 'geo difficulty for <keyword>', or 'keyword difficulty for <domain>'. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # GEO Difficulty

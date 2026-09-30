@@ -1,11 +1,6 @@
 ---
 name: content-calendar
-description: >
-  Plan and schedule social media and content marketing calendars. Monthly and weekly planning,
-  content mix ratios, theme days, platform-specific timing, and batch creation workflows.
-  Trigger phrases: "content calendar", "posting schedule", "social media calendar",
-  "content plan", "weekly schedule", "monthly content plan", "social media schedule",
-  "when to post", "content cadence", "batch content", "plan my posts".
+description: "Plan and schedule social media and content marketing calendars. Monthly and weekly planning, content mix ratios, theme days, platform-specific timing, and batch creation workflows. Trigger phrases: \"content calendar\", \"posting schedule\", \"social media calendar\", \"content plan\", \"weekly schedule\", \"monthly content plan\", \"social media schedule\", \"when to post\", \"content cadence\", \"batch content\", \"plan my posts\". Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Content Calendar Skill

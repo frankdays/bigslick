@@ -1,11 +1,6 @@
 ---
 name: google-analytics
-description: >
-  Pull GA4 reports, traffic data, and insights from the Google Analytics Data API.
-  Use when asked about website traffic, user behavior, acquisition channels,
-  conversions, or audience segments. Trigger phrases: "google analytics", "GA4",
-  "traffic report", "analytics data", "user acquisition", "engagement metrics",
-  "conversion tracking", "audience segments", "page views", "sessions".
+description: "Pull GA4 reports, traffic data, and insights from the Google Analytics Data API. Use when asked about website traffic, user behavior, acquisition channels, conversions, or audience segments. Trigger phrases: \"google analytics\", \"GA4\", \"traffic report\", \"analytics data\", \"user acquisition\", \"engagement metrics\", \"conversion tracking\", \"audience segments\", \"page views\", \"sessions\". Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Google Analytics (GA4)

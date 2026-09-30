@@ -1,11 +1,6 @@
 ---
 name: geo-proposal
-description: >
-  Auto-generate a professional, client-ready GEO service proposal from audit data.
-  Creates a full proposal in markdown and PDF including executive summary, findings,
-  recommended service packages (Basic/Standard/Premium), pricing, timeline, and terms.
-  Use when user says "proposal", "proposta", "offerta", "preventivo", "generate proposal",
-  or after completing a GEO audit for a prospect.
+description: "Auto-generate a professional, client-ready GEO service proposal from audit data. Creates a full proposal in markdown and PDF including executive summary, findings, recommended service packages (Basic/Standard/Premium), pricing, timeline, and terms. Use when user says \"proposal\", \"proposta\", \"offerta\", \"preventivo\", \"generate proposal\", or after completing a GEO audit for a prospect. Source: zubair-trabzada/geo-seo-claude (MIT)."
 version: 1.0.0
 tags: [geo, business, proposal, sales, pricing, client]
 allowed-tools: Read, Write, Bash, Glob, WebFetch

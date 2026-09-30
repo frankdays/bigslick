@@ -1,10 +1,6 @@
 ---
 name: expansion-signal-spotter
-description: >
-  Monitor existing customer accounts for upsell and cross-sell signals: team growth
-  on LinkedIn, new job postings, product usage patterns, funding announcements, and
-  public company news. Produces a weekly expansion opportunity list with context and
-  talk tracks. Chains web search, LinkedIn profile monitoring, and job posting detection.
+description: "Monitor existing customer accounts for upsell and cross-sell signals: team growth on LinkedIn, new job postings, product usage patterns, funding announcements, and public company news. Produces a weekly expansion opportunity list with context and talk tracks. Chains web search, LinkedIn profile monitoring, and job posting detection. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [lead-generation]
 ---
 

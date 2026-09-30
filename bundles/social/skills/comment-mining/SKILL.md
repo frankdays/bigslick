@@ -1,6 +1,6 @@
 ---
 name: comment-mining
-description: Mine comments and replies on social posts, videos, and ads for recurring customer language, questions, objections, desired outcomes, complaints, product requests, purchase signals, and creative opportunities. Use for voice-of-customer research grounded in linked source evidence.
+description: "Mine comments and replies on social posts, videos, and ads for recurring customer language, questions, objections, desired outcomes, complaints, product requests, purchase signals, and creative opportunities. Use for voice-of-customer research grounded in linked source evidence. Source: gooseworks-ai/goose-skills (MIT)."
 ---
 
 # Comment Mining

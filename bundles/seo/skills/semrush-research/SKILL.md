@@ -1,11 +1,6 @@
 ---
 name: semrush-research
-description: >
-  SEO and competitive intelligence via the SemRush API. Use when asked to
-  research competitors, analyze domains, find keyword opportunities, check
-  backlinks, or estimate traffic. Trigger phrases: "competitor analysis",
-  "domain overview", "keyword research", "backlink check", "traffic estimate",
-  "SEO intelligence", "semrush", "competitive research".
+description: "SEO and competitive intelligence via the SemRush API. Use when asked to research competitors, analyze domains, find keyword opportunities, check backlinks, or estimate traffic. Trigger phrases: \"competitor analysis\", \"domain overview\", \"keyword research\", \"backlink check\", \"traffic estimate\", \"SEO intelligence\", \"semrush\", \"competitive research\". Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # SemRush Research

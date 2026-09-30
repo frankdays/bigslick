@@ -1,6 +1,6 @@
 ---
 name: i18n
-description: Add full internationalization (i18n) to a Next.js project using next-intl. Supports 14+ languages, SEO-friendly locale routing, hreflang sitemaps, and bulk translation. Use when the user asks to "internationalize", "add i18n", "add translations", "multi-language", "localize", "add language support", or "translate my site".
+description: "Add full internationalization (i18n) to a Next.js project using next-intl. Supports 14+ languages, SEO-friendly locale routing, hreflang sitemaps, and bulk translation. Use when the user asks to \"internationalize\", \"add i18n\", \"add translations\", \"multi-language\", \"localize\", \"add language support\", or \"translate my site\". Source: OpenClaudia/openclaudia-skills (MIT)."
 user_invocable: true
 ---
 

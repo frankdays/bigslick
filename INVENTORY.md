@@ -50,7 +50,7 @@ Detected by static scan of each skill's files; treat it as a strong hint, not a 
 |---|---|---|---|---|
 | `ab-test-setup` | `bigslick-ops` | OpenClaudia/openclaudia-skills | MIT | none |
 | `ab-testing` | `bigslick-ops` | coreyhaines31/marketingskills | MIT | none |
-| `ad-creative` | `bigslick-paid` | coreyhaines31/marketingskills | MIT | env: `ELEVENLABS_API_KEY`, `GEMINI_API_KEY`; pkg: `create-video`, `gooseworks`, `remotion`; API: api.elevenlabs.io |
+| `ad-creative` † | `bigslick-paid` | coreyhaines31/marketingskills | MIT | env: `ELEVENLABS_API_KEY`, `GEMINI_API_KEY`; pkg: `create-video`, `gooseworks`, `remotion`; API: api.elevenlabs.io |
 | `ads` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
 | `aeo` | `bigslick-ai-search` | gooseworks-ai/goose-skills | MIT | env: `GOOSE_AEO_CLAUDE_API_KEY`, `GOOSE_AEO_DEEPSEEK_API_KEY`, `GOOSE_AEO_FIRECRAWL_API_KEY`, `GOOSE_AEO_GEMINI_API_KEY`, `GOOSE_AEO_GROK_API_KEY`, `GOOSE_AEO_OPENAI_API_KEY`; pkg: `goose-aeo` |
 | `affiliate-marketing` | `bigslick-lifecycle` | OpenClaudia/openclaudia-skills | MIT | none |
@@ -224,7 +224,7 @@ Detected by static scan of each skill's files; treat it as a strong hint, not a 
 | `product-marketing` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
 | `programmatic-seo` | `bigslick-seo` | coreyhaines31/marketingskills | MIT | none |
 | `prospecting` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
-| `public-relations` | `bigslick-research` | coreyhaines31/marketingskills | MIT | none |
+| `public-relations` † | `bigslick-research` | coreyhaines31/marketingskills | MIT | none |
 | `reddit-ads` | `bigslick-paid` | kostja94/marketing-skills | MIT | none |
 | `reddit-marketing` † | `bigslick-social` | OpenClaudia/openclaudia-skills | MIT | none |
 | `reddit-post-finder` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | env: `APIFY_API_TOKEN`, `GOOSEWORKS_API_KEY`; API: api.apify.com, api.gooseworks.ai |
@@ -275,7 +275,7 @@ Detected by static scan of each skill's files; treat it as a strong hint, not a 
 | `site-architecture` | `bigslick-seo` | coreyhaines31/marketingskills | MIT | none |
 | `slack-bot` | `bigslick-ops` | OpenClaudia/openclaudia-skills | MIT | env: `SLACK_BOT_TOKEN`; API: api.slack.com |
 | `sms` | `bigslick-lifecycle` | coreyhaines31/marketingskills | MIT | none |
-| `social` | `bigslick` | coreyhaines31/marketingskills | MIT | none |
+| `social` † | `bigslick` | coreyhaines31/marketingskills | MIT | none |
 | `social-listening` | `bigslick-social` | gooseworks-ai/goose-skills | MIT | env: `GOOSEWORKS_API_KEY`; pkg: `gooseworks`; API: api.gooseworks.ai |
 | `stakeholder-communication` | `bigslick-ops` | rampstackco/claude-skills | MIT | none |
 | `stock-images` | `bigslick-content` | OpenClaudia/openclaudia-skills | MIT | env: `UNSPLASH_CLIENT_ID`; pkg: `Pillow`, `requests` |

@@ -1,10 +1,6 @@
 ---
 name: tam-builder
-description: >
-  Build and maintain a scored Total Addressable Market (TAM) using Apollo Company Search.
-  Discovers companies matching ICP, scores fit (0-100), assigns tiers (1/2/3), and
-  auto-builds a persona watchlist for Tier 1-2 companies using Apollo People Search (free).
-  Outputs to CSV.
+description: "Build and maintain a scored Total Addressable Market (TAM) using Apollo Company Search. Discovers companies matching ICP, scores fit (0-100), assigns tiers (1/2/3), and auto-builds a persona watchlist for Tier 1-2 companies using Apollo People Search (free). Outputs to CSV. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [lead-generation]
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: client-onboarding
-description: "Run Big Slick across a book of clients rather than one business. Use when the user is a consultant, agency, fractional CMO or freelancer serving several companies, or says \"onboard a new client\", \"add a client\", \"switch to <client>\", \"which client am I on\", \"list my clients\", or \"archive this engagement\". Covers the roster, per-client isolation, safe switching, and the engagement lifecycle. For setting up one business you work in full time, use company-onboarding instead."
+description: "Run Big Slick across a book of clients rather than one business. Use when the user is a consultant, agency, fractional CMO or freelancer serving several companies, or says \"onboard a new client\", \"add a client\", \"switch to <client>\", \"which client am I on\", \"list my clients\", or \"archive this engagement\". Covers the roster, per-client isolation, safe switching, and the engagement lifecycle. For setting up one business you work in full time, use company-onboarding instead. Source: Big Slick (first-party, MIT)."
 ---
 
 # Client onboarding

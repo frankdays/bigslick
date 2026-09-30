@@ -1,10 +1,6 @@
 ---
 name: slack-bot
-description: >
-  Send messages and rich content to Slack channels via webhooks or Bot API. Use Block Kit for
-  formatted announcements, marketing reports, and community updates. Trigger phrases:
-  "post to slack", "slack message", "slack webhook", "slack notification", "slack announcement",
-  "send to slack", "slack marketing", "slack update", "slack channel".
+description: "Send messages and rich content to Slack channels via webhooks or Bot API. Use Block Kit for formatted announcements, marketing reports, and community updates. Trigger phrases: \"post to slack\", \"slack message\", \"slack webhook\", \"slack notification\", \"slack announcement\", \"send to slack\", \"slack marketing\", \"slack update\", \"slack channel\". Source: OpenClaudia/openclaudia-skills (MIT)."
 allowed-tools:
   - Bash
   - WebFetch

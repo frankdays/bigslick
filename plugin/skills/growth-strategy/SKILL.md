@@ -1,6 +1,6 @@
 ---
 name: growth-strategy
-description: Build a growth strategy with frameworks, metrics, and experimentation. Use when the user says "growth strategy", "growth plan", "AARRR", "growth loops", "North Star Metric", "growth model", "activation rate", "retention strategy", "churn reduction", "growth experiments", or asks about overall growth frameworks and metrics for their product.
+description: "Build a growth strategy with frameworks, metrics, and experimentation. Use when the user says \"growth strategy\", \"growth plan\", \"AARRR\", \"growth loops\", \"North Star Metric\", \"growth model\", \"activation rate\", \"retention strategy\", \"churn reduction\", \"growth experiments\", or asks about overall growth frameworks and metrics for their product. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Growth Strategy Skill

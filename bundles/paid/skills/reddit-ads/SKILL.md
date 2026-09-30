@@ -1,6 +1,6 @@
 ---
 name: reddit-ads
-description: When the user wants to set up, optimize, or manage Reddit Ads. Also use when the user mentions "Reddit Ads," "Promoted Posts," "subreddit targeting," "Reddit advertising," or "Reddit communities." For organic Reddit, use reddit-posts.
+description: "When the user wants to set up, optimize, or manage Reddit Ads. Also use when the user mentions \"Reddit Ads,\" \"Promoted Posts,\" \"subreddit targeting,\" \"Reddit advertising,\" or \"Reddit communities.\" For organic Reddit, use reddit-posts. Source: kostja94/marketing-skills (MIT)."
 metadata:
   version: 1.0.1
 ---

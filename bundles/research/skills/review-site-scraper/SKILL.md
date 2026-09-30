@@ -1,9 +1,6 @@
 ---
 name: review-site-scraper
-description: >
-  Scrape product reviews from G2, Capterra, and Trustpilot using Apify.
-  Single script with platform dispatch. Use when you need to monitor competitor
-  reviews, track product sentiment, or gather customer feedback from review sites.
+description: "Scrape product reviews from G2, Capterra, and Trustpilot using Apify. Single script with platform dispatch. Use when you need to monitor competitor reviews, track product sentiment, or gather customer feedback from review sites. Source: gooseworks-ai/goose-skills (MIT)."
 ---
 
 # Review Site Scraper

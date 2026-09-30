@@ -1,6 +1,6 @@
 ---
 name: geo-analysis
-description: "Run a full GEO/SEO client analysis for a domain via the Enception external API — start the analysis, poll its status, and download the PDF report covering AI visibility, market research, and competitors. Use when the user says 'run a client analysis', 'analyze <domain> for GEO', 'GEO analysis for <domain>', or 'check analysis status'."
+description: "Run a full GEO/SEO client analysis for a domain via the Enception external API — start the analysis, poll its status, and download the PDF report covering AI visibility, market research, and competitors. Use when the user says 'run a client analysis', 'analyze <domain> for GEO', 'GEO analysis for <domain>', or 'check analysis status'. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # GEO Analysis

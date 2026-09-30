@@ -1,6 +1,6 @@
 ---
 name: youtube-analytics
-description: Analyze YouTube channel and video performance using the YouTube Data API. Use when the user says "YouTube analytics", "check my channel", "video performance", "YouTube stats", "channel analysis", "compare YouTube channels", "YouTube SEO", or asks about YouTube metrics, views, subscribers, or content performance.
+description: "Analyze YouTube channel and video performance using the YouTube Data API. Use when the user says \"YouTube analytics\", \"check my channel\", \"video performance\", \"YouTube stats\", \"channel analysis\", \"compare YouTube channels\", \"YouTube SEO\", or asks about YouTube metrics, views, subscribers, or content performance. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # YouTube Analytics Skill

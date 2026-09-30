@@ -1,6 +1,6 @@
 ---
 name: social-listening
-description: Monitor brand mentions, competitor activity, and industry conversations across social media and the web
+description: "Monitor brand mentions, competitor activity, and industry conversations across social media and the web Source: gooseworks-ai/goose-skills (MIT)."
 source: orthogonal
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: write-landing
-description: Create high-converting landing page copy and structure. Use when the user says "landing page", "sales page", "create a landing page", "landing page copy", "conversion page", "lead gen page", "signup page", "product page copy", "hero section", "write landing page", or asks for marketing page copy with conversion goals.
+description: "Create high-converting landing page copy and structure. Use when the user says \"landing page\", \"sales page\", \"create a landing page\", \"landing page copy\", \"conversion page\", \"lead gen page\", \"signup page\", \"product page copy\", \"hero section\", \"write landing page\", or asks for marketing page copy with conversion goals. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Write Landing Page Skill

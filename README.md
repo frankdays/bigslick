@@ -5,7 +5,7 @@
 
 Marketing work you'd normally hire for — pipeline reviews, exec reporting, prospecting, win-loss, PR, AI-search visibility — as skills Claude can actually run. Built for running marketing across several B2B software companies at once, and it converts cleanly to a single company if you take a full-time seat.
 
-**v0.2 is fully open source.** The proprietary layer is gone. Every skill is vendored from an MIT- or Apache-2.0-licensed upstream with a documented source, licence, and dependency list — see [INVENTORY.md](INVENTORY.md).
+**v0.2 is fully open source.** The proprietary layer is gone. Every skill is vendored from an MIT- or Apache-2.0-licensed upstream with a documented source, licence, and dependency list — see [INVENTORY.md](INVENTORY.md). Each skill's description ends with its source, e.g. `Source: coreyhaines31/marketingskills (MIT).`, so attribution shows wherever the skill is listed.
 
 ---
 
@@ -85,8 +85,8 @@ Most people should use the download above. Build from source only if you're chan
 
 ```bash
 pip install pyyaml
-python scripts/compose.py                      # -> skills/ (249) + .claude-plugin/plugin.json
-bash install.sh                                # registers the plugin, verifies, loads the sample company
+python scripts/compose.py                      # -> dist/skills/ (249), plugin/ (32) + bundles/ (217)
+bash install.sh                                # registers the plugin and verifies it
 ```
 
 After changing any skill, re-run `compose.py` and reinstall so the plugin picks up the change. `bash scripts/test.sh` runs the same release gate CI runs. `bash scripts/package_release.sh` builds the end-user zip.

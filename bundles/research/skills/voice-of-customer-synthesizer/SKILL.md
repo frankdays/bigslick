@@ -1,11 +1,6 @@
 ---
 name: voice-of-customer-synthesizer
-description: >
-  Aggregate customer feedback from multiple sources — support tickets, NPS comments,
-  Slack messages, G2 reviews, call transcripts, survey responses — into a unified VoC
-  report with theme clustering, sentiment analysis, trend detection, and actionable
-  recommendations for product, marketing, and CS teams. Chains review-site-scraper for public
-  review data.
+description: "Aggregate customer feedback from multiple sources — support tickets, NPS comments, Slack messages, G2 reviews, call transcripts, survey responses — into a unified VoC report with theme clustering, sentiment analysis, trend detection, and actionable recommendations for product, marketing, and CS teams. Chains review-site-scraper for public review data. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research]
 ---
 

@@ -1,12 +1,6 @@
 ---
 name: customer-story-builder
-description: >
-  Take raw customer inputs — interview transcripts, survey responses, Slack quotes,
-  support tickets, review excerpts — and generate a structured case study draft with
-  problem/solution/result narrative, pull-quotes, metric callouts, and multi-format
-  outputs (full case study, one-pager, social proof snippet, sales deck slide).
-  Pure reasoning skill. Use when a product marketing team has customer signal but no
-  time to write the story.
+description: "Take raw customer inputs — interview transcripts, survey responses, Slack quotes, support tickets, review excerpts — and generate a structured case study draft with problem/solution/result narrative, pull-quotes, metric callouts, and multi-format outputs (full case study, one-pager, social proof snippet, sales deck slide). Pure reasoning skill. Use when a product marketing team has customer signal but no time to write the story. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [content]
 ---
 

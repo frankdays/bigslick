@@ -1,10 +1,6 @@
 ---
 name: telegram-bot
-description: >
-  Send messages, images, and marketing content to Telegram channels and groups via Bot API.
-  Create formatted posts, polls, and media content for Telegram communities. Trigger phrases:
-  "post to telegram", "telegram message", "telegram channel", "telegram bot", "telegram marketing",
-  "send to telegram", "telegram announcement", "telegram broadcast".
+description: "Send messages, images, and marketing content to Telegram channels and groups via Bot API. Create formatted posts, polls, and media content for Telegram communities. Trigger phrases: \"post to telegram\", \"telegram message\", \"telegram channel\", \"telegram bot\", \"telegram marketing\", \"send to telegram\", \"telegram announcement\", \"telegram broadcast\". Source: OpenClaudia/openclaudia-skills (MIT)."
 allowed-tools:
   - Bash
   - WebFetch

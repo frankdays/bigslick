@@ -1,6 +1,6 @@
 ---
 name: resource-hub
-description: Central registry of LLM providers, APIs, and external capabilities for all marketing skills. ALWAYS load this skill before making any external LLM call, API request, data-enrichment lookup, web research beyond built-in search, image generation, or SERP/SEO data pull from within another skill. Also use when the user wants to add, swap, or configure a model or API provider, asks "which model/tool should handle X," or mentions routing, fallbacks, API keys, or provider costs. First-party skills consult this hub instead of hardcoding any provider, model string, or endpoint; vendored upstream skills name their own and are documented in INVENTORY.md.
+description: "Central registry of LLM providers, APIs, and external capabilities for all marketing skills. ALWAYS load this skill before making any external LLM call, API request, data-enrichment lookup, web research beyond built-in search, image generation, or SERP/SEO data pull from within another skill. Also use when the user wants to add, swap, or configure a model or API provider, asks \"which model/tool should handle X,\" or mentions routing, fallbacks, API keys, or provider costs. First-party skills consult this hub instead of hardcoding any provider, model string, or endpoint; vendored upstream skills name their own and are documented in INVENTORY.md. Source: Big Slick (first-party, MIT)."
 ---
 
 # Resource Hub

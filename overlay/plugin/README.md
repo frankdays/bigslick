@@ -57,5 +57,5 @@ reads that pack. Switching companies is one command.
 Fully open source, with nothing source-available or proprietary. 245 skills are
 vendored from MIT- or Apache-2.0-licensed upstreams; the 4 first-party
 infrastructure skills (`company-onboarding`, `client-onboarding`, `client-context`,
-`resource-hub`) are MIT under the repository's root LICENSE. Upstream licence texts
-ship in `licenses/`. See `LICENSING.md`.
+`resource-hub`) are MIT under the repository's root LICENSE. Every skill's description
+ends with its source and licence. Upstream licence texts ship in `licenses/`. See `LICENSING.md`.

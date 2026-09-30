@@ -1,9 +1,7 @@
 ---
 type: playbook
 name: outbound-prospecting-engine
-description: >
-  End-to-end outbound prospecting: detect intent signals, research companies,
-  find decision-maker contacts, personalize messaging, launch campaign.
+description: "End-to-end outbound prospecting: detect intent signals, research companies, find decision-maker contacts, personalize messaging, launch campaign. Source: gooseworks-ai/goose-skills (MIT)."
 ---
 
 # Outbound Prospecting Engine

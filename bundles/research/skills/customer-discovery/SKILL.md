@@ -1,9 +1,6 @@
 ---
 name: customer-discovery
-description: >
-  Discover all customers of a given company by scanning websites, case studies, review sites,
-  press, social media, job postings, and more. Use when you need competitive intelligence on
-  who a company sells to.
+description: "Discover all customers of a given company by scanning websites, case studies, review sites, press, social media, job postings, and more. Use when you need competitive intelligence on who a company sells to. Source: gooseworks-ai/goose-skills (MIT)."
 ---
 
 # Customer Discovery

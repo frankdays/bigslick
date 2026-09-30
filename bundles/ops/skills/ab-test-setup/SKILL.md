@@ -1,6 +1,6 @@
 ---
 name: ab-test-setup
-description: Design, plan, and analyze A/B tests with statistical rigor. Use when the user asks about A/B testing, split testing, experiment design, statistical significance, sample size calculation, test duration, multivariate testing, or conversion experiments. Trigger phrases include "A/B test", "split test", "experiment", "statistical significance", "sample size", "test duration", "which version wins", "conversion experiment", "hypothesis test", "variant testing".
+description: "Design, plan, and analyze A/B tests with statistical rigor. Use when the user asks about A/B testing, split testing, experiment design, statistical significance, sample size calculation, test duration, multivariate testing, or conversion experiments. Trigger phrases include \"A/B test\", \"split test\", \"experiment\", \"statistical significance\", \"sample size\", \"test duration\", \"which version wins\", \"conversion experiment\", \"hypothesis test\", \"variant testing\". Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # A/B Test Design and Analysis

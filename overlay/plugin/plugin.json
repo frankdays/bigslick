@@ -1,6 +1,6 @@
 {
   "name": "bigslick",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "START HERE — the required 32-skill core of Big Slick, the open-source marketing distribution for Claude: positioning, ICP, copy, SEO, ads, CRO, pricing, attribution and reporting, plus the onboarding and context machinery every other Big Slick plugin depends on. The ten optional bigslick-* bundles add 217 more skills on top of this one; install them only when you need a specialty. All MIT or Apache-2.0 and redistributable.",
   "author": {
     "name": "Frank Days"

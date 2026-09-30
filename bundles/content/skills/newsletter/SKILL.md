@@ -1,6 +1,6 @@
 ---
 name: newsletter
-description: Plan and grow an email newsletter. Use when the user says "newsletter strategy", "grow my newsletter", "newsletter content", "email newsletter", "subscriber growth", "newsletter monetization", "Substack strategy", "Beehiiv", or asks about building, growing, or monetizing a newsletter.
+description: "Plan and grow an email newsletter. Use when the user says \"newsletter strategy\", \"grow my newsletter\", \"newsletter content\", \"email newsletter\", \"subscriber growth\", \"newsletter monetization\", \"Substack strategy\", \"Beehiiv\", or asks about building, growing, or monetizing a newsletter. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Newsletter Growth Skill

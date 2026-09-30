@@ -1,13 +1,7 @@
 ---
 name: sales-coaching
 version: 1.0.0
-description: >
-  AI sales coach composite. Analyzes all available sales data — email campaigns,
-  call recordings/transcripts, reply patterns, pipeline outcomes — to identify
-  what the user does well, where they struggle, and how to improve. Finds
-  patterns in top-performing emails, winning call techniques, successful objection
-  handles, and deal progression. Produces personalized coaching recommendations
-  based on their specific product, market, and selling style. Tool-agnostic.
+description: "AI sales coach composite. Analyzes all available sales data — email campaigns, call recordings/transcripts, reply patterns, pipeline outcomes — to identify what the user does well, where they struggle, and how to improve. Finds patterns in top-performing emails, winning call techniques, successful objection handles, and deal progression. Produces personalized coaching recommendations based on their specific product, market, and selling style. Tool-agnostic. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research]
 ---
 

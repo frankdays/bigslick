@@ -1,11 +1,6 @@
 ---
 name: brand-voice-extractor
-description: >
-  Analyze a company's published content to extract their brand voice, writing style,
-  and tone guidelines. Reads 10-20 of their best content pieces and produces a
-  brand voice profile covering tone, vocabulary level, sentence structure, formatting
-  patterns, CTAs, and target persona. Useful before writing outreach, content, or
-  campaigns that should match a client's existing voice.
+description: "Analyze a company's published content to extract their brand voice, writing style, and tone guidelines. Reads 10-20 of their best content pieces and produces a brand voice profile covering tone, vocabulary level, sentence structure, formatting patterns, CTAs, and target persona. Useful before writing outreach, content, or campaigns that should match a client's existing voice. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [brand]
 ---
 

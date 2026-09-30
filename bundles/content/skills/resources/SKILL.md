@@ -1,6 +1,6 @@
 ---
 name: resources-page-generator
-description: When the user wants to create, optimize, or audit resources page or content hub. Also use when the user mentions "resources page," "resource center," "content hub," "learning center," "resource library," "downloads," "templates," "guides," or "resource hub." For content hub planning, use content-strategy.
+description: "When the user wants to create, optimize, or audit resources page or content hub. Also use when the user mentions \"resources page,\" \"resource center,\" \"content hub,\" \"learning center,\" \"resource library,\" \"downloads,\" \"templates,\" \"guides,\" or \"resource hub.\" For content hub planning, use content-strategy. Source: kostja94/marketing-skills (MIT)."
 metadata:
   version: 1.0.1
 ---

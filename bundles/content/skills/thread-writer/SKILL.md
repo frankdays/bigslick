@@ -1,11 +1,6 @@
 ---
 name: thread-writer
-description: >
-  Write viral Twitter/X threads and Reddit posts with proven structures, hooks, and engagement
-  tactics. Includes templates for story threads, listicle threads, contrarian takes, tutorials,
-  and case studies. Can post directly to Reddit. Trigger phrases: "write a thread",
-  "Twitter thread", "X thread", "viral thread", "thread writer", "tweetstorm", "thread template",
-  "thread about", "turn this into a thread", "reddit post", "write a reddit post".
+description: "Write viral Twitter/X threads and Reddit posts with proven structures, hooks, and engagement tactics. Includes templates for story threads, listicle threads, contrarian takes, tutorials, and case studies. Can post directly to Reddit. Trigger phrases: \"write a thread\", \"Twitter thread\", \"X thread\", \"viral thread\", \"thread writer\", \"tweetstorm\", \"thread template\", \"thread about\", \"turn this into a thread\", \"reddit post\", \"write a reddit post\". Source: OpenClaudia/openclaudia-skills (MIT)."
 allowed-tools:
   - Bash
 ---

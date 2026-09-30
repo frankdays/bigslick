@@ -1,10 +1,7 @@
 ---
 name: disqualification-handling
 version: 1.0.0
-description: >
-  Handles disqualified and near-miss inbound leads gracefully. Drafts polite rejection emails,
-  referral requests (right company wrong person), and nurture routing (future fit). Ensures no
-  inbound lead gets ignored and every disqualification preserves the relationship. Tool-agnostic.
+description: "Handles disqualified and near-miss inbound leads gracefully. Drafts polite rejection emails, referral requests (right company wrong person), and nurture routing (future fit). Ensures no inbound lead gets ignored and every disqualification preserves the relationship. Tool-agnostic. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [outreach]
 ---
 

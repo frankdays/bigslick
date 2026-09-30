@@ -1,6 +1,6 @@
 ---
 name: brand-dev
-description: Fetch brand info (name, description, logos, industry) from brand.dev API and save logos locally. Use when the user asks to look up a brand, fetch a logo, get brand info, or add a company with its logo.
+description: "Fetch brand info (name, description, logos, industry) from brand.dev API and save logos locally. Use when the user asks to look up a brand, fetch a logo, get brand info, or add a company with its logo. Source: OpenClaudia/openclaudia-skills (MIT)."
 user_invocable: true
 ---
 

@@ -1,7 +1,7 @@
 ---
 type: playbook
 name: event-prospecting-pipeline
-description: Find attendees at conferences/events, research their companies, qualify against ICP, and launch outreach
+description: "Find attendees at conferences/events, research their companies, qualify against ICP, and launch outreach Source: gooseworks-ai/goose-skills (MIT)."
 ---
 
 # Event Prospecting Pipeline

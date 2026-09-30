@@ -1,6 +1,6 @@
 ---
 name: marketing-slides
-description: Create marketing slides, pitch decks, sales decks, and product presentations. Use when the user says "create slides", "marketing slides", "pitch deck", "sales deck", "make a presentation", "slide deck", "product deck", "webinar slides", or wants any deck-shaped marketing asset.
+description: "Create marketing slides, pitch decks, sales decks, and product presentations. Use when the user says \"create slides\", \"marketing slides\", \"pitch deck\", \"sales deck\", \"make a presentation\", \"slide deck\", \"product deck\", \"webinar slides\", or wants any deck-shaped marketing asset. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Marketing Slides Skill

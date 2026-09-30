@@ -1,6 +1,6 @@
 ---
 name: campaign-plan
-description: Generate a full campaign brief with objectives, audience, messaging, channel strategy, content calendar, and success metrics. Use when planning a product launch, lead-gen push, or awareness campaign, when you need a week-by-week content calendar with dependencies, or when translating a marketing goal into a structured, executable plan.
+description: "Generate a full campaign brief with objectives, audience, messaging, channel strategy, content calendar, and success metrics. Use when planning a product launch, lead-gen push, or awareness campaign, when you need a week-by-week content calendar with dependencies, or when translating a marketing goal into a structured, executable plan. Source: anthropics/knowledge-work-plugins (Apache-2.0)."
 argument-hint: "<campaign objective or product>"
 ---
 

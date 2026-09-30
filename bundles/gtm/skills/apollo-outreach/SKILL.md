@@ -1,6 +1,6 @@
 ---
 name: apollo-outreach
-description: Research and enrich B2B leads using the Apollo.io API. Use when the user says "find leads", "prospect research", "company enrichment", "find decision makers", "B2B leads", "lead research", "enrich contacts", "find VP of marketing at", or asks about finding people at specific companies or in specific roles.
+description: "Research and enrich B2B leads using the Apollo.io API. Use when the user says \"find leads\", \"prospect research\", \"company enrichment\", \"find decision makers\", \"B2B leads\", \"lead research\", \"enrich contacts\", \"find VP of marketing at\", or asks about finding people at specific companies or in specific roles. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Apollo.io B2B Lead Research Skill

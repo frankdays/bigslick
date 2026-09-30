@@ -1,6 +1,6 @@
 ---
 name: generate-image
-description: Generate images using AI (OpenAI GPT Image or Stability AI). Use when the user asks to generate an image, create an AI image, make an illustration, or produce artwork from a text prompt.
+description: "Generate images using AI (OpenAI GPT Image or Stability AI). Use when the user asks to generate an image, create an AI image, make an illustration, or produce artwork from a text prompt. Source: OpenClaudia/openclaudia-skills (MIT)."
 argument-hint: [prompt description]
 allowed-tools: Bash(*), Read, Write
 ---

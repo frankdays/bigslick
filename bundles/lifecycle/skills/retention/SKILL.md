@@ -1,6 +1,6 @@
 ---
 name: retention-strategy
-description: When the user wants to reduce churn, improve customer retention, or plan lifecycle marketing. Also use when the user mentions "retention," "churn," "customer lifecycle," "churn prevention," "at-risk customers," or "loyalty program." For lifecycle, use growth-funnel.
+description: "When the user wants to reduce churn, improve customer retention, or plan lifecycle marketing. Also use when the user mentions \"retention,\" \"churn,\" \"customer lifecycle,\" \"churn prevention,\" \"at-risk customers,\" or \"loyalty program.\" For lifecycle, use growth-funnel. Source: kostja94/marketing-skills (MIT)."
 metadata:
   version: 1.1.1
 ---

@@ -1,11 +1,6 @@
 ---
 name: email-sequence
-description: >
-  Create email drip campaigns, nurture sequences, and automated email flows. Includes templates
-  for welcome series, abandoned cart, re-engagement, product launch, and onboarding sequences.
-  Trigger phrases: "email sequence", "drip campaign", "nurture sequence", "email flow",
-  "welcome series", "abandoned cart emails", "onboarding emails", "email automation",
-  "product launch emails", "re-engagement campaign", "send email", "send sequence".
+description: "Create email drip campaigns, nurture sequences, and automated email flows. Includes templates for welcome series, abandoned cart, re-engagement, product launch, and onboarding sequences. Trigger phrases: \"email sequence\", \"drip campaign\", \"nurture sequence\", \"email flow\", \"welcome series\", \"abandoned cart emails\", \"onboarding emails\", \"email automation\", \"product launch emails\", \"re-engagement campaign\", \"send email\", \"send sequence\". Source: OpenClaudia/openclaudia-skills (MIT)."
 allowed-tools:
   - Bash
 ---

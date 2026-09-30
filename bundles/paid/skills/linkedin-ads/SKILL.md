@@ -1,6 +1,6 @@
 ---
 name: linkedin-ads
-description: Create LinkedIn ad campaigns, write sponsored content, define professional audiences, and plan B2B advertising budgets. Use when the user asks about LinkedIn Ads, sponsored content, LinkedIn Campaign Manager, InMail ads, lead gen forms, B2B advertising, professional targeting, or LinkedIn retargeting. Trigger phrases include "LinkedIn Ads", "LinkedIn campaign", "sponsored content", "InMail ad", "LinkedIn lead gen", "B2B ads", "LinkedIn retargeting", "LinkedIn audience", "LinkedIn ad copy", "LinkedIn Campaign Manager".
+description: "Create LinkedIn ad campaigns, write sponsored content, define professional audiences, and plan B2B advertising budgets. Use when the user asks about LinkedIn Ads, sponsored content, LinkedIn Campaign Manager, InMail ads, lead gen forms, B2B advertising, professional targeting, or LinkedIn retargeting. Trigger phrases include \"LinkedIn Ads\", \"LinkedIn campaign\", \"sponsored content\", \"InMail ad\", \"LinkedIn lead gen\", \"B2B ads\", \"LinkedIn retargeting\", \"LinkedIn audience\", \"LinkedIn ad copy\", \"LinkedIn Campaign Manager\". Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # LinkedIn Ad Campaign Builder

@@ -1,6 +1,6 @@
 > **Historical — describes the v0.1 build.** v0.2 removed the proprietary `core/skills/`
-> layer described in Phase 1 and made the distribution fully open source (207 skills from
-> seven MIT/Apache-2.0 upstreams). For the current layer model see `MAINTAINERS.md`;
+> layer described in Phase 1 and made the distribution fully open source (now 245 skills from
+> nine MIT/Apache-2.0 upstreams, plus 4 first-party MIT skills). For the current layer model see `MAINTAINERS.md`;
 > for per-skill provenance see `INVENTORY.md`.
 
 # BUILD-BIGSLICK.md — Executable Build Specification v0.1

@@ -1,11 +1,6 @@
 ---
 name: geo-prospect
-description: >
-  CRM-lite for managing GEO agency prospects and clients. Track leads through
-  the full sales pipeline: Lead → Qualified → Proposal Sent → Won → Lost.
-  Store audit history, notes, deal values, and generate pipeline summaries.
-  Use when user says "prospect", "lead", "client", "pipeline", "crm", "nuovo prospect",
-  "aggiungi cliente", or when managing the business side of GEO services.
+description: "CRM-lite for managing GEO agency prospects and clients. Track leads through the full sales pipeline: Lead → Qualified → Proposal Sent → Won → Lost. Store audit history, notes, deal values, and generate pipeline summaries. Use when user says \"prospect\", \"lead\", \"client\", \"pipeline\", \"crm\", \"nuovo prospect\", \"aggiungi cliente\", or when managing the business side of GEO services. Source: zubair-trabzada/geo-seo-claude (MIT)."
 version: 1.0.0
 tags: [geo, business, crm, prospect, pipeline, sales]
 allowed-tools: Read, Write, Bash, Glob

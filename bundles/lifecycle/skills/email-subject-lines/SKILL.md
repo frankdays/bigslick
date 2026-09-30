@@ -1,10 +1,6 @@
 ---
 name: email-subject-lines
-description: >
-  Generate, evaluate, and A/B test email subject lines for maximum open rates. Includes formulas
-  for curiosity, urgency, personalization, and more. Trigger phrases: "email subject line",
-  "subject line ideas", "email subject", "write subject lines", "A/B test subject lines",
-  "improve open rates", "email open rate", "subject line formulas".
+description: "Generate, evaluate, and A/B test email subject lines for maximum open rates. Includes formulas for curiosity, urgency, personalization, and more. Trigger phrases: \"email subject line\", \"subject line ideas\", \"email subject\", \"write subject lines\", \"A/B test subject lines\", \"improve open rates\", \"email open rate\", \"subject line formulas\". Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Email Subject Lines Skill

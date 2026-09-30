@@ -1,6 +1,6 @@
 ---
 name: company-onboarding
-description: "Tailor the entire marketing skill system to one business. Use when setting up Big Slick for the first time, joining a company as CMO or marketing lead, or when the user says \"onboard my company\", \"create a context pack\", \"configure this for my business\", or when any skill finds no company context. Offers a 10-minute express path, a standard interview, and a full audit. Produces the context pack every other skill reads, plus an installable company-context skill. Run this FIRST. Serving several companies as a consultant or agency? Use client-onboarding, which runs this once per client."
+description: "Tailor the entire marketing skill system to one business. Use when setting up Big Slick for the first time, joining a company as CMO or marketing lead, or when the user says \"onboard my company\", \"create a context pack\", \"configure this for my business\", or when any skill finds no company context. Offers a 10-minute express path, a standard interview, and a full audit. Produces the context pack every other skill reads, plus an installable company-context skill. Run this FIRST. Serving several companies as a consultant or agency? Use client-onboarding, which runs this once per client. Source: Big Slick (first-party, MIT)."
 ---
 
 # Company Onboarding

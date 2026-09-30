@@ -1,11 +1,6 @@
 ---
 name: geo-compare
-description: >
-  Monthly delta tracking and progress reporting for GEO clients. Compares two
-  GEO audits (baseline vs. current), calculates score improvements across all
-  categories, tracks action item completion, and generates a "here's your progress"
-  client report. Use when user says "compare", "delta", "monthly report", "progress",
-  "confronta", "progressi", "report mensile", or when running a monthly client check-in.
+description: "Monthly delta tracking and progress reporting for GEO clients. Compares two GEO audits (baseline vs. current), calculates score improvements across all categories, tracks action item completion, and generates a \"here's your progress\" client report. Use when user says \"compare\", \"delta\", \"monthly report\", \"progress\", \"confronta\", \"progressi\", \"report mensile\", or when running a monthly client check-in. Source: zubair-trabzada/geo-seo-claude (MIT)."
 version: 1.0.0
 tags: [geo, business, delta, monthly, reporting, client, progress]
 allowed-tools: Read, Write, Bash, Glob

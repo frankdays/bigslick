@@ -1,6 +1,6 @@
 ---
 name: podcast-edit
-description: Edit podcast audio or video — trim pre/post-show chat, remove filler words, cut silences, enhance audio quality, and cut a video version of the same edit. Use when the user asks to edit a podcast, clean up audio, remove fillers, trim a recording, or improve voice quality.
+description: "Edit podcast audio or video — trim pre/post-show chat, remove filler words, cut silences, enhance audio quality, and cut a video version of the same edit. Use when the user asks to edit a podcast, clean up audio, remove fillers, trim a recording, or improve voice quality. Source: OpenClaudia/openclaudia-skills (MIT)."
 user_invocable: true
 ---
 

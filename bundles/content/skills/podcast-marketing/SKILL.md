@@ -1,6 +1,6 @@
 ---
 name: podcast-marketing
-description: Plan, produce, and market a podcast. Use when the user says "podcast strategy", "start a podcast", "podcast marketing", "podcast growth", "podcast SEO", "show notes", "podcast monetization", "guest outreach", or asks about launching, growing, or promoting a podcast.
+description: "Plan, produce, and market a podcast. Use when the user says \"podcast strategy\", \"start a podcast\", \"podcast marketing\", \"podcast growth\", \"podcast SEO\", \"show notes\", \"podcast monetization\", \"guest outreach\", or asks about launching, growing, or promoting a podcast. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Podcast Marketing Skill

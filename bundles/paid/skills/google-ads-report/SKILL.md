@@ -1,11 +1,6 @@
 ---
 name: google-ads-report
-description: >
-  Pull Google Ads performance data and generate reports. Use when asked about
-  ad campaign performance, keyword costs, quality scores, ROAS, conversion
-  tracking, or ad spend analysis. Trigger phrases: "google ads", "adwords",
-  "campaign performance", "ad spend", "quality score", "CPC report",
-  "ROAS", "ad conversion", "keyword performance", "google ads report".
+description: "Pull Google Ads performance data and generate reports. Use when asked about ad campaign performance, keyword costs, quality scores, ROAS, conversion tracking, or ad spend analysis. Trigger phrases: \"google ads\", \"adwords\", \"campaign performance\", \"ad spend\", \"quality score\", \"CPC report\", \"ROAS\", \"ad conversion\", \"keyword performance\", \"google ads report\". Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Google Ads Report

@@ -1,6 +1,6 @@
 ---
 name: demand-gen
-description: Build a demand generation strategy and multi-channel campaigns. Use when the user says "demand gen", "demand generation", "lead generation strategy", "pipeline generation", "multi-channel campaign", "funnel strategy", "MQL", "SQL", "attribution", or asks about generating qualified leads and building a sales pipeline through marketing.
+description: "Build a demand generation strategy and multi-channel campaigns. Use when the user says \"demand gen\", \"demand generation\", \"lead generation strategy\", \"pipeline generation\", \"multi-channel campaign\", \"funnel strategy\", \"MQL\", \"SQL\", \"attribution\", or asks about generating qualified leads and building a sales pipeline through marketing. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Demand Generation Skill

@@ -1,13 +1,7 @@
 ---
 name: sequence-performance
 version: 1.0.0
-description: >
-  Email campaign/sequence performance review composite. Pulls campaign data
-  (sends, opens, replies, bounces), reads actual email copy and subject lines,
-  analyzes reply content (objections, positive interest, questions), and produces
-  a diagnostic report covering quantitative metrics, copy quality, lead quality,
-  and actionable recommendations. Tool-agnostic — works with Smartlead (MCP),
-  Instantly, Outreach, Lemlist, Apollo, or CSV data.
+description: "Email campaign/sequence performance review composite. Pulls campaign data (sends, opens, replies, bounces), reads actual email copy and subject lines, analyzes reply content (objections, positive interest, questions), and produces a diagnostic report covering quantitative metrics, copy quality, lead quality, and actionable recommendations. Tool-agnostic — works with Smartlead (MCP), Instantly, Outreach, Lemlist, Apollo, or CSV data. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [research]
 ---
 

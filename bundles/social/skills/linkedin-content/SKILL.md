@@ -1,6 +1,6 @@
 ---
 name: linkedin-content
-description: Create high-performing LinkedIn posts and content strategy. Use when the user says "LinkedIn post", "write for LinkedIn", "LinkedIn content", "LinkedIn strategy", "LinkedIn hook", "professional post", "thought leadership post", or asks about creating content specifically for LinkedIn. ROUTING — to research what is already landing on LinkedIn before you write, use `linkedin-post-research`. To find and contact people, use `linkedin-outreach` or `linkedin-message-writer`. Use this skill for general LinkedIn content strategy and post craft.
+description: "Create high-performing LinkedIn posts and content strategy. Use when the user says \"LinkedIn post\", \"write for LinkedIn\", \"LinkedIn content\", \"LinkedIn strategy\", \"LinkedIn hook\", \"professional post\", \"thought leadership post\", or asks about creating content specifically for LinkedIn. ROUTING — to research what is already landing on LinkedIn before you write, use `linkedin-post-research`. To find and contact people, use `linkedin-outreach` or `linkedin-message-writer`. Use this skill for general LinkedIn content strategy and post craft. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # LinkedIn Content Skill

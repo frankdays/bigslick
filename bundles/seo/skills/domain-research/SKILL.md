@@ -1,6 +1,6 @@
 ---
 name: domain-research
-description: Research domain WHOIS data and check marketplace listings. Use when the user says "domain lookup", "check domain", "WHOIS", "domain availability", "buy domain", "domain research", "who owns this domain", "domain marketplace", or asks about researching or acquiring a domain name.
+description: "Research domain WHOIS data and check marketplace listings. Use when the user says \"domain lookup\", \"check domain\", \"WHOIS\", \"domain availability\", \"buy domain\", \"domain research\", \"who owns this domain\", \"domain marketplace\", or asks about researching or acquiring a domain name. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Domain Research Skill

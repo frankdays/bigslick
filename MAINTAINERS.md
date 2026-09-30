@@ -10,11 +10,11 @@ Three layers, strictly separated:
 
 | Layer | What lives there | Rule |
 |---|---|---|
-| `upstream/` | 7 vendored open-source skill distributions (Corey Haines, OpenClaudia, Anthropic, goose-skills, kostja-marketing, rampstack, wondel), versions pinned in `upstream/VERSIONS` | **Never edit.** Refresh with a script. |
+| `upstream/` | 9 vendored open-source skill distributions (Corey Haines, OpenClaudia, Anthropic, goose-skills, kostja-marketing, rampstack, wondel, claude-seo, geo-seo), versions pinned in `upstream/VERSIONS` | **Never edit.** Refresh with a script. |
 | `overlay/` | `manifest.yaml` — which upstream skills are enabled/excluded — plus `patches/` for modifications to upstream skills | The merge, as config. Edit here, not in upstream. |
-| `core/` | Client context packs, the roadmap, and `skills/` — 2 first-party MIT infrastructure skills (`company-onboarding`, `resource-hub`). The source-available proprietary layer was removed in v0.2 and is not coming back. | Packs are your data; `core/skills/` is MIT and ships. |
+| `core/` | Client context packs, the roadmap, and `skills/` — 4 first-party MIT infrastructure skills (`company-onboarding`, `client-onboarding`, `resource-hub`, `client-context`). The source-available proprietary layer was removed in v0.2 and is not coming back. | Packs are your data; `core/skills/` is MIT and ships. |
 
-`scripts/compose.py` builds the deployable library into `dist/skills/` from those three layers, then mirrors it into the installable plugin roots: the 32-skill core at `plugin/` and each bundle at `bundles/<name>/`, every one a `.claude-plugin/plugin.json` + `skills/` pair. Those are committed, which is what makes the GitHub URL directly installable. `dist/PROVENANCE.txt` records where every skill came from.
+`scripts/compose.py` builds the deployable library into `dist/skills/` from those three layers, then mirrors it into the installable plugin roots: the 32-skill core at `plugin/` and each bundle at `bundles/<name>/`, every one a `.claude-plugin/plugin.json` + `skills/` pair. Those are committed, which is what makes the GitHub URL directly installable. `dist/PROVENANCE.txt` records where every skill came from, and compose appends the same fact to each skill's description — `Source: <owner/repo> (<licence>).` — so attribution travels with the skill wherever it is installed. Compose fails if that pushes any description past the 1024-character Agent Skills limit; fix it with a trim patch in `overlay/patches/<skill>/`, never by hand-editing the Source line.
 
 **The other key idea: skills are engines, clients are data.** No skill contains client specifics. Each client gets a context pack in `core/clients/<name>/`; you activate one client at a time and every skill reads that pack. Switching clients is one command.
 
@@ -27,11 +27,11 @@ Three layers, strictly separated:
 pip install pyyaml
 python scripts/compose.py                      # -> dist/skills/ (249 skills) + plugin manifest
 
-# 2. Install as a Claude Code plugin (the repo root is the plugin)
+# 2. Install as a Claude Code plugin (core in plugin/, bundles in bundles/<name>/)
 claude plugin marketplace add https://github.com/frankdays/bigslick   # or a local path
 claude plugin install bigslick
 #    (Cowork: Settings -> Plugins -> install from the same marketplace path)
-#    Alternative, no plugin system: point Claude Code at skills/ as a skills directory.
+#    Alternative, no plugin system: point Claude Code at plugin/skills/ as a skills directory.
 
 # 3. Onboard your first client (creates the context pack)
 #    In Claude (with the plugin installed): "Onboard <company>"

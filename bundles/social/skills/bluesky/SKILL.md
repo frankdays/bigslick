@@ -1,6 +1,6 @@
 ---
 name: bluesky
-description: Create and manage content for Bluesky social network. Use when the user says "Bluesky post", "post to Bluesky", "Bluesky content", "Bluesky strategy", "AT Protocol", or asks about creating content for or engaging on Bluesky.
+description: "Create and manage content for Bluesky social network. Use when the user says \"Bluesky post\", \"post to Bluesky\", \"Bluesky content\", \"Bluesky strategy\", \"AT Protocol\", or asks about creating content for or engaging on Bluesky. Source: OpenClaudia/openclaudia-skills (MIT)."
 ---
 
 # Bluesky Social Media Skill

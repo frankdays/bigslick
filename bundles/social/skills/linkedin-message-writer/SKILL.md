@@ -1,12 +1,6 @@
 ---
 name: linkedin-message-writer
-description: >
-  Research LinkedIn profiles and write personalized messages for any LinkedIn message type —
-  connection requests, InMails, DMs, message requests, post comments, and comment replies.
-  Takes LinkedIn URLs as input, researches each person (profile data + recent posts via Apify),
-  and generates messages tailored to each lead's background, interests, and recent activity.
-  Exports tool-ready CSVs for Dripify, Expandi, Botdog, PhantomBuster, or generic format.
-  No LinkedIn cookies or login required.
+description: "Research LinkedIn profiles and write personalized messages for any LinkedIn message type — connection requests, InMails, DMs, message requests, post comments, and comment replies. Takes LinkedIn URLs as input, researches each person (profile data + recent posts via Apify), and generates messages tailored to each lead's background, interests, and recent activity. Exports tool-ready CSVs for Dripify, Expandi, Botdog, PhantomBuster, or generic format. No LinkedIn cookies or login required. Source: gooseworks-ai/goose-skills (MIT)."
 tags: [outreach, social]
 ---
 

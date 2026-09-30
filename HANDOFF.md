@@ -1,10 +1,10 @@
-# HANDOFF.md — state as of 2026-09-17
+# HANDOFF.md — state as of 2026-09-30
 
 ## Where things stand
-- Public repo `frankdays/bigslick`, **v0.2.9** (`overlay/plugin/plugin.json` is the source;
-  `compose.py` propagates it to `plugin/` and all 10 bundles). Tags `v0.1` through
-  `v0.2.7` are published.
-- **249 skills** — 245 vendored from 7 MIT/Apache-2.0 upstreams, plus 4 first-party MIT
+- Public repo `frankdays/bigslick`, **v0.2.10 in the tree, unreleased** (`overlay/plugin/plugin.json`
+  is the source; `compose.py` propagates it to `plugin/` and all 10 bundles). Tags `v0.1` through
+  `v0.2.9` are published as GitHub releases; v0.2.9 (2026-09-18) is Latest.
+- **249 skills** — 245 vendored from 9 MIT/Apache-2.0 upstreams, plus 4 first-party MIT
   infrastructure skills in `core/skills/`: `company-onboarding` (one business),
   `client-onboarding` (a book of clients), `resource-hub` (provider config), and
   `client-context` (loads the active pack, or says out loud that there is none).
@@ -23,9 +23,17 @@
   and all, ~25MB and 2,243 files — instead of its own 32 skills. It was also the only entry
   that never showed up in the desktop app's plugin browser, while all ten bundles listed
   fine. T7 now fails if a root `skills/` or root `.claude-plugin/plugin.json` reappears.
+- **Every description credits its source (new in 0.2.10).** `compose.py` appends
+  `Source: <owner/repo> (<licence>).` to each shipped description — `Source: Big Slick
+  (first-party, MIT).` for the core four — reading repo and licence from `UPSTREAMS` in
+  `gen_inventory.py`. It is done at build time, not by patching, so it adds no merge cost at an
+  upstream refresh. Compose exits if any description then exceeds the 1024-character Agent
+  Skills limit; `ad-creative`, `public-relations` and `social` got trim patches for that, and
+  the `attribution` patch (already 1,259 chars, over the limit before this change) was
+  tightened. New gate T8 checks every description is attributed and ≤1024.
 - The 29 removed proprietary core skills are recoverable at commit **4373503**.
   `bigslick-pro` was never created; the split was abandoned, not deferred.
-- Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS: T1–T7 plus F1).
+- Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS: T1–T8 plus F1).
   `scripts/package_release.sh` builds the download and aborts if any client pack other
   than `_template` is staged.
 - **No sample client ships.** `hansel-ai` was removed 2026-09-15 (`e132b6a`); the last
@@ -34,9 +42,10 @@
   onboards.
 
 ## Open items
-1. **Publish v0.2.8.** Tag it, run `scripts/package_release.sh` and `scripts/package_dmg.sh`,
-   and attach the artifacts. The newest GitHub release asset is still well behind the repo.
-   `v0.1` stays where it is — don't move a published tag.
+1. **Publish v0.2.10.** It carries source attribution plus the context-route work since v0.2.9
+   (both Desktop wrappers from `make_context_plugin.py`, the Project route for consultants).
+   Tag it, run `scripts/package_release.sh` and `scripts/package_dmg.sh`, and attach the
+   artifacts. `v0.1` stays where it is — don't move a published tag.
 2. **Pilot client not yet chosen** — still the highest-value open business item. Two real
    packs exist locally (`qmenta`, `unleash`), both gitignored.
 3. **Trigger-eval set never built.** At 249 skills, collisions are unmeasured. `onboarding`
@@ -45,7 +54,7 @@
 4. **`resource-hub` covers first-party skills only.** The 245 vendored skills name their own
    providers; `INVENTORY.md` records each one's env vars. So "configure your keys in one
    place" is not literally true across the whole library.
-5. Landing page + directory submissions, once v0.2.8 is published.
+5. Landing page + directory submissions.
 
 ## Things that don't exist (referenced in older notes — stop looking for them)
 `DESIGN-SPEC.md`, `REQUIREMENTS.md`, `bigslick-skill-requirements.csv`, `scripts/package.sh`,
@@ -68,7 +77,7 @@ on any branch. `scripts/package_release.sh` is the working packager; `BUILD-BIGS
   client; for a consultant, since uploaded skills all load at once). Both land on the
   Desktop every run. One of them is the only route that reaches everywhere.
   Keep it in the onboarding flow.
-- **Check what is actually active before client work.** As of 2026-09-17,
+- **Check what is actually active before client work.** As of 2026-09-30,
   `~/.claude/product-marketing.md` was the empty `_template` — i.e. no client active. The 245
   upstream skills fail silently in that state, handing back generic advice with no signal it
   is untailored. `client-context` in the core plugin exists to say so out loud; the upstream

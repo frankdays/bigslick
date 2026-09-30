@@ -1,6 +1,6 @@
 ---
 name: company-intel
-description: Full company intelligence report - overview, team, funding, products, news
+description: "Full company intelligence report - overview, team, funding, products, news Source: gooseworks-ai/goose-skills (MIT)."
 source: orthogonal
 ---
 
