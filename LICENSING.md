@@ -24,6 +24,18 @@ Per-skill source, licence, and external dependencies: **`INVENTORY.md`**. The sa
 licence are appended to every shipped skill's description at build time (`Source: <owner/repo>
 (<licence>).`), so the credit travels with the skill; `scripts/test.sh` T8 fails if one is missing.
 
+**Every installable plugin carries its own notices.** A marketplace install fetches only one
+plugin directory, never the repo's `licenses/`, so the build writes into `plugin/` and each
+`bundles/<name>/`:
+
+- `LICENSES/` — the full licence text, with copyright notice, of every source that plugin
+  redistributes;
+- `NOTICE.md` — which skills come from which source, and a statement of Big Slick's
+  modifications (the appended Source line, and any local patch, marked †), as Apache-2.0 §4(b)
+  requires for modified files.
+
+`scripts/test.sh` T9 fails if any plugin root is missing either.
+
 **Removed in v0.2**: the Reserved Component License and the 29 source-available skills it
 covered (`staff-meeting`, the `persona-*` charters, `pipeline-math`, `board-reporting` and the
 rest). Nothing in the distribution is source-available-only any more, and `scripts/test.sh` T4

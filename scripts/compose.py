@@ -24,6 +24,55 @@ def source_line(src):
     repo, licence = UPSTREAMS[src][:2]
     return f"Source: {repo} ({licence})."
 
+# Licence text for each source, from licenses/. MIT requires the copyright notice to travel
+# with every copy, and a marketplace install fetches only the plugin root — so each root
+# carries the licences of the upstreams it redistributes, not just the release zip.
+LICENSE_FILES = {
+    "marketingskills":     "LICENSE-coreyhaines-marketingskills",
+    "openclaudia":         "LICENSE-openclaudia",
+    "anthropic-marketing": "LICENSE-anthropic",
+    "goose-skills":        "LICENSE-gooseworks-goose-skills",
+    "kostja-marketing":    "LICENSE-kostja94-marketing-skills",
+    "rampstack":           "LICENSE-rampstackco-claude-skills",
+    "wondel":              "LICENSE-wondelai-skills",
+    "claude-seo":          "LICENSE-claude-seo",
+    "geo-seo":             "LICENSE-geo-seo",
+}
+
+def write_notices(dest: Path, names, prov):
+    """Put LICENSES/ and NOTICE.md in a plugin root for the sources its skills come from."""
+    lic = dest/"LICENSES"
+    if lic.exists(): shutil.rmtree(lic)
+    lic.mkdir(parents=True)
+    by_src = {}
+    for n in names: by_src.setdefault(prov[n].replace("+patch", ""), []).append(n)
+    rows = []
+    for src in sorted(by_src, key=lambda s: (s == "core", s)):
+        if src == "core":
+            fname, repo, licence = "LICENSE-bigslick", "frankdays/bigslick (first-party)", "MIT"
+            shutil.copy(ROOT/"LICENSE", lic/fname)
+        else:
+            fname = LICENSE_FILES.get(src)
+            if not fname or not (ROOT/"licenses"/fname).exists():
+                sys.exit(f"no licence text in licenses/ for upstream {src}")
+            shutil.copy(ROOT/"licenses"/fname, lic/fname)
+            repo, licence = UPSTREAMS[src][:2]
+        skills = ", ".join(f"`{n}`{' †' if prov[n].endswith('+patch') else ''}" for n in sorted(by_src[src]))
+        rows.append(f"### {repo} — {licence}\n\nLicence: `LICENSES/{fname}`\n\n{skills}\n")
+    (dest/"NOTICE.md").write_text(
+        "# Notices\n\n"
+        "This plugin is part of Big Slick (https://github.com/frankdays/bigslick). It redistributes\n"
+        "skills from the open-source projects below, each under its original licence; the full\n"
+        "licence texts, with their copyright notices, are in `LICENSES/`.\n\n"
+        "## Modifications\n\n"
+        "Big Slick modifies the files it redistributes as follows:\n\n"
+        "- Every skill's `SKILL.md` description has a `Source: <repo> (<licence>).` attribution\n"
+        "  appended, and its description is re-serialised as a single quoted line.\n"
+        "- Skills marked † additionally carry a local patch from Big Slick's `overlay/patches/`,\n"
+        "  usually a rewritten or shortened trigger description.\n\n"
+        "Nothing else in the upstream skill files is changed.\n\n"
+        "## Sources\n\n" + "\n".join(rows))
+
 def attribute(skill_md: Path, src):
     """Append the source to the frontmatter description, leaving every other key untouched.
 
@@ -137,6 +186,7 @@ def main():
         if sk.exists(): shutil.rmtree(sk)
         sk.mkdir(parents=True)
         for n in names: shutil.copytree(DIST/n, sk/n)
+        write_notices(dest, names, prov)
         cp = dest/".claude-plugin"; cp.mkdir(parents=True, exist_ok=True)
         (cp/"plugin.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n")
 

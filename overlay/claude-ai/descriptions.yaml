@@ -19,7 +19,7 @@ competitors: >-
 # NOTE: on Claude.ai this skill's original job — writing .agents/product-marketing.md —
 # is impossible (no filesystem) and redundant (the pack ships bundled at client/). The
 # description below re-points it at reading the bundled context and doing positioning and
-# packaging work, which is what the Unleash skills-profile actually ranks #1.
+# packaging work, which is what a client's skills-profile typically ranks #1.
 product-marketing: >-
   Positioning, ICP, and packaging work off the bundled client context. Use for
   "positioning", "messaging", "who is my target audience", "ICP", "free vs paid boundary",

@@ -3,7 +3,7 @@
 
 Usage:  python scripts/package_for_claude_ai.py --set leadership
         python scripts/package_for_claude_ai.py pipeline-review stakeholder-communication
-        python scripts/package_for_claude_ai.py --all --client unleash
+        python scripts/package_for_claude_ai.py --all --client <client>
         python scripts/package_for_claude_ai.py --set leadership --check
 
 Claude.ai's custom-skill format differs from the Claude Code plugin format in three

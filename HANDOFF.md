@@ -33,7 +33,11 @@
   tightened. New gate T8 checks every description is attributed and ≤1024.
 - The 29 removed proprietary core skills are recoverable at commit **4373503**.
   `bigslick-pro` was never created; the split was abandoned, not deferred.
-- Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS: T1–T8 plus F1).
+- Release gate passes (`bash scripts/test.sh` → ALL TESTS PASS: T1–T9 plus F1).
+- **Licences travel with every install.** Each plugin root (`plugin/`, `bundles/<name>/`)
+  carries `LICENSES/` and `NOTICE.md`, written by compose. Before this, a marketplace install
+  got no upstream licence text at all — only the release zip had `licenses/` — which fell
+  short of MIT's notice condition. T9 gates it.
   `scripts/package_release.sh` builds the download and aborts if any client pack other
   than `_template` is staged.
 - **No sample client ships.** `hansel-ai` was removed 2026-09-15 (`e132b6a`); the last
@@ -46,8 +50,8 @@
    (both Desktop wrappers from `make_context_plugin.py`, the Project route for consultants).
    Tag it, run `scripts/package_release.sh` and `scripts/package_dmg.sh`, and attach the
    artifacts. `v0.1` stays where it is — don't move a published tag.
-2. **Pilot client not yet chosen** — still the highest-value open business item. Two real
-   packs exist locally (`qmenta`, `unleash`), both gitignored.
+2. **Pilot client not yet chosen** — still the highest-value open business item. Real client
+   packs exist locally, all gitignored — never name them in tracked files.
 3. **Trigger-eval set never built.** At 249 skills, collisions are unmeasured. `onboarding`
    (post-signup), `company-onboarding` (one business) and `client-onboarding` (several) are
    three semantically adjacent names with nothing but their descriptions separating them.

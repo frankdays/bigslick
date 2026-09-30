@@ -108,6 +108,23 @@ try:
 except Exception as e:
     print(f"  (T7 git check skipped: {e})")
 print(f"T7 plugin roots ({len(mk_src)} plugins, {len(published)} skills)", "PASS" if not t7 else f"FAIL {t7}"); fails+= [] if not t7 else ["T7"]
+# T9 — a marketplace install fetches only the plugin root, so each root must carry NOTICE.md
+# and the licence text of every source its skills come from (MIT/Apache notice conditions).
+sys.path.insert(0, "scripts")
+from compose import LICENSE_FILES
+t9=[]
+for pname, src in mk_src.items():
+    root=Path(src)
+    if not (root/"NOTICE.md").exists(): t9.append(f"{pname}: no NOTICE.md")
+    lic=root/"LICENSES"
+    have={f.name for f in lic.iterdir()} if lic.is_dir() else set()
+    need={prov[n].replace("+patch","") for n,p in published.items() if p==pname}
+    for s in need:
+        fname="LICENSE-bigslick" if s=="core" else LICENSE_FILES.get(s)
+        if not fname or fname not in have: t9.append(f"{pname}: missing licence for {s}")
+    notice=(root/"NOTICE.md").read_text() if (root/"NOTICE.md").exists() else ""
+    if "Modifications" not in notice: t9.append(f"{pname}: NOTICE.md lacks a modifications statement")
+print(f"T9 licences in every plugin root", "PASS" if not t9 else f"FAIL {t9[:5]}"); fails+= [] if not t9 else ["T9"]
 sys.exit(1 if fails else 0)
 PY
 # F1 client lifecycle
